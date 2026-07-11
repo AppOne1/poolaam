@@ -449,7 +449,46 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .cc-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:10px;background:var(--glass);border:1px solid var(--border);font-size:.48rem;color:var(--text2);position:relative;cursor:pointer}
 .cc-item .ce{font-size:1rem}
 .cc-del{position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--danger);color:#fff;font-size:.4rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
+/* === رفع مشکل نمایش متن در اپ اندروید === */
+input,
+textarea,
+select,
+.desc-field,
+.zbb-input,
+.pin-box,
+.lock-pin,
+.amount-field input,
+.search-row input,
+.search-row select,
+.chat-input-area input {
+  -webkit-text-fill-color: var(--text) !important;
+  caret-color: var(--text) !important;
+  color: var(--text) !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background-color: transparent !important;
+}
+
+.amount-field input {
+  caret-color: var(--primary) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  -webkit-text-fill-color: var(--text3) !important;
+  opacity: 1 !important;
+}
+
+/* مطمئن بشو متن در هر دو تم نمایش داده بشه */
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  -webkit-text-fill-color: #1a1a2e !important;
+  caret-color: #1a1a2e !important;
+  color: #1a1a2e !important;
+}
 </style>
+
 </head>
 <body>
 <div id="loadingOverlay"><div class="loading-spinner"></div></div>
@@ -666,8 +705,7 @@ function dbGet(store){return new Promise(function(resolve,reject){var tx=db.tran
 function dbPut(store,data){return new Promise(function(resolve,reject){var tx=db.transaction(store,'readwrite');var s=tx.objectStore(store);var req=s.put(data);req.onsuccess=function(){resolve(req.result)};req.onerror=function(){reject(req.error)}})}
 function dbDelete(store,id){return new Promise(function(resolve,reject){var tx=db.transaction(store,'readwrite');var s=tx.objectStore(store);var req=s.delete(id);req.onsuccess=function(){resolve()};req.onerror=function(){reject(req.error)}})}
 function dbClear(store){return new Promise(function(resolve,reject){var tx=db.transaction(store,'readwrite');var s=tx.objectStore(store);var req=s.clear();req.onsuccess=function(){resolve()};req.onerror=function(){reject(req.error)}})}
-function dbPutAll(store,items){return new Promise(function(resolve,reject){var tx=db.transaction(store,'readwrite');var s=tx.objectStore(store);items.forEach(function(item){s.put(item)});tx.oncomplete=function(){resolve()};tx.onerror=function(){reject(tx.error)}})}
-
+function dbPutAll(store,items){return new Promise(function(resolve,reject){var tx=db.transaction(store,'readwrite');var s=tx.objectStore(store);s.clear();items.forEach(function(item){s.put(item)});tx.oncomplete=function(){resolve()};tx.onerror=function(){reject(tx.error)}})}
 /* ===== Constants ===== */
 var C={food:{n:'خوراک',e:'🍔'},transport:{n:'حمل‌ونقل',e:'🚗'},bills:{n:'قبوض',e:'💡'},fun:{n:'تفریح',e:'🎮'},health:{n:'سلامت',e:'💊'},edu:{n:'آموزش',e:'📚'},phone:{n:'ارتباطات',e:'📱'},other:{n:'سایر',e:'📦'}};
 var BUDGETS={food:12e6,transport:8e6,bills:5e6,fun:3e6,health:2e6,edu:2e6,phone:15e5,other:3e6};
