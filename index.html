@@ -1437,6 +1437,71 @@ async function init(){
   }catch(err){console.error('Init error:',err);document.getElementById('loadingOverlay').classList.add('hide')}
 }
 init();
+/* ═══ اصلاح اسکرول WebView ═══ */
+(function(){
+  function fix(){
+    document.body.style.setProperty('overflow','auto','important');
+    document.body.style.setProperty('height','auto','important');
+    document.body.style.setProperty('min-height','100vh','important');
+    document.body.style.setProperty('-webkit-overflow-scrolling','touch','important');
+    var app=document.getElementById('app');
+    app.style.setProperty('display','block','important');
+    app.style.setProperty('height','auto','important');
+    app.style.setProperty('overflow','visible','important');
+    var pages=document.querySelectorAll('.page');
+    for(var i=0;i<pages.length;i++){
+      pages[i].style.setProperty('position','static','important');
+      pages[i].style.setProperty('top','auto','important');
+      pages[i].style.setProperty('right','auto','important');
+      pages[i].style.setProperty('bottom','auto','important');
+      pages[i].style.setProperty('left','auto','important');
+      pages[i].style.setProperty('width','100%','important');
+      pages[i].style.setProperty('transform','none','important');
+      pages[i].style.setProperty('opacity','1','important');
+      pages[i].style.setProperty('pointer-events','all','important');
+      if(pages[i].classList.contains('active')){
+        if(pages[i].id==='page-ai'){
+          pages[i].style.setProperty('display','flex','important');
+          pages[i].style.setProperty('flex-direction','column','important');
+        }else{
+          pages[i].style.setProperty('display','block','important');
+        }
+      }else{
+        pages[i].style.setProperty('display','none','important');
+      }
+    }
+    var ct=document.getElementById('content');
+    if(ct){
+      ct.style.setProperty('overflow','visible','important');
+      ct.style.setProperty('position','static','important');
+      ct.style.setProperty('height','auto','important');
+    }
+    var nav=document.getElementById('bottom-nav');
+    if(nav){
+      nav.style.setProperty('position','fixed','important');
+      nav.style.setProperty('bottom','0','important');
+      nav.style.setProperty('left','50%','important');
+      nav.style.setProperty('transform','translateX(-50%)','important');
+      nav.style.setProperty('width','100%','important');
+      nav.style.setProperty('max-width','480px','important');
+      nav.style.setProperty('z-index','100','important');
+    }
+    for(var j=0;j<pages.length;j++){
+      pages[j].style.setProperty('padding-bottom','80px','important');
+    }
+  }
+  fix();
+  setTimeout(fix,300);
+  setTimeout(fix,800);
+  setTimeout(fix,1500);
+  var orig=window.switchPage;
+  window.switchPage=function(id){
+    if(typeof orig==='function')orig(id);
+    setTimeout(fix,50);
+    document.body.scrollTop=0;
+    document.documentElement.scrollTop=0;
+  };
+})();
 </script>
 </body>
 </html>
