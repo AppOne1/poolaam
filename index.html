@@ -1131,6 +1131,19 @@ function showSplash(cb){var sp=document.getElementById('splashScreen');sp.style.
 var obStep=0;
 function showOnboarding(){var ob=document.getElementById('onboarding');ob.classList.remove('hidden');var slides=[{icon:'👋',title:'به پولام خوش اومدی!',desc:'دستیار هوشمند مالی شما<br>هر ریال رو مدیریت کن'},{icon:'🎨',title:'ظاهر دلخواهت',desc:'تم و فونت رو انتخاب کن'},{icon:'👤',title:'درباره تو',desc:'اسمت چیه؟ آواتار انتخاب کن'},{icon:'🔒',title:'امنیت',desc:'رمز عبور تنظیم کن (اختیاری)'},{icon:'🏦',title:'اولین حساب',desc:'حساب بانکیت رو اضافه کن'}];obStep=0;function renderSlide(){var s=slides[obStep];var dots='';for(var i=0;i<slides.length;i++)dots+='<div class="ob-dot'+(i===obStep?' active':'')+'"></div>';var h='<div class="ob-slide"><div class="ob-icon">'+s.icon+'</div><div class="ob-title">'+s.title+'</div><div class="ob-desc">'+s.desc+'</div><div class="ob-dots">'+dots+'</div><div class="ob-btns">';if(obStep>0)h+='<button class="ob-btn secondary" onclick="obPrev()">قبلی</button>';h+='<button class="ob-btn primary" onclick="'+(obStep<slides.length-1?'obNext()':'obFinish()')+'">'+(obStep<slides.length-1?'بعدی':'شروع!')+'</button>';h+='</div><div style="font-size:.5rem;color:var(--text3);margin-top:16px">طراحی: علوی · نسخه ۶.۰.۰</div></div>';document.getElementById('obSlides').innerHTML=h}window.obNext=function(){obStep++;renderSlide()};window.obPrev=function(){obStep--;renderSlide()};window.obFinish=async function(){user.onboarded=true;await saveUser();document.getElementById('onboarding').classList.add('hidden');document.getElementById('app').style.display='flex';initLock();renderHome();renderProfile();renderXPBar();setInterval(updateClock,1000);updateClock();updateStreak();fixInputColors()};renderSlide()}
 initApp();
+// حل قطعی باگ اسکرول یک‌طرفه در موبایل
+document.querySelectorAll('.page').forEach(page => {
+    page.addEventListener('scroll', function() {
+        // اگر کاربر به انتهای صفحه رسید و اسکرول قفل شد، ۱ پیکسل آن را بالا می‌آوریم تا قفل شکسته شود
+        if (this.scrollTop + this.clientHeight >= this.scrollHeight) {
+            this.scrollTop = this.scrollHeight - this.clientHeight - 1;
+        }
+        // اگر کاربر به بالاترین نقطه رسید
+        if (this.scrollTop <= 0) {
+            this.scrollTop = 1;
+        }
+    });
+});
 </script>
 </body>
 </html>
