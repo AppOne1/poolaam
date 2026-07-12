@@ -489,19 +489,30 @@ textarea::placeholder {
 #page-profile{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;max-height:100%!important}
 .settings-item{flex-shrink:0!important}
 .g-card{flex-shrink:0!important}
+
+----------//// خطاهای اصلی اسکرول -----//////
+
 html, body {
-  min-height: 100% !important;
-  /* تغییر اصلی اینجاست: به جای height: 100% از min-height استفاده می‌کنیم تا اسکرول آزاد شود اما ساختار منو به هم نریزد */
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch !important;
+  height: 100% !important; /* قفل کردن ارتفاع بدنه اصلی برای جلوگیری از باگ اسکرول یک‌طرفه */
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important; /* جلوگیری از اسکرول خود بدنه مرورگر */
 }
 
-..page {
-  position: relative !important;
-  min-height: 100% !important;
-  height: auto !important;
-  padding-bottom: 90px !important;
+.page {
+  position: fixed !important; /* ثابت کردن موقعیت صفحه در قاب موبایل */
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important; /* ایجاد یک قاب کامل */
+  height: 100% !important;
+  padding: 10px 14px 100px !important; /* پدینگ پایین برای منو */
+  
+  /* فعال کردن اسکرول دوطرفه و روان در داخل خود صفحه */
+  overflow-y: scroll !important; 
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important; /* فعال‌سازی اسکرول نرم آیفون و اندروید */
+  
   opacity: 0;
   display: none;
 }
