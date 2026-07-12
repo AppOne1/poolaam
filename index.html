@@ -493,33 +493,37 @@ textarea::placeholder {
 ----------//// خطاهای اصلی اسکرول -----//////
 
 html, body {
-  height: 100% !important; /* قفل کردن ارتفاع بدنه اصلی برای جلوگیری از باگ اسکرول یک‌طرفه */
+  min-height: 100% !important;
+  height: auto !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow: hidden !important; /* جلوگیری از اسکرول خود بدنه مرورگر */
+  overflow-x: hidden !important;
+  overflow-y: auto !important; /* برگشت اسکرول به بدنه اصلی */
+  -webkit-overflow-scrolling: touch !important;
 }
 
 .page {
-  position: fixed !important; /* ثابت کردن موقعیت صفحه در قاب موبایل */
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important; /* ایجاد یک قاب کامل */
-  height: 100% !important;
-  padding: 10px 14px 100px !important; /* پدینگ پایین برای منو */
-  
-  /* فعال کردن اسکرول دوطرفه و روان در داخل خود صفحه */
-  overflow-y: scroll !important; 
-  overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch !important; /* فعال‌سازی اسکرول نرم آیفون و اندروید */
-  
-  opacity: 0;
+  position: relative !important; /* خارج شدن از حالت قفل شده fixed */
+  width: 100% !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important; /* تنظیم دقیق ارتفاع در موبایل */
   display: none;
+  flex-direction: column !important; /* هدر بالا می‌ماند و محتوا زیر آن قرار می‌گیرد */
+  padding: 0 0 100px 0 !important; /* پدینگ برای منوی پایین */
+  opacity: 0;
 }
 
 .page.active {
-  display: block !important;
+  display: flex !important; /* تبدیل به فلکس برای تراز درست هدر و محتوا */
   opacity: 1 !important;
+}
+
+/* کدهای هدر خودتان بدون تغییر */
+header {
+  flex-shrink: 0;
+  padding: 10px 16px 6px;
+  z-index: 10;
+  width: 100%;
 }
 </style>
 </head>
