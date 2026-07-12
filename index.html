@@ -489,13 +489,27 @@ textarea::placeholder {
 #page-profile{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;max-height:100%!important}
 .settings-item{flex-shrink:0!important}
 .g-card{flex-shrink:0!important}
-html,body{height:100%!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important}
-.page{position:relative!important;min-height:100%!important;height:auto!important;opacity:0;pointer-events:none;display:none}
-.page.active{display:block!important;opacity:1!important;pointer-events:auto!important}
-.cc-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}
-.cc-item{padding:8px 2px!important;min-width:0!important;overflow:hidden!important}
-.cc-item .ce{font-size:1rem!important;line-height:1!important}
-.cc-item span{font-size:.45rem!important;display:block!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+html, body {
+  min-height: 100% !important;
+  /* تغییر اصلی اینجاست: به جای height: 100% از min-height استفاده می‌کنیم تا اسکرول آزاد شود اما ساختار منو به هم نریزد */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+..page {
+  position: relative !important;
+  min-height: 100% !important;
+  height: auto !important;
+  padding-bottom: 90px !important;
+  opacity: 0;
+  display: none;
+}
+
+.page.active {
+  display: block !important;
+  opacity: 1 !important;
+}
 </style>
 </head>
 <body>
