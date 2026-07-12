@@ -489,20 +489,13 @@ textarea::placeholder {
 #page-profile{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;max-height:100%!important}
 .settings-item{flex-shrink:0!important}
 .g-card{flex-shrink:0!important}
-.page{-webkit-overflow-scrolling:touch!important;overflow-y:auto!important;overscroll-behavior:contain!important}
-#content{overflow:hidden!important;position:relative!important}
-#page-profile{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;max-height:100%!important}
-.settings-item{flex-shrink:0!important}
-.g-card{flex-shrink:0!important}
-.cc-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(70px,1fr))!important;gap:8px!important;width:100%!important}
-.cc-item{padding:10px 4px!important;font-size:.5rem!important;min-width:0!important;width:100%!important}
-.add-row{flex-wrap:wrap!important}
-.add-row input{min-width:80px!important}
-html,body{overflow:auto!important;-webkit-overflow-scrolling:touch!important;height:100%!important}
-.page{-webkit-overflow-scrolling:touch!important}
-.cc-grid{grid-template-columns:repeat(4,1fr)!important;gap:6px!important}
-.cc-item{padding:6px 2px!important;font-size:.42rem!important;word-break:break-word!important}
-.cc-item .ce{font-size:.9rem!important}
+html,body{height:100%!important;overflow:auto!important;-webkit-overflow-scrolling:touch!important}
+.page{position:relative!important;min-height:100%!important;height:auto!important;opacity:0;pointer-events:none;display:none}
+.page.active{display:block!important;opacity:1!important;pointer-events:auto!important}
+.cc-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}
+.cc-item{padding:8px 2px!important;min-width:0!important;overflow:hidden!important}
+.cc-item .ce{font-size:1rem!important;line-height:1!important}
+.cc-item span{font-size:.45rem!important;display:block!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
 </style>
 </head>
 <body>
@@ -889,8 +882,28 @@ async function loadAll(){
 function updateClock(){var now=new Date();document.getElementById('clock').textContent=pn(String(now.getHours()).padStart(2,'0'))+':'+pn(String(now.getMinutes()).padStart(2,'0'))+':'+pn(String(now.getSeconds()).padStart(2,'0'));var j=gToJ(now.getFullYear(),now.getMonth()+1,now.getDate());document.getElementById('jalaliDate').textContent=pn(j[2])+' '+JM[j[1]-1]+' '+pn(j[0]);var h=now.getHours();document.getElementById('greeting').textContent=(h>=5&&h<12?'☀️ صبح':h>=12&&h<17?'🌤️ ظهر':h>=17&&h<21?'🌅 عصر':'🌙 شب')+' بخیر!';updateNotifBadge()}
 
 /* ===== Navigation ===== */
-function switchPage(id){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active')});var pg=document.getElementById('page-'+id);if(!pg)return;if(id==='ai')pg.style.display='flex';else pg.style.display='block';setTimeout(function(){pg.classList.add('active')},20);var nav=document.querySelector('.nav-item[data-page="'+id+'"]');if(nav)nav.classList.add('active');else if(id==='reports'||id==='investments'||id==='calculator')document.querySelector('.nav-item[data-page="home"]').classList.add('active');else document.querySelector('.nav-item[data-page="profile"]').classList.add('active');var r={home:renderHome,transactions:renderTx,budget:renderBudget,profile:renderProfile,reports:renderReports,achievements:renderAchievements,debts:renderDebts,installments:renderInst,accounts:renderAccounts,investments:renderInvestments,recurring:renderRecurring,reminders:renderReminders,customcats:renderCustomCats};if(r[id])r[id]()}
-
+function switchPage(id){
+    document.querySelectorAll('.page').forEach(function(p){
+        p.classList.remove('active');
+        p.style.display='none'
+    });
+    document.querySelectorAll('.nav-item').forEach(function(n){
+        n.classList.remove('active')
+    });
+    var pg=document.getElementById('page-'+id);
+    if(!pg)return;
+    pg.style.display='block';
+    pg.classList.add('active');
+    if(id==='ai')pg.style.display='flex';
+    window.scrollTo(0,0);
+    var nav=document.querySelector('.nav-item[data-page="'+id+'"]');
+    if(nav)nav.classList.add('active');
+    else if(id==='reports'||id==='investments'||id==='calculator')
+        document.querySelector('.nav-item[data-page="home"]').classList.add('active');
+    else document.querySelector('.nav-item[data-page="profile"]').classList.add('active');
+    var r={home:renderHome,transactions:renderTx,budget:renderBudget,profile:renderProfile,reports:renderReports,achievements:renderAchievements,debts:renderDebts,installments:renderInst,accounts:renderAccounts,investments:renderInvestments,recurring:renderRecurring,reminders:renderReminders,customcats:renderCustomCats};
+    if(r[id])r[id]()
+}
 /* ===== Modals & Toast ===== */
 function openModal(id){var m=document.getElementById(id);if(m)m.classList.add('open');setTimeout(fixInputColors,50)}
 function closeModal(id){var m=document.getElementById(id);if(m)m.classList.remove('open');if(id==='addModal')editId=null}
