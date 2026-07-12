@@ -447,29 +447,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .cc-item .ce{font-size:1rem}
 .cc-del{position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--danger);color:#fff;font-size:.4rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
 
-/* === اندروید WebView — رفع مشکل نمایش متن === */
 /* ═══ اصلاح سازگاری اندروید WebView ═══ */
-input,
-textarea,
-select,
-.desc-field,
-.zbb-input,
-.pin-box,
-.lock-pin,
-.amount-field input,
-.search-row input,
-.search-row select,
-.chat-input-area input,
-.zbb-row input,
-.add-row input {
+input, textarea, select,
+.desc-field, .zbb-input, .pin-box, .lock-pin,
+.amount-field input, .search-row input, .search-row select,
+.chat-input-area input, .zbb-row input, .add-row input {
   -webkit-text-fill-color: var(--text) !important;
   caret-color: var(--primary) !important;
   color: var(--text) !important;
   -webkit-appearance: none !important;
   appearance: none !important;
 }
-input::placeholder,
-textarea::placeholder {
+input::placeholder, textarea::placeholder {
   -webkit-text-fill-color: var(--text3) !important;
   opacity: 1 !important;
 }
@@ -510,29 +499,26 @@ textarea::placeholder {
   -webkit-text-fill-color: #1a1a2e !important;
   color: #1a1a2e !important;
 }
-.amount-field,
-.desc-field {
+.amount-field, .desc-field {
   background: var(--surface2) !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
 
-/* ═══ اصلاح اسکرول — هدر اسکرول می‌شود ═══ */
+/* ═══════════════════════════════════════════════
+   اصلاح کامل اسکرول — هدر با محتوا اسکرول می‌شود
+   ═══════════════════════════════════════════════ */
 
+/* ── body اسکرول نمی‌کند ── */
 html, body {
-  min-height: 100% !important;
+  overflow: hidden !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow: hidden !important;
-  -webkit-overflow-scrolling: touch !important;
 }
 
+/* ── ① #app: block + اسکرول داخلی ── */
 #app {
-  width: 100% !important;
-  max-width: 480px !important;
-  margin: 0 auto !important;
-  display: flex !important;
-  flex-direction: column !important;
+  display: block !important;
   height: 100vh !important;
   height: 100dvh !important;
   overflow-y: auto !important;
@@ -541,73 +527,73 @@ html, body {
   overscroll-behavior-y: contain !important;
 }
 
+/* ── ② هدر: جریان عادی ── */
 #header {
-  flex-shrink: 0 !important;
-  position: relative !important;
+  position: static !important;
 }
 
+/* ── ③ #content: جریان عادی ── */
 #content {
-  flex: 1 !important;
-  position: relative !important;
+  position: static !important;
   overflow: visible !important;
 }
 
-@keyframes pageIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
+/* ── ④ صفحات: static + display toggle ── */
 .page {
   position: static !important;
   top: auto !important;
   right: auto !important;
   bottom: auto !important;
   left: auto !important;
-  width: 100% !important;
   display: none !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;
   pointer-events: all !important;
-  overflow-y: visible !important;
-  overflow-x: hidden !important;
-  padding: 10px 14px 120px !important;
+  padding: 10px 14px 100px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
-
 .page.active {
   display: block !important;
   opacity: 1 !important;
   transform: none !important;
   pointer-events: all !important;
-  animation: pageIn 0.3s ease;
 }
 
+/* ── ⑤ پروفایل: حذف محدودیت‌های قبلی ── */
+#page-profile {
+  overflow-y: visible !important;
+  max-height: none !important;
+  -webkit-overflow-scrolling: auto !important;
+}
+
+/* ── ⑥ صفحه AI: لایه‌چینی ویژه ── */
 #page-ai.page.active {
   display: flex !important;
   flex-direction: column !important;
 }
-
+.chat-container {
+  height: auto !important;
+}
 .chat-messages {
+  max-height: 55vh !important;
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch !important;
-  min-height: 0 !important;
 }
 
+/* ── ⑧ نوار پایین: sticky ── */
 #bottom-nav {
   position: sticky !important;
   bottom: 0 !important;
-  flex-shrink: 0 !important;
   z-index: 100 !important;
 }
 
-.settings-item,
-.g-card {
+/* ── ⑨ جلوگیری از فشرده‌سازی ── */
+.settings-item, .g-card {
   flex-shrink: 0 !important;
-}
-
-#page-profile {
-  overflow-y: visible !important;
-  max-height: none !important;
 }
 </style>
 </head>
