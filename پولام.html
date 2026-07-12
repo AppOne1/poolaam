@@ -688,16 +688,34 @@ textarea::placeholder {
 
 <script>
 /* ===== IndexedDB ===== */
-var DB_NAME='PoolamDB',DB_VERSION=4,db=null;
+var DB_NAME='PoolamDB',DB_VERSION=5,db=null;
 var STORES={transactions:'transactions',accounts:'accounts',investments:'investments',goals:'goals',wallets:'wallets',debts:'debts',installments:'installments',recurring:'recurring',settings:'settings',customCats:'customCats'};
 function openDB(){return new Promise(function(resolve,reject){var req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=function(e){var d=e.target.result;Object.values(STORES).forEach(function(s){if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:'id'})})};req.onsuccess=function(e){db=e.target.result;resolve(db)};req.onerror=function(e){reject(e)}})}
 function dbGet(store){return new Promise(function(resolve,reject){var tx=db.transaction(store,'readonly');var s=tx.objectStore(store);var req=s.getAll();req.onsuccess=function(){resolve(req.result||[])};req.onerror=function(){reject(req.error)}})}
 function dbPut(store,data){return new Promise(function(resolve,reject){var tx=db.transaction(store,'readwrite');var s=tx.objectStore(store);var req=s.put(data);req.onsuccess=function(){resolve(req.result)};req.onerror=function(){reject(req.error)}})}
 function dbDelete(store,id){return new Promise(function(resolve,reject){var tx=db.transaction(store,'readwrite');var s=tx.objectStore(store);var req=s.delete(id);req.onsuccess=function(){resolve()};req.onerror=function(){reject(req.error)}})}
 function dbClear(store){return new Promise(function(resolve,reject){var tx=db.transaction(store,'readwrite');var s=tx.objectStore(store);var req=s.clear();req.onsuccess=function(){resolve()};req.onerror=function(){reject(req.error)}})}
-function dbPutAll(store,items){return new Promise(function(resolve,reject){var tx=db.transaction(store,'readwrite');var s=tx.objectStore(store);s.clear();items.forEach(function(item){s.put(item)});tx.oncomplete=function(){resolve()};tx.onerror=function(){reject(tx.error)}})}
-
-/* ===== Constants ===== */
+function dbPutAll(store,items){
+    return new Promise(function(resolve,reject){
+        var keys=[];
+        var rtx=db.transaction(store,'readonly');
+        var rs=rtx.objectStore(store);
+        var cur=rs.openCursor();
+        cur.onsuccess=function(e){
+            var c=e.target.result;
+            if(c){keys.push(c.key);c.continue();return}
+            var ids={};
+            items.forEach(function(i){ids[i.id]=true});
+            var wtx=db.transaction(store,'readwrite');
+            var ws=wtx.objectStore(store);
+            keys.forEach(function(k){if(!ids[k])ws.delete(k)});
+            items.forEach(function(i){ws.put(i)});
+            wtx.oncomplete=function(){resolve()};
+            wtx.onerror=function(){reject(wtx.error)}
+        };
+        cur.onerror=function(){reject(cur.error)}
+    })
+}/* ===== Constants ===== */
 var C={food:{n:'خوراک',e:'🍔'},transport:{n:'حمل‌ونقل',e:'🚗'},bills:{n:'قبوض',e:'💡'},fun:{n:'تفریح',e:'🎮'},health:{n:'سلامت',e:'💊'},edu:{n:'آموزش',e:'📚'},phone:{n:'ارتباطات',e:'📱'},other:{n:'سایر',e:'📦'}};
 var BUDGETS={food:12e6,transport:8e6,bills:5e6,fun:3e6,health:2e6,edu:2e6,phone:15e5,other:3e6};
 var AVATARS=['م','M','🧑','👩','👨','🧑‍💼','👩‍💻','👨‍🎓','🦊','🐱','🐼','🌟','💎','🔥','🚀','🎯'];
@@ -710,8 +728,7 @@ var EMOJIS=['💰','🏠','🚗','📱','🎓','💍','✈️','🏋️','🎁',
 
 /* ===== State ===== */
 var tx=[],accounts=[],investments=[],goals=[],wallets=[],debts=[],installments=[],recurringTx=[],customCats=[];
-var user={name:'کاربر پولام',avatar:'م',pin:null,secQ:'',secA:'',font:'vazirmatn',zbbInc:0,zbb:{},xp:0,streak:0,lastActive:null,onboarded:false,deviceId:'',licenseKey:'',isPro:false};
-var nextId=1,balHidden=false,editId=null,delId=null,goalAddIdx=null,editDebtId=null,payDebtId=null,editInvId=null,invPriceId=null,invSellId=null,editAccId=null,accTypeVal='cash',invTypeVal='gold',debtTypeVal='normal',recTypeVal='expense',recFreqVal='monthly',recCatVal='other';
+var user={name:'کاربر پولام',avatar:'م',pin:null,secQ:'',secA:'',font:'vazirmatn',zbbInc:0,zbb:{},xp:0,streak:0,lastActive:null,onboarded:false,deviceId:'',licenseKey:'',isPro:false,initialized:false};var nextId=1,balHidden=false,editId=null,delId=null,goalAddIdx=null,editDebtId=null,payDebtId=null,editInvId=null,invPriceId=null,invSellId=null,editAccId=null,accTypeVal='cash',invTypeVal='gold',debtTypeVal='normal',recTypeVal='expense',recFreqVal='monthly',recCatVal='other';
 var selTxAcc='cash',selPayDebtAcc='cash',selInstAcc='bank_1',selInvAcc='bank_1',selInvSellAcc='cash',selRecAcc='cash',selFromAcc='cash',selToAcc='bank_1',selWalletChargeAcc='cash';
 var curT=localStorage.getItem('pt5')||'dark',curS=parseFloat(localStorage.getItem('ps5'))||1;
 var addType='expense',selCat='food',curTxTab='all',curF='all',advSearchOpen=false;
@@ -772,25 +789,21 @@ function applyFont(){var f=FONTS[user.font]||FONTS.vazirmatn;document.documentEl
 
 /* ===== ANDROID FIX — رفع مشکل نمایش متن ===== */
 function fixInputColors(){
-    var theme=document.documentElement.getAttribute('data-theme');
-    var tc=theme==='light'?'#1a1a2e':'#ffffff';
-    var cc=theme==='light'?'#FF6B35':'#FF6B35';
-    var all=document.querySelectorAll('input,textarea,select,.desc-field,.zbb-input,.pin-box,.lock-pin');
-    for(var i=0;i<all.length;i++){
-        all[i].style.setProperty('color',tc,'important');
-        all[i].style.setProperty('-webkit-text-fill-color',tc,'important');
-        all[i].style.setProperty('caret-color',cc,'important');
+    var isDark=document.documentElement.getAttribute('data-theme')!=='light';
+    var tc=isDark?'#ffffff':'#1a1a2e';
+    var els=document.querySelectorAll('input,textarea,select');
+    for(var i=0;i<els.length;i++){
+        els[i].style.setProperty('color',tc,'important');
+        els[i].style.setProperty('-webkit-text-fill-color',tc,'important');
+        els[i].style.setProperty('caret-color','#FF6B35','important');
+        els[i].style.setProperty('font-size','16px','important');
+        els[i].style.setProperty('background-color','transparent','important');
+        els[i].style.setProperty('opacity','1','important');
+        els[i].style.setProperty('visibility','visible','important');
+        els[i].style.setProperty('text-shadow','none','important');
+        els[i].style.setProperty('filter','none','important');
     }
 }
-document.addEventListener('focusin',function(e){
-    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT'){
-        var theme=document.documentElement.getAttribute('data-theme');
-        var tc=theme==='light'?'#1a1a2e':'#ffffff';
-        e.target.style.setProperty('color',tc,'important');
-        e.target.style.setProperty('-webkit-text-fill-color',tc,'important');
-        e.target.style.setProperty('caret-color','#FF6B35','important');
-    }
-});
 
 /* ===== Lock ===== */
 function initLock(){if(user.pin){document.getElementById('lockScreen').classList.remove('hidden');setTimeout(function(){var el=document.getElementById('lp0');if(el)el.focus()},100)}else{document.getElementById('lockScreen').classList.add('hidden')}}
@@ -812,8 +825,42 @@ async function saveInstallments(){await dbPutAll(STORES.installments,installment
 async function saveRecurring(){await dbPutAll(STORES.recurring,recurringTx)}
 async function saveCustomCats(){await dbPutAll(STORES.customCats,customCats)}
 async function saveAll(){await Promise.all([saveUser(),saveTx(),saveAccounts(),saveInvestments(),saveGoals(),saveWallets(),saveDebts(),saveInstallments(),saveRecurring(),saveCustomCats()])}
-async function loadAll(){try{var settings=await dbGet(STORES.settings);var userData=settings.find(function(s){return s.id==='user'});if(userData)user=Object.assign(user,userData.data);tx=await dbGet(STORES.transactions);if(!tx.length){tx=DEFAULT_TX;await saveTx()}accounts=await dbGet(STORES.accounts);if(!accounts.length){accounts=DEFAULT_ACCS;await saveAccounts()}investments=await dbGet(STORES.investments);if(!investments.length){investments=DEFAULT_INV;await saveInvestments()}goals=await dbGet(STORES.goals);if(!goals.length){goals=DEFAULT_GOALS;await saveGoals()}wallets=await dbGet(STORES.wallets);if(!wallets.length){wallets=DEFAULT_WALL;await saveWallets()}debts=await dbGet(STORES.debts);if(!debts.length){debts=DEFAULT_DEBTS;await saveDebts()}installments=await dbGet(STORES.installments);if(!installments.length){installments=DEFAULT_INST;await saveInstallments()}recurringTx=await dbGet(STORES.recurring);customCats=await dbGet(STORES.customCats);nextId=tx.reduce(function(m,t){return Math.max(m,t.id)},0)+1}catch(e){console.log('Load error:',e)}}
+async function loadAll(){
+    try{
+        var settings=await dbGet(STORES.settings);
+        var userData=settings.find(function(s){return s.id==='user'});
+        if(userData)user=Object.assign(user,userData.data);
+        if(typeof user.initialized==='undefined')user.initialized=false;
 
+        tx=await dbGet(STORES.transactions);
+        if(!tx.length&&!user.initialized){tx=DEFAULT_TX.slice();await saveTx()}
+
+        accounts=await dbGet(STORES.accounts);
+        if(!accounts.length&&!user.initialized){accounts=DEFAULT_ACCS.slice();await saveAccounts()}
+
+        investments=await dbGet(STORES.investments);
+        if(!investments.length&&!user.initialized){investments=DEFAULT_INV.slice();await saveInvestments()}
+
+        goals=await dbGet(STORES.goals);
+        if(!goals.length&&!user.initialized){goals=DEFAULT_GOALS.slice();await saveGoals()}
+
+        wallets=await dbGet(STORES.wallets);
+        if(!wallets.length&&!user.initialized){wallets=DEFAULT_WALL.slice();await saveWallets()}
+
+        debts=await dbGet(STORES.debts);
+        if(!debts.length&&!user.initialized){debts=DEFAULT_DEBTS.slice();await saveDebts()}
+
+        installments=await dbGet(STORES.installments);
+        if(!installments.length&&!user.initialized){installments=DEFAULT_INST.slice();await saveInstallments()}
+
+        recurringTx=await dbGet(STORES.recurring);
+        customCats=await dbGet(STORES.customCats);
+
+        if(!user.initialized){user.initialized=true;await saveUser()}
+
+        nextId=tx.reduce(function(m,t){return Math.max(m,t.id)},0)+1;
+    }catch(e){console.log('Load error:',e)}
+}
 /* ===== Clock ===== */
 function updateClock(){var now=new Date();document.getElementById('clock').textContent=pn(String(now.getHours()).padStart(2,'0'))+':'+pn(String(now.getMinutes()).padStart(2,'0'))+':'+pn(String(now.getSeconds()).padStart(2,'0'));var j=gToJ(now.getFullYear(),now.getMonth()+1,now.getDate());document.getElementById('jalaliDate').textContent=pn(j[2])+' '+JM[j[1]-1]+' '+pn(j[0]);var h=now.getHours();document.getElementById('greeting').textContent=(h>=5&&h<12?'☀️ صبح':h>=12&&h<17?'🌤️ ظهر':h>=17&&h<21?'🌅 عصر':'🌙 شب')+' بخیر!';updateNotifBadge()}
 
