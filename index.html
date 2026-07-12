@@ -448,6 +448,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .cc-del{position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--danger);color:#fff;font-size:.4rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
 
 /* === اندروید WebView — رفع مشکل نمایش متن === */
+/* ═══ اصلاح سازگاری اندروید WebView ═══ */
 input,
 textarea,
 select,
@@ -479,25 +480,50 @@ textarea::placeholder {
   caret-color: #FF6B35 !important;
   color: #1a1a2e !important;
 }
-.modal-overlay{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
-.modal-sheet{background:var(--modal-bg)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
-.modal-overlay.open .modal-sheet input,.modal-overlay.open .modal-sheet textarea,.modal-overlay.open .modal-sheet select,.modal-overlay.open .modal-sheet .desc-field,.modal-overlay.open .modal-sheet .amount-field input,.modal-overlay.open .modal-sheet .zbb-input,.modal-overlay.open .modal-sheet .pin-box{-webkit-text-fill-color:var(--text)!important;caret-color:#FF6B35!important;color:var(--text)!important;font-size:16px!important;opacity:1!important;visibility:visible!important;-webkit-appearance:none!important}
-[data-theme="light"] .modal-overlay.open .modal-sheet input,[data-theme="light"] .modal-overlay.open .modal-sheet textarea,[data-theme="light"] .modal-overlay.open .modal-sheet .desc-field{ -webkit-text-fill-color:#1a1a2e!important;color:#1a1a2e!important}
-.amount-field,.desc-field{background:var(--surface2)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
-.page{-webkit-overflow-scrolling:touch!important;overflow-y:auto!important;overscroll-behavior:contain!important}
-#content{overflow:hidden!important;position:relative!important}
-#page-profile{overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;max-height:100%!important}
-.settings-item{flex-shrink:0!important}
-.g-card{flex-shrink:0!important}
+.modal-overlay {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.modal-sheet {
+  background: var(--modal-bg) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.modal-overlay.open .modal-sheet input,
+.modal-overlay.open .modal-sheet textarea,
+.modal-overlay.open .modal-sheet select,
+.modal-overlay.open .modal-sheet .desc-field,
+.modal-overlay.open .modal-sheet .amount-field input,
+.modal-overlay.open .modal-sheet .zbb-input,
+.modal-overlay.open .modal-sheet .pin-box {
+  -webkit-text-fill-color: var(--text) !important;
+  caret-color: #FF6B35 !important;
+  color: var(--text) !important;
+  font-size: 16px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  -webkit-appearance: none !important;
+}
+[data-theme="light"] .modal-overlay.open .modal-sheet input,
+[data-theme="light"] .modal-overlay.open .modal-sheet textarea,
+[data-theme="light"] .modal-overlay.open .modal-sheet .desc-field {
+  -webkit-text-fill-color: #1a1a2e !important;
+  color: #1a1a2e !important;
+}
+.amount-field,
+.desc-field {
+  background: var(--surface2) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
 
-----------//// خطاهای اصلی اسکرول -----//////
+/* ═══ اصلاح اسکرول — هدر اسکرول می‌شود ═══ */
 
 html, body {
-  /* اجازه بدهید بدنه اصلی بر اساس محتوا کش بیاید و قفل نشود */
   min-height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow-x: hidden !important; /* فقط جلوی اسکرول چپ و راست را می‌گیریم */
+  overflow: hidden !important;
   -webkit-overflow-scrolling: touch !important;
 }
 
@@ -507,43 +533,81 @@ html, body {
   margin: 0 auto !important;
   display: flex !important;
   flex-direction: column !important;
-  min-height: 100vh !important;
-  min-height: 100dvh !important; /* هماهنگی کامل با نوار ابزار موبایل */
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+}
+
+#header {
+  flex-shrink: 0 !important;
+  position: relative !important;
+}
+
+#content {
+  flex: 1 !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .page {
-  /* حذف تمام قید و بندهای absolute که ارتفاع را ۱۰۰٪ قفل می‌کردند */
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
   width: 100% !important;
   display: none !important;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+  pointer-events: all !important;
+  overflow-y: visible !important;
+  overflow-x: hidden !important;
+  padding: 10px 14px 120px !important;
 }
 
 .page.active {
-  /* صفحه فعال به صورت یک بلوک طبیعی باز می‌شود و ارتفاع آن بر اساس محتوایش زیاد می‌شود */
   display: block !important;
   opacity: 1 !important;
+  transform: none !important;
+  pointer-events: all !important;
+  animation: pageIn 0.3s ease;
 }
 
-header {
-  position: sticky !important; /* اگر می‌خواهید هدر بالا بماند چسبان باشد، در غیر این صورت relative کنید */
-  top: 0;
-  width: 100% !important;
-  flex-shrink: 0 !important;
-  padding: 10px 16px 6px !important;
-  z-index: 10 !important;
-  background: inherit; /* برای اینکه محتوای زیرش پیدا نباشد */
-}
-
-.header-top {
+#page-ai.page.active {
   display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
+  flex-direction: column !important;
 }
 
-/* پدینگ انتهایی برای اینکه محتوا زیر منوی پایین (Bottom Nav) نرود */
-.page {
-  padding-bottom: 120px !important;
+.chat-messages {
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  min-height: 0 !important;
+}
+
+#bottom-nav {
+  position: sticky !important;
+  bottom: 0 !important;
+  flex-shrink: 0 !important;
+  z-index: 100 !important;
+}
+
+.settings-item,
+.g-card {
+  flex-shrink: 0 !important;
+}
+
+#page-profile {
+  overflow-y: visible !important;
+  max-height: none !important;
 }
 </style>
 </head>
