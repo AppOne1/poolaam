@@ -493,32 +493,46 @@ textarea::placeholder {
 ----------//// خطاهای اصلی اسکرول -----//////
 
 html, body {
-  min-height: 100% !important;
-  height: auto !important;
+  height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
+  overflow: hidden !important; /* قفل کردن قاب بیرونی برای حذف باگ اسکرول یک‌طرفه */
   -webkit-overflow-scrolling: touch !important;
 }
 
+/* کانتینر اصلی نرم‌افزار (اگر وجود دارد) */
+#app {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
 .page {
-  position: relative !important; /* خروج کامل صفحه از حالت fixed */
-  width: 100% !important;
-  min-height: 100vh !important;
-  min-height: 100dvh !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: 100% !important;
+  
+  /* فعال کردن اسکرول داخلی دوطرفه و فوق‌العاده روان */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  
   display: none;
   opacity: 0;
 }
 
 .page.active {
-  display: block !important; /* برگشت به حالت بلاک برای چیدمان روان عمودی */
+  display: block !important;
   opacity: 1 !important;
 }
 
-/* اعمال مستقیم دستور روی هدر برای لغو هرگونه قفل شدگی قبلی */
+/* اصلاح استایل هدر برای اینکه همراه با محتوا بالا برود */
 header {
-  position: relative !important; /* این خط هر نوع fixed یا absolute قبلی را کاملاً باطل می‌کند */
+  position: relative !important; /* خروج از هرگونه حالت ثابت لایه‌های والد */
   display: block !important;
   width: 100% !important;
   flex-shrink: 0 !important;
@@ -530,6 +544,11 @@ header {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
+}
+
+/* حتماً این پدینگ را به انتهای محتوای صفحات بدهید تا زیر منوی پایین نروند */
+.page > *:last-child {
+  padding-bottom: 100px !important;
 }
 </style>
 </head>
