@@ -493,51 +493,46 @@ textarea::placeholder {
 ----------//// خطاهای اصلی اسکرول -----//////
 
 html, body {
-  height: 100% !important;
+  /* اجازه بدهید بدنه اصلی بر اساس محتوا کش بیاید و قفل نشود */
+  min-height: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
-  overflow: hidden !important; /* قفل کردن قاب بیرونی برای حذف باگ اسکرول یک‌طرفه */
+  overflow-x: hidden !important; /* فقط جلوی اسکرول چپ و راست را می‌گیریم */
   -webkit-overflow-scrolling: touch !important;
 }
 
-/* کانتینر اصلی نرم‌افزار (اگر وجود دارد) */
 #app {
-  height: 100% !important;
+  width: 100% !important;
+  max-width: 480px !important;
+  margin: 0 auto !important;
   display: flex !important;
   flex-direction: column !important;
-  overflow: hidden !important;
+  min-height: 100vh !important;
+  min-height: 100dvh !important; /* هماهنگی کامل با نوار ابزار موبایل */
 }
 
 .page {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  height: 100% !important;
-  
-  /* فعال کردن اسکرول داخلی دوطرفه و فوق‌العاده روان */
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch !important;
-  
-  display: none;
+  /* حذف تمام قید و بندهای absolute که ارتفاع را ۱۰۰٪ قفل می‌کردند */
+  width: 100% !important;
+  display: none !important;
   opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .page.active {
+  /* صفحه فعال به صورت یک بلوک طبیعی باز می‌شود و ارتفاع آن بر اساس محتوایش زیاد می‌شود */
   display: block !important;
   opacity: 1 !important;
 }
 
-/* اصلاح استایل هدر برای اینکه همراه با محتوا بالا برود */
 header {
-  position: relative !important; /* خروج از هرگونه حالت ثابت لایه‌های والد */
-  display: block !important;
+  position: sticky !important; /* اگر می‌خواهید هدر بالا بماند چسبان باشد، در غیر این صورت relative کنید */
+  top: 0;
   width: 100% !important;
   flex-shrink: 0 !important;
   padding: 10px 16px 6px !important;
   z-index: 10 !important;
+  background: inherit; /* برای اینکه محتوای زیرش پیدا نباشد */
 }
 
 .header-top {
@@ -546,9 +541,9 @@ header {
   align-items: center !important;
 }
 
-/* حتماً این پدینگ را به انتهای محتوای صفحات بدهید تا زیر منوی پایین نروند */
-.page > *:last-child {
-  padding-bottom: 100px !important;
+/* پدینگ انتهایی برای اینکه محتوا زیر منوی پایین (Bottom Nav) نرود */
+.page {
+  padding-bottom: 120px !important;
 }
 </style>
 </head>
@@ -1131,34 +1126,7 @@ function showSplash(cb){var sp=document.getElementById('splashScreen');sp.style.
 var obStep=0;
 function showOnboarding(){var ob=document.getElementById('onboarding');ob.classList.remove('hidden');var slides=[{icon:'👋',title:'به پولام خوش اومدی!',desc:'دستیار هوشمند مالی شما<br>هر ریال رو مدیریت کن'},{icon:'🎨',title:'ظاهر دلخواهت',desc:'تم و فونت رو انتخاب کن'},{icon:'👤',title:'درباره تو',desc:'اسمت چیه؟ آواتار انتخاب کن'},{icon:'🔒',title:'امنیت',desc:'رمز عبور تنظیم کن (اختیاری)'},{icon:'🏦',title:'اولین حساب',desc:'حساب بانکیت رو اضافه کن'}];obStep=0;function renderSlide(){var s=slides[obStep];var dots='';for(var i=0;i<slides.length;i++)dots+='<div class="ob-dot'+(i===obStep?' active':'')+'"></div>';var h='<div class="ob-slide"><div class="ob-icon">'+s.icon+'</div><div class="ob-title">'+s.title+'</div><div class="ob-desc">'+s.desc+'</div><div class="ob-dots">'+dots+'</div><div class="ob-btns">';if(obStep>0)h+='<button class="ob-btn secondary" onclick="obPrev()">قبلی</button>';h+='<button class="ob-btn primary" onclick="'+(obStep<slides.length-1?'obNext()':'obFinish()')+'">'+(obStep<slides.length-1?'بعدی':'شروع!')+'</button>';h+='</div><div style="font-size:.5rem;color:var(--text3);margin-top:16px">طراحی: علوی · نسخه ۶.۰.۰</div></div>';document.getElementById('obSlides').innerHTML=h}window.obNext=function(){obStep++;renderSlide()};window.obPrev=function(){obStep--;renderSlide()};window.obFinish=async function(){user.onboarded=true;await saveUser();document.getElementById('onboarding').classList.add('hidden');document.getElementById('app').style.display='flex';initLock();renderHome();renderProfile();renderXPBar();setInterval(updateClock,1000);updateClock();updateStreak();fixInputColors()};renderSlide()}
 initApp();
-// حل ساختاری و فیزیکی مشکل اسکرول در موبایل
-(function() {
-    let touchStartY = 0;
 
-    // ثبت نقطه شروع لمس انگشت
-    document.addEventListener('touchstart', function(e) {
-        touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-
-    // مدیریت حرکت انگشت
-    document.addEventListener('touchmove', function(e) {
-        // پیدا کردن صفحه فعال فعلی
-        const activePage = document.querySelector('.page.active');
-        if (!activePage) return;
-
-        const touchCurrentY = e.touches[0].clientY;
-        const direction = touchStartY - touchCurrentY; // مثبت یعنی به سمت پایین، منفی یعنی به سمت بالا
-
-        // حرکت به سمت بالا (وقتی انگشت را به پایین می‌کشید تا به بالای صفحه بروید)
-        if (direction < 0 && activePage.scrollTop === 0) {
-            // اگر در بالاترین نقطه است، کاری نکن
-            return;
-        }
-
-        // اگر صفحه قفل کرده بود، این دستور به صورت سخت‌افزاری اسکرول را مجبور به حرکت می‌کند
-        activePage.scrollTop += direction * 0.1; 
-    }, { passive: true });
-})();
 </script>
 </body>
 </html>
