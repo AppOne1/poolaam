@@ -883,7 +883,7 @@ var state={transactions:[],accounts:[],investments:[],goals:[],wallets:[],debts:
 /* ═══ Helpers ═══ */
 function uid(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5)}
 function fmt(n){if(n==null||isNaN(n))return '-';return Number(n).toLocaleString('fa-IR')}
-function fmtInp(el){var v=el.value.replace(/[^\d]/g,'');if(v)el.value=Number(v).toLocaleString('fa-IR')}
+function fmtInp(el){var v=el.value.replace(/[^0-9.]/g,'');var di=v.indexOf('.');if(di!==-1)v=v.substring(0,di+1)+v.substring(di+1).replace(/\./g,'');el.value=v}
 function parseNum(s){if(!s)return 0;return parseInt(String(s).replace(/[^0-9]/g,''))||0}
 function toast(m,t){var el=document.getElementById('toast');el.textContent=m;el.className='toast show '+(t||'success');setTimeout(function(){el.className='toast '+(t||'success')},2500)}
 function toJalali(gY,gM,gD){var g_d_m=[0,31,59,90,120,151,181,212,243,273,304,334];var gy2=(gM>2)?(gY+1):gY;var days=355666+(365*gY)+((gy2+3)/4|0)-((gy2+99)/100|0)+((gy2+399)/400|0)+gD+g_d_m[gM-1];var jy=-1595+(33*(days/12053|0));days%=12053;jy+=4*(days/1461|0);days%=1461;if(days>365){jy+=((days-1)/365|0);days=(days-1)%365}var jm,jd;if(days<186){jm=1+(days/31|0);jd=1+(days%31)}else{jm=7+((days-186)/30|0);jd=1+((days-186)%30)}return[jy,jm,jd]}
@@ -1007,14 +1007,23 @@ function renderHome(){
   else donut.style.background='var(--surface2)';
   document.getElementById('chartLegend').innerHTML=legendHtml;
 
-  /* Recent Tx */
+    /* Recent Tx */
   var recent=state.transactions.sort(function(a,b){return b.date-a.date}).slice(0,5);
   var rtx=document.getElementById('recentTx');
-  rtx.innerHTML=recent.length?recent.map(function(t){
-    var cat=C[t.category]||{e:'📦',n:'سایر'};
-    return '<div class="tx-item"><div class="tx-icon" style="background:var(--surface2)">'+cat.e+'</div><div class="tx-info"><div class="tx-title">'+(t.desc||cat.n)+'</div><div class="tx-cat">'+cat.n+' · '+jalaliStr(toJalali(new Date(t.date).getFullYear(),new Date(t.date).getMonth()+1,new Date(t.date).getDate()))+'</div></div><div class="tx-amount '+(t.type==='income'?'pos':'neg')+'">'+(t.type==='income'?'+':'−')+fmt(t.amount)+'</div></div>';
-  }).join(''):'<div style="text-align:center;color:var(--text3);font-size:.6rem;padding:10px">تراکنشی ثبت نشده</div>';
-
+  if(recent.length){
+    var h='';
+    for(var i=0;i<recent.length;i++){
+      var t=recent[i];
+      var cat=C[t.category];
+      if(!cat) cat={e:'📦',n:'سایر'};
+      var d=new Date(t.date);
+      var j=toJalali(d.getFullYear(),d.getMonth()+1,d.getDate());
+      h+='<div class="tx-item"><div class="tx-icon" style="background:var(--surface2)">'+cat.e+'</div><div class="tx-info"><div class="tx-title">'+(t.desc&&t.desc.length?t.desc:cat.n)+'</div><div class="tx-cat">'+cat.n+' · '+jalaliStr(j)+'</div></div><div class="tx-amount '+(t.type==='income'?'pos':'neg')+'">'+(t.type==='income'?'+':'−')+fmt(t.amount)+'</div></div>';
+    }
+    rtx.innerHTML=h;
+  }else{
+    rtx.innerHTML='<div style="text-align:center;color:var(--text3);font-size:.6rem;padding:10px">تراکنشی ثبت نشده</div>';
+  }
   /* XP */
   var xp=state.settings.xp||0;var lvl=0;
   for(var i=LEVELS.length-1;i>=0;i--){if(xp>=LEVELS[i].xp){lvl=i;break}}
@@ -1068,10 +1077,16 @@ function setTxType(t){
 function renderCatGrid(){
   var grid=document.getElementById('catGrid');
   var cats=Object.keys(C);
-  grid.innerHTML=cats.map(function(k){return '<div class="cat-btn'+(state.selectedCat===k?' selected':'')+'" onclick="selectCat(\''+k+'\')"><span class="ce">'+C[k].e+'</span>'+C[k].n+'</div>'}).join('');
-  state.customCats.forEach(function(cc){
-    grid.innerHTML+='<div class="cat-btn'+(state.selectedCat===cc.id?' selected':'')+'" onclick="selectCat(\''+cc.id+'\')"><span class="ce">'+cc.emoji+'</span>'+cc.name+'</div>';
-  });
+  var html='';
+  for(var i=0;i<cats.length;i++){
+    var k=cats[i];
+    html+='<div class="cat-btn'+(state.selectedCat===k?' selected':'')+'" onclick="selectCat(\''+k+'\')"><span class="ce">'+C[k].e+'</span>'+C[k].n+'</div>';
+  }
+  for(var j=0;j<state.customCats.length;j++){
+    var cc=state.customCats[j];
+    html+='<div class="cat-btn'+(state.selectedCat===cc.id?' selected':'')+'" onclick="selectCat(\''+cc.id+'\')"><span class="ce">'+cc.emoji+'</span>'+cc.name+'</div>';
+  }
+  grid.innerHTML=html;
 }
 function selectCat(c){state.selectedCat=c;renderCatGrid()}
 function renderAccGrid(){
@@ -1095,14 +1110,37 @@ async function saveTransaction(){
   var amount=parseNum(document.getElementById('addAmount').value);
   if(!amount){toast('مبلغ وارد کنید','error');return}
   var desc=document.getElementById('addDesc').value.trim();
-  var cat=state.selectedCat||'other';
-  var tx={id:state.editTxId||uid(),type:state.txType,amount:amount,category:cat,desc:desc,date:Date.now(),accountId:state.selectedAcc};
-  if(state.txType==='transfer'){tx.fromAcc=state.selectedFromAcc;tx.toAcc=state.selectedToAcc}
+  var cat=state.selectedCat;
+  if(!cat) cat='other';
+  var tx={
+    id:state.editTxId||uid(),
+    type:state.txType,
+    amount:amount,
+    category:cat,
+    desc:desc,
+    date:Date.now(),
+    accountId:state.selectedAcc
+  };
+  if(state.txType==='transfer'){
+    tx.fromAcc=state.selectedFromAcc;
+    tx.toAcc=state.selectedToAcc;
+  }
   await dbPut('transactions',tx);
-  if(state.txType==='expense'&&tx.accountId){var a=state.accounts.find(function(x){return x.id===tx.accountId});if(a){a.balance-=amount;await dbPut('accounts',a)}}
-  if(state.txType==='income'&&tx.accountId){var a=state.accounts.find(function(x){return x.id===tx.accountId});if(a){a.balance+=amount;await dbPut('accounts',a)}}
-  state.settings.xp=(state.settings.xp||0)+5;saveSettings();
-  await loadAll();closeModal('addModal');playBeep();toast('ذخیره شد');renderPage(state.currentPage);
+  if(state.txType==='expense'&&tx.accountId){
+    var a=state.accounts.find(function(x){return x.id===tx.accountId});
+    if(a){a.balance-=amount;await dbPut('accounts',a)}
+  }
+  if(state.txType==='income'&&tx.accountId){
+    var a=state.accounts.find(function(x){return x.id===tx.accountId});
+    if(a){a.balance+=amount;await dbPut('accounts',a)}
+  }
+  state.settings.xp=(state.settings.xp||0)+5;
+  saveSettings();
+  await loadAll();
+  closeModal('addModal');
+  playBeep();
+  toast('ذخیره شد');
+  renderPage(state.currentPage);
 }
 function editTx(id){var t=state.transactions.find(function(x){return x.id===id});if(!t)return;state.editTxId=id;state.txType=t.type;state.selectedCat=t.category;state.selectedAcc=t.accountId;document.getElementById('addModalTitle').textContent='ویرایش';document.getElementById('addAmount').value=fmt(t.amount);document.getElementById('addDesc').value=t.desc||'';setTxType(t.type);renderCatGrid();renderAccGrid();openModal('addModal')}
 function askDeleteTx(id){state.deleteTxId=id;openModal('deleteModal')}
