@@ -2,9 +2,8 @@
 <html lang="fa" dir="rtl" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2,user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="theme-color" content="#0B1120">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>پولام</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -17,355 +16,328 @@ html{font-size:calc(16px * var(--scale))}
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);transition:background .3s,color .3s;-webkit-user-select:none;user-select:none}
 input,textarea,select{user-select:text;-webkit-user-select:text}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(251,191,36,.04) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(56,189,248,.03) 0%,transparent 50%);pointer-events:none;z-index:0}
-#app{position:relative;z-index:1;display:block;width:100%;max-width:480px;margin:0 auto;height:100vh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:50px}
+
+#app{position:relative;z-index:1;display:flex;flex-direction:column;width:100%;max-width:480px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden}
 @media(min-width:481px){#app{border-left:1px solid var(--border);border-right:1px solid var(--border)}}
-#lockScreen{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .3s}
-#lockScreen.hidden{opacity:0;pointer-events:none}
-.lock-logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:1.5rem}
-.lock-title{font-size:1rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.lock-sub{font-size:.6rem;color:var(--text3);margin-bottom:16px}
-.lock-pins{display:flex;gap:7px;margin-bottom:12px}
-.lock-pin{width:42px;height:48px;border-radius:10px;background:var(--glass);border:2px solid var(--border);text-align:center;font-size:1.2rem;font-weight:800;color:var(--text);outline:none}
-.lock-pin:focus{border-color:var(--primary)}
-.lock-error{font-size:.55rem;color:var(--danger);min-height:12px;margin-bottom:6px}
-.lock-forgot{background:none;border:none;color:var(--primary);font-size:.6rem;font-weight:600;cursor:pointer}
-#recoverSection{display:none;margin-top:10px;width:100%;max-width:260px;text-align:center}
-#recoverSection p{font-size:.58rem;color:var(--text2);margin-bottom:5px}
-#header{padding:7px 10px 3px}
+
+#header{padding:10px 12px 5px;flex-shrink:0;background:var(--bg);z-index:10}
 .header-top{display:flex;justify-content:space-between;align-items:center}
-.logo-area{display:flex;align-items:center;gap:5px}
-.logo-icon{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:.8rem}
-.logo-name{font-size:.95rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.logo-tag{font-size:.55rem;color:var(--text3);font-weight:500}
-.header-controls{display:flex;align-items:center;gap:3px}
-.h-ctrl{width:26px;height:26px;border-radius:6px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:.6rem}
+.logo-area{display:flex;align-items:center;gap:8px}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.logo-name{font-size:1.1rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-tag{font-size:.7rem;color:var(--text3);font-weight:500}
+.header-controls{display:flex;align-items:center;gap:5px}
+.h-ctrl{width:32px;height:32px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:.85rem}
 .h-ctrl:active{transform:scale(.85)}
-.mini-cal{display:flex;align-items:center;justify-content:space-between;margin-top:3px;background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:4px 8px}
-.mc-date{font-size:.6rem;font-weight:600}
-.mc-clock{font-size:.6rem;font-weight:700;direction:ltr;font-variant-numeric:tabular-nums}
-.mc-greeting{font-size:.45rem;color:var(--text3)}
-.xp-bar-container{margin-top:2px;background:var(--glass);border:1px solid var(--border);border-radius:7px;padding:2px 7px;display:flex;align-items:center;gap:4px}
-.xp-level{font-size:.4rem;font-weight:700;color:var(--accent);white-space:nowrap}
-.xp-bar{flex:1;height:3px;background:var(--surface2);border-radius:2px;overflow:hidden}
-.xp-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent,var(--primary)),var(--primary));transition:width 1s}
-.xp-val{font-size:.38rem;color:var(--text3);white-space:nowrap}
-.vol-wrap{display:flex;align-items:center;gap:3px;margin-top:2px;background:var(--glass);border:1px solid var(--border);border-radius:7px;padding:2px 7px}
-.vol-label{font-size:.4rem;color:var(--text3);white-space:nowrap}
-.vol-slider{-webkit-appearance:none;width:100%;height:3px;background:var(--surface2);border-radius:2px;outline:none;flex:1}
-.vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--primary);cursor:pointer;border:2px solid var(--bg)}
-.vol-val{font-size:.4rem;color:var(--accent,var(--primary));font-weight:700;min-width:26px;text-align:center;direction:ltr}
-.page{display:none;padding:6px 8px 20px;width:100%;animation:fi .3s ease}
+.mini-cal{display:flex;align-items:center;justify-content:space-between;margin-top:5px;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:6px 10px}
+.mc-date{font-size:.8rem;font-weight:600}
+.mc-clock{font-size:.8rem;font-weight:700;direction:ltr;font-variant-numeric:tabular-nums}
+.mc-greeting{font-size:.7rem;color:var(--text3)}
+.xp-bar-container{margin-top:4px;background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:4px 10px;display:flex;align-items:center;gap:6px}
+.xp-level{font-size:.65rem;font-weight:700;color:var(--accent,var(--primary));white-space:nowrap}
+.xp-bar{flex:1;height:5px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.xp-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent,var(--primary)),var(--primary));transition:width 1s}
+.xp-val{font-size:.65rem;color:var(--text3);white-space:nowrap}
+.vol-wrap{display:flex;align-items:center;gap:4px;margin-top:4px;background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:4px 10px}
+.vol-label{font-size:.7rem;color:var(--text3);white-space:nowrap}
+.vol-slider{-webkit-appearance:none;width:100%;height:5px;background:var(--surface2);border-radius:3px;outline:none;flex:1}
+.vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--primary);cursor:pointer;border:2px solid var(--bg)}
+.vol-val{font-size:.7rem;color:var(--accent,var(--primary));font-weight:700;min-width:35px;text-align:center;direction:ltr}
+
+.main-content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:8px 10px 70px}
+.page{display:none;width:100%;animation:fi .3s ease}
 .page.active{display:block}
 @keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.g-card{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:8px;margin-bottom:5px}
-.sec-title{font-size:.68rem;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:4px}
-.stats-quad{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-bottom:5px}
-.st-box{background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:6px 4px;text-align:center;position:relative}
-.st-label{font-size:.42rem;color:var(--text2);margin-bottom:1px}
-.st-val{font-size:.52rem;font-weight:800;direction:ltr;line-height:1.3}
+
+.g-card{background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px}
+.sec-title{font-size:.95rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.stats-quad{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:8px}
+.st-box{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:10px 6px;text-align:center;position:relative}
+.st-label{font-size:.7rem;color:var(--text2);margin-bottom:4px}
+.st-val{font-size:.85rem;font-weight:800;direction:ltr;line-height:1.3}
 .st-val.income{color:var(--success)}.st-val.expense{color:var(--danger)}.st-val.balance{color:var(--accent,var(--primary))}.st-val.health{color:var(--secondary)}
-.eye-btn{position:absolute;top:3px;left:3px;background:none;border:none;cursor:pointer;font-size:.5rem;opacity:.5}
-.quick-row{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:5px}
-.q-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px;background:var(--glass);border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--text)}
+.eye-btn{position:absolute;top:4px;left:4px;background:none;border:none;cursor:pointer;font-size:.8rem;opacity:.5}
+.quick-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.q-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;background:var(--glass);border:1px solid var(--border);border-radius:10px;cursor:pointer;color:var(--text)}
 .q-btn:active{transform:scale(.92)}
-.q-btn span{font-size:.42rem;color:var(--text2);font-weight:500}
-.tx-item{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--border)}
+.q-btn span{font-size:.7rem;color:var(--text2);font-weight:500}
+.q-btn .qe{font-size:1.4rem}
+.tx-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}
 .tx-item:last-child{border:none}
-.tx-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;background:var(--surface2)}
+.tx-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;background:var(--surface2)}
 .tx-info{flex:1;min-width:0}
-.tx-title{font-size:.6rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tx-cat{font-size:.43rem;color:var(--text3)}
-.tx-amount{font-size:.55rem;font-weight:700;white-space:nowrap}
+.tx-title{font-size:.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx-cat{font-size:.7rem;color:var(--text3)}
+.tx-amount{font-size:.8rem;font-weight:700;white-space:nowrap}
 .tx-amount.neg{color:var(--danger)}.tx-amount.pos{color:var(--success)}
-.tx-actions{display:flex;gap:2px;flex-shrink:0}
-.tx-act{width:22px;height:22px;border-radius:5px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.5rem}
+.tx-actions{display:flex;gap:4px;flex-shrink:0}
+.tx-act{width:28px;height:28px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.8rem}
 .tx-act:active{transform:scale(.82)}
 .tx-act.del{color:var(--danger)}
-.view-all{display:flex;justify-content:center;padding:4px 0}
-.view-all-btn{background:none;border:none;color:var(--primary);font-size:.55rem;font-weight:600;cursor:pointer}
-.date-header{font-size:.52rem;color:var(--text3);padding:6px 0 3px;font-weight:600}
-.page-header{display:flex;align-items:center;gap:7px;margin-bottom:8px}
-.back-btn{width:28px;height:28px;border-radius:7px;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:.75rem}
-.page-title{font-size:.75rem;font-weight:700}
-.search-box{display:flex;align-items:center;gap:5px;background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:6px 8px;margin-bottom:5px}
-.search-box input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:.62rem}
+.view-all{display:flex;justify-content:center;padding:6px 0}
+.view-all-btn{background:none;border:none;color:var(--primary);font-size:.8rem;font-weight:600;cursor:pointer}
+.date-header{font-size:.75rem;color:var(--text3);padding:8px 0 4px;font-weight:600}
+.page-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.back-btn{width:36px;height:36px;border-radius:9px;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:1.1rem}
+.page-title{font-size:1.1rem;font-weight:700}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin-bottom:8px}
+.search-box input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:.9rem}
 .search-box input::placeholder{color:var(--text3)}
-.filter-chips{display:flex;gap:3px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none}
-.filter-chips::-webkit-scrollbar{display:none}
-.chip{padding:3px 8px;border-radius:12px;background:var(--glass);border:1px solid var(--border);font-size:.5rem;font-weight:500;white-space:nowrap;cursor:pointer;color:var(--text2)}
+.chip{padding:6px 12px;border-radius:15px;background:var(--glass);border:1px solid var(--border);font-size:.8rem;font-weight:500;white-space:nowrap;cursor:pointer;color:var(--text2)}
 .chip.active{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:#000}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal-sheet{width:92%;max-width:400px;background:var(--modal-bg);border-radius:14px;padding:12px 10px 18px;transform:scale(.92);transition:transform .25s cubic-bezier(.175,.885,.32,1.275);border:1px solid var(--border);max-height:82vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.modal-sheet{width:92%;max-width:400px;background:var(--modal-bg);border-radius:16px;padding:16px 14px 20px;transform:scale(.92);transition:transform .25s cubic-bezier(.175,.885,.32,1.275);border:1px solid var(--border);max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .modal-overlay.open .modal-sheet{transform:scale(1)}
 .modal-sheet::-webkit-scrollbar{display:none}
-.modal-handle{width:30px;height:3px;background:var(--text3);border-radius:2px;margin:0 auto 8px}
-.modal-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.modal-title h3{font-size:.72rem;font-weight:700}
-.modal-close{background:none;border:none;color:var(--text3);font-size:.9rem;cursor:pointer}
-.modal-btn{width:100%;padding:8px;border:none;border-radius:8px;background:var(--glass);border:1px solid var(--border);color:var(--text);font-size:.62rem;font-weight:600;cursor:pointer;margin-top:8px}
-.type-toggle{display:flex;background:var(--glass);border-radius:8px;padding:2px;margin-bottom:8px;border:1px solid var(--border)}
-.type-btn{flex:1;padding:5px;border:none;border-radius:6px;background:transparent;color:var(--text2);font-size:.6rem;font-weight:600;cursor:pointer}
+.modal-handle{width:40px;height:4px;background:var(--text3);border-radius:3px;margin:0 auto 12px}
+.modal-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.modal-title h3{font-size:1.1rem;font-weight:700}
+.modal-close{background:none;border:none;color:var(--text3);font-size:1.3rem;cursor:pointer}
+.modal-btn{width:100%;padding:12px;border:none;border-radius:10px;background:var(--glass);border:1px solid var(--border);color:var(--text);font-size:.9rem;font-weight:600;cursor:pointer;margin-top:12px}
+.type-toggle{display:flex;background:var(--glass);border-radius:10px;padding:4px;margin-bottom:12px;border:1px solid var(--border)}
+.type-btn{flex:1;padding:8px;border:none;border-radius:8px;background:transparent;color:var(--text2);font-size:.9rem;font-weight:600;cursor:pointer}
 .type-btn.active{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#000}
-.amount-field{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:8px;text-align:center;margin-bottom:8px}
-.amount-field input{background:none;border:none;outline:none;font-size:1.2rem;font-weight:800;width:100%;text-align:center;direction:ltr;color:var(--text)}
-.amount-field input::placeholder{font-size:.85rem;color:var(--text3)}
-.amount-field .currency{font-size:.55rem;color:var(--text3);margin-top:1px}
-.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:8px}
-.cat-btn{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 2px;border-radius:7px;background:var(--glass);border:2px solid transparent;cursor:pointer;color:var(--text2);font-size:.4rem}
+.amount-field{background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;margin-bottom:12px}
+.amount-field input{background:none;border:none;outline:none;font-size:1.8rem;font-weight:800;width:100%;text-align:center;direction:ltr;color:var(--text)}
+.amount-field input::placeholder{font-size:1.2rem;color:var(--text3)}
+.amount-field .currency{font-size:.8rem;color:var(--text3);margin-top:4px}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.cat-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:9px;background:var(--glass);border:2px solid transparent;cursor:pointer;color:var(--text2);font-size:.7rem}
 .cat-btn.selected{border-color:var(--primary);background:var(--primary-glow);color:var(--text)}
-.cat-btn .ce{font-size:.9rem}
-.desc-field{background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:7px 8px;margin-bottom:8px;width:100%;font-size:.62rem;outline:none;color:var(--text)}
+.cat-btn .ce{font-size:1.4rem}
+.desc-field{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:12px;width:100%;font-size:.9rem;outline:none;color:var(--text)}
 .desc-field:focus{border-color:var(--primary)}
 .desc-field::placeholder{color:var(--text3)}
-.save-btn{width:100%;padding:9px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#000;font-size:.68rem;font-weight:700;cursor:pointer}
-.acc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:8px}
-.acc-opt{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 2px;border-radius:7px;background:var(--glass);border:2px solid transparent;cursor:pointer;font-size:.4rem;color:var(--text2)}
+.save-btn{width:100%;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#000;font-size:1rem;font-weight:700;cursor:pointer}
+.acc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:12px}
+.acc-opt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:9px;background:var(--glass);border:2px solid transparent;cursor:pointer;font-size:.7rem;color:var(--text2)}
 .acc-opt.selected{border-color:var(--primary);background:var(--primary-glow);color:var(--text)}
-.acc-opt .ae{font-size:.8rem}
-.acc-opt .an{font-size:.38rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.acc-card,.debt-card,.inst-card,.wallet-card,.goal-card{background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:8px;margin-bottom:4px}
-.acc-card-name{font-size:.62rem;font-weight:700;display:flex;align-items:center;gap:4px}
-.acc-card-detail{font-size:.43rem;color:var(--text3);direction:ltr;text-align:right}
-.acc-card-bal{font-size:.65rem;font-weight:800;color:var(--accent,var(--primary));margin:3px 0}
-.acc-card-actions,.debt-actions,.inst-actions,.wallet-actions{display:flex;gap:3px;margin-top:5px}
-.acc-card-actions button,.debt-actions button,.inst-actions button,.wallet-actions button{flex:1;padding:4px;border:none;border-radius:5px;background:var(--glass);border:1px solid var(--border);color:var(--text2);font-size:.45rem;font-weight:600;cursor:pointer}
-.acc-default-badge{display:inline-block;padding:1px 5px;border-radius:5px;font-size:.38rem;font-weight:600;background:rgba(52,211,153,.15);color:var(--success)}
-.tab-bar{display:flex;background:var(--glass);border-radius:8px;padding:2px;margin-bottom:8px;border:1px solid var(--border)}
-.tab-btn{flex:1;padding:5px;border:none;border-radius:6px;background:transparent;color:var(--text2);font-size:.54rem;font-weight:600;cursor:pointer}
+.acc-opt .ae{font-size:1.2rem}
+.acc-opt .an{font-size:.65rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.acc-card,.debt-card,.inst-card,.wallet-card,.goal-card{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px}
+.acc-card-name{font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:6px}
+.acc-card-detail{font-size:.7rem;color:var(--text3);direction:ltr;text-align:right}
+.acc-card-bal{font-size:.95rem;font-weight:800;color:var(--accent,var(--primary));margin:4px 0}
+.acc-card-actions,.debt-actions,.inst-actions,.wallet-actions,.goal-actions{display:flex;gap:4px;margin-top:8px}
+.acc-card-actions button,.debt-actions button,.inst-actions button,.wallet-actions button,.goal-actions button{flex:1;padding:6px;border:none;border-radius:6px;background:var(--glass);border:1px solid var(--border);color:var(--text2);font-size:.75rem;font-weight:600;cursor:pointer}
+.acc-default-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.65rem;font-weight:600;background:rgba(52,211,153,.15);color:var(--success)}
+.tab-bar{display:flex;background:var(--glass);border-radius:10px;padding:4px;margin-bottom:12px;border:1px solid var(--border)}
+.tab-btn{flex:1;padding:8px;border:none;border-radius:8px;background:transparent;color:var(--text2);font-size:.85rem;font-weight:600;cursor:pointer}
 .tab-btn.active{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#000}
-.type-tabs{display:flex;gap:2px;margin-bottom:6px;background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:2px}
-.type-tab{flex:1;padding:5px;border:none;border-radius:6px;background:transparent;color:var(--text2);font-size:.55rem;font-weight:600;cursor:pointer;text-align:center}
+.type-tabs{display:flex;gap:4px;margin-bottom:10px;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:4px}
+.type-tab{flex:1;padding:8px;border:none;border-radius:8px;background:transparent;color:var(--text2);font-size:.85rem;font-weight:600;cursor:pointer;text-align:center}
 .type-tab.active-all{background:linear-gradient(135deg,var(--accent,var(--primary)),var(--secondary));color:#000}
 .type-tab.active-inc{background:linear-gradient(135deg,var(--success),#34D399);color:#fff}
 .type-tab.active-exp{background:linear-gradient(135deg,var(--danger),#F87171);color:#fff}
-.tx-summary-bar{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:6px}
-.tx-sum-box{background:var(--glass);border:1px solid var(--border);border-radius:6px;padding:5px 6px;text-align:center}
-.tx-sum-label{font-size:.4rem;color:var(--text3);margin-bottom:1px}
-.tx-sum-val{font-size:.55rem;font-weight:800}
-.chat-container{display:flex;flex-direction:column;height:calc(100vh - 120px)}
-.chat-messages{flex:1;overflow-y:auto;padding-bottom:5px;-webkit-overflow-scrolling:touch}
+.tx-summary-bar{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.tx-sum-box{background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center}
+.tx-sum-label{font-size:.7rem;color:var(--text3);margin-bottom:4px}
+.tx-sum-val{font-size:.85rem;font-weight:800}
+.chat-container{display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.chat-messages{flex:1;overflow-y:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
 .chat-messages::-webkit-scrollbar{display:none}
-.msg{max-width:78%;margin-bottom:5px;padding:7px 10px;border-radius:10px;font-size:.6rem;line-height:1.8}
+.msg{max-width:78%;margin-bottom:8px;padding:10px 14px;border-radius:12px;font-size:.9rem;line-height:1.6}
 .msg.user{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#000;margin-left:auto;border-bottom-left-radius:2px}
 .msg.ai{background:var(--glass);border:1px solid var(--border);margin-right:auto;border-bottom-right-radius:2px}
-.suggestions{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:5px}
-.sug-btn{padding:3px 7px;border-radius:10px;background:var(--glass);border:1px solid var(--border);font-size:.48rem;cursor:pointer;color:var(--text2)}
-.chat-input-area{display:flex;gap:4px;padding-top:5px;border-top:1px solid var(--border)}
-.chat-input-area input{flex:1;background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:7px 8px;color:var(--text);font-size:.62rem;outline:none}
+.suggestions{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.sug-btn{padding:6px 12px;border-radius:12px;background:var(--glass);border:1px solid var(--border);font-size:.8rem;cursor:pointer;color:var(--text2)}
+.chat-input-area{display:flex;gap:6px;padding-top:8px;border-top:1px solid var(--border)}
+.chat-input-area input{flex:1;background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:10px 12px;color:var(--text);font-size:.9rem;outline:none}
 .chat-input-area input:focus{border-color:var(--primary)}
-.send-btn{width:34px;height:34px;border-radius:8px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--primary2));display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#000}
-.budget-total-bar{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;margin:3px 0}
-.budget-total-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--success),var(--primary));transition:width 1.2s}
-.budget-row{display:flex;align-items:center;gap:5px;padding:4px 0}
-.budget-cat-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem}
+.send-btn{width:44px;height:44px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--primary2));display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#000}
+.budget-total-bar{height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;margin:6px 0}
+.budget-total-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--success),var(--primary));transition:width 1.2s}
+.budget-row{display:flex;align-items:center;gap:8px;padding:6px 0}
+.budget-cat-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
 .budget-info{flex:1}
-.budget-name{font-size:.52rem;font-weight:600;margin-bottom:1px;display:flex;justify-content:space-between}
-.budget-bar{height:3px;background:var(--surface2);border-radius:2px;overflow:hidden}
-.budget-fill{height:100%;border-radius:2px;transition:width 1s}
-.budget-pct{font-size:.42rem;color:var(--text2);margin-top:1px}
-.goal-card{background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:7px;margin-bottom:4px}
-.goal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
-.goal-title{font-size:.6rem;font-weight:600}
-.goal-amounts{font-size:.45rem;color:var(--text2)}
-.goal-bar{height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;margin:2px 0}
-.goal-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent,var(--primary)),var(--secondary))}
-.goal-remain{font-size:.42rem;color:var(--text3)}
-.goal-add-btn{margin-top:3px;padding:3px 8px;border-radius:5px;background:var(--glass);border:1px solid var(--border);color:var(--primary);font-size:.48rem;font-weight:600;cursor:pointer}
-.profile-header{text-align:center;padding:8px 0 10px}
-.avatar-wrap{width:48px;height:48px;border-radius:14px;margin:0 auto 5px;cursor:pointer}
-.avatar{width:100%;height:100%;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;color:#000}
-.profile-name{font-size:.75rem;font-weight:700;cursor:pointer}
-.profile-join{font-size:.48rem;color:var(--text3);margin-top:1px}
-.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px}
-.p-stat{text-align:center;padding:6px;background:var(--glass);border:1px solid var(--border);border-radius:8px}
-.p-stat-num{font-size:.72rem;font-weight:800;color:var(--primary)}
-.p-stat-label{font-size:.4rem;color:var(--text3)}
-.settings-item{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.budget-name{font-size:.85rem;font-weight:600;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.budget-bar{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.budget-fill{height:100%;border-radius:3px;transition:width 1s}
+.budget-pct{font-size:.7rem;color:var(--text2);margin-top:4px}
+.goal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.goal-title{font-size:.9rem;font-weight:600}
+.goal-amounts{font-size:.75rem;color:var(--text2)}
+.goal-bar{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;margin:4px 0}
+.goal-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent,var(--primary)),var(--secondary))}
+.goal-remain{font-size:.7rem;color:var(--text3)}
+.profile-header{text-align:center;padding:12px 0 16px}
+.avatar-wrap{width:64px;height:64px;border-radius:18px;margin:0 auto 8px;cursor:pointer}
+.avatar{width:100%;height:100%;border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;color:#000}
+.profile-name{font-size:1.1rem;font-weight:700;cursor:pointer}
+.profile-join{font-size:.75rem;color:var(--text3);margin-top:4px}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.p-stat{text-align:center;padding:10px;background:var(--glass);border:1px solid var(--border);border-radius:10px}
+.p-stat-num{font-size:1.1rem;font-weight:800;color:var(--primary)}
+.p-stat-label{font-size:.7rem;color:var(--text3)}
+.settings-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer}
 .settings-item:last-child{border:none}
 .settings-item:active{opacity:.5}
-.s-icon{width:26px;height:26px;border-radius:6px;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.7rem}
-.s-label{flex:1;font-size:.58rem;font-weight:500}
-.s-value{font-size:.5rem;color:var(--text3)}
-.s-arrow{color:var(--text3);font-size:.6rem;transform:scaleX(-1)}
-.debt-title,.inst-title{font-size:.62rem;font-weight:700;margin-bottom:2px;display:flex;justify-content:space-between;align-items:center}
-.debt-status{display:inline-block;padding:1px 5px;border-radius:5px;font-size:.4rem;font-weight:600}
+.s-icon{width:36px;height:36px;border-radius:8px;background:var(--glass);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.s-label{flex:1;font-size:.9rem;font-weight:500}
+.s-value{font-size:.8rem;color:var(--text3)}
+.s-arrow{color:var(--text3);font-size:1rem;transform:scaleX(-1)}
+.debt-title,.inst-title{font-size:.9rem;font-weight:700;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.debt-status{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.7rem;font-weight:600}
 .debt-status.open{background:rgba(248,113,113,.15);color:var(--danger)}
 .debt-status.paid{background:rgba(52,211,153,.15);color:var(--success)}
-.debt-amount{font-size:.65rem;font-weight:800;margin:2px 0}
-.debt-meta{font-size:.42rem;color:var(--text3)}
-.inst-meta{font-size:.43rem;color:var(--text2);margin-bottom:3px;display:flex;justify-content:space-between}
-.inst-progress{display:flex;align-items:center;gap:5px}
-.inst-bar{flex:1;height:3px;background:var(--surface2);border-radius:2px;overflow:hidden}
-.inst-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--success),var(--accent,var(--primary)))}
-.inst-pct{font-size:.45rem;font-weight:700;color:var(--accent,var(--primary))}
-.total-badge{display:inline-block;padding:3px 10px;border-radius:8px;font-size:.6rem;font-weight:800;margin-bottom:8px}
+.debt-amount{font-size:.95rem;font-weight:800;margin:4px 0}
+.debt-meta{font-size:.7rem;color:var(--text3)}
+.inst-meta{font-size:.75rem;color:var(--text2);margin-bottom:6px;display:flex;justify-content:space-between}
+.inst-progress{display:flex;align-items:center;gap:8px}
+.inst-bar{flex:1;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.inst-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--success),var(--accent,var(--primary)))}
+.inst-pct{font-size:.75rem;font-weight:700;color:var(--accent,var(--primary))}
+.total-badge{display:inline-block;padding:6px 14px;border-radius:10px;font-size:.9rem;font-weight:800;margin-bottom:12px}
 .total-badge.danger{background:rgba(248,113,113,.15);color:var(--danger);border:1px solid rgba(248,113,113,.3)}
 .total-badge.safe{background:rgba(52,211,153,.15);color:var(--success);border:1px solid rgba(52,211,153,.3)}
-.recurring-card{background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:7px;margin-bottom:4px;display:flex;align-items:center;gap:7px}
+.recurring-card{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
 .recurring-info{flex:1}
-.recurring-name{font-size:.58rem;font-weight:600}
-.recurring-meta{font-size:.42rem;color:var(--text3)}
-.recurring-amount{font-size:.6rem;font-weight:800}
-.reminder-item{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid var(--border)}
-.reminder-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+.recurring-name{font-size:.85rem;font-weight:600}
+.recurring-meta{font-size:.7rem;color:var(--text3)}
+.recurring-amount{font-size:.9rem;font-weight:800}
+.reminder-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.reminder-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
 .reminder-info{flex:1}
-.reminder-title{font-size:.58rem;font-weight:600}
-.reminder-date{font-size:.42rem;color:var(--text3)}
-.reminder-days{font-size:.5rem;font-weight:700;padding:2px 5px;border-radius:5px}
+.reminder-title{font-size:.85rem;font-weight:600}
+.reminder-date{font-size:.7rem;color:var(--text3)}
+.reminder-days{font-size:.75rem;font-weight:700;padding:4px 8px;border-radius:6px}
 .reminder-days.urgent{background:rgba(248,113,113,.15);color:var(--danger)}
 .reminder-days.soon{background:rgba(251,191,36,.15);color:var(--warning)}
 .reminder-days.ok{background:rgba(52,211,153,.15);color:var(--success)}
-.report-bar{display:flex;align-items:flex-end;gap:5px;height:70px;padding:5px 0}
-.rbar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
-.rbar{width:100%;border-radius:3px 3px 0 0;background:linear-gradient(180deg,var(--primary),var(--primary2));min-height:3px}
-.rbar-label{font-size:.4rem;color:var(--text3)}
-.rbar-val{font-size:.38rem;font-weight:600}
-.compare-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border)}
+.report-bar{display:flex;align-items:flex-end;gap:8px;height:100px;padding:8px 0}
+.rbar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.rbar{width:100%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--primary),var(--primary2));min-height:4px}
+.rbar-label{font-size:.7rem;color:var(--text3)}
+.rbar-val{font-size:.65rem;font-weight:600}
+.compare-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
 .compare-row:last-child{border:none}
-.compare-label{font-size:.55rem;color:var(--text2)}
-.compare-val{font-size:.55rem;font-weight:700}
+.compare-label{font-size:.85rem;color:var(--text2)}
+.compare-val{font-size:.85rem;font-weight:700}
 .compare-val.down{color:var(--success)}.compare-val.up{color:var(--danger)}
-.achievement{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid var(--border)}
+.achievement{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
 .achievement:last-child{border:none}
-.ach-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.85rem;background:var(--glass);border:1px solid var(--border)}
+.ach-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;background:var(--glass);border:1px solid var(--border)}
 .ach-icon.earned{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(56,189,248,.15));border-color:var(--accent,var(--primary))}
 .ach-info{flex:1}
-.ach-title{font-size:.58rem;font-weight:600}
-.ach-desc{font-size:.42rem;color:var(--text3)}
-.cc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:6px}
-.cc-item{display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 2px;border-radius:6px;background:var(--glass);border:1px solid var(--border);font-size:.38rem;color:var(--text2);position:relative;cursor:pointer}
-.cc-item .ce{font-size:.85rem}
-.cc-del{position:absolute;top:1px;right:1px;width:11px;height:11px;border-radius:50%;background:var(--danger);color:#fff;font-size:.3rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.add-row{display:flex;gap:4px;margin-bottom:6px}
-.add-row input{flex:1;background:var(--glass);border:1px solid var(--border);border-radius:7px;padding:5px 7px;font-size:.54rem;outline:none;color:var(--text)}
+.ach-title{font-size:.85rem;font-weight:600}
+.cc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:10px}
+.cc-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:8px;background:var(--glass);border:1px solid var(--border);font-size:.65rem;color:var(--text2);position:relative}
+.cc-item .ce{font-size:1.3rem}
+.cc-del{position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--danger);color:#fff;font-size:.5rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.add-row{display:flex;gap:6px;margin-bottom:10px}
+.add-row input{flex:1;background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:.85rem;outline:none;color:var(--text)}
 .add-row input:focus{border-color:var(--primary)}
-.add-row-btn{padding:5px 10px;border:none;border-radius:7px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#000;font-size:.54rem;font-weight:600;cursor:pointer}
-.backup-btn{display:flex;align-items:center;gap:7px;padding:8px;background:var(--glass);border:1px solid var(--border);border-radius:8px;cursor:pointer;margin-bottom:5px;color:var(--text)}
+.add-row-btn{padding:8px 16px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#000;font-size:.85rem;font-weight:600;cursor:pointer}
+.backup-btn{display:flex;align-items:center;gap:10px;padding:12px;background:var(--glass);border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:8px;color:var(--text)}
 .backup-btn:active{transform:scale(.97)}
-.backup-btn .bi{font-size:1rem}
-.backup-btn .bt{flex:1;font-size:.58rem;font-weight:600}
-.backup-btn .bd{font-size:.42rem;color:var(--text3)}
-.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:6px}
-.calc-btn{padding:8px;border:none;border-radius:6px;background:var(--glass);border:1px solid var(--border);font-size:.7rem;font-weight:700;cursor:pointer;color:var(--text)}
+.backup-btn .bi{font-size:1.4rem}
+.backup-btn .bt{flex:1;font-size:.9rem;font-weight:600}
+.backup-btn .bd{font-size:.7rem;color:var(--text3)}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:10px}
+.calc-btn{padding:12px;border:none;border-radius:8px;background:var(--glass);border:1px solid var(--border);font-size:1.1rem;font-weight:700;cursor:pointer;color:var(--text)}
 .calc-btn:active{transform:scale(.92)}
-.calc-btn.op{color:var(--primary);font-size:.8rem}
+.calc-btn.op{color:var(--primary);font-size:1.2rem}
 .calc-btn.eq{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#000}
-.calc-display{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:8px;text-align:left;margin-bottom:8px;direction:ltr;min-height:44px}
-.calc-expr{font-size:.5rem;color:var(--text3);margin-bottom:2px}
-.calc-result{font-size:1.1rem;font-weight:800}
-.font-opt{padding:8px;margin-bottom:5px;border-radius:8px;background:var(--glass);border:2px solid var(--border);cursor:pointer}
-.font-opt.selected{border-color:var(--primary);background:var(--primary-glow)}
-.font-name{font-size:.68rem;font-weight:700}
-.font-sample{font-size:.58rem;color:var(--text2);margin-top:1px}
-.confirm-box{text-align:center;padding:10px 0}
-.confirm-box p{font-size:.68rem;margin-bottom:10px;line-height:1.8}
-.confirm-actions{display:flex;gap:5px;justify-content:center}
-.confirm-actions button{flex:1;padding:8px;border:none;border-radius:8px;font-size:.62rem;font-weight:600;cursor:pointer}
+.calc-display{background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:left;margin-bottom:12px;direction:ltr;min-height:60px}
+.calc-expr{font-size:.8rem;color:var(--text3);margin-bottom:4px}
+.calc-result{font-size:1.6rem;font-weight:800}
+.confirm-box{text-align:center;padding:16px 0}
+.confirm-box p{font-size:1rem;margin-bottom:16px;line-height:1.6}
+.confirm-actions{display:flex;gap:8px;justify-content:center}
+.confirm-actions button{flex:1;padding:12px;border:none;border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer}
 .btn-cancel{background:var(--glass);border:1px solid var(--border);color:var(--text)}
 .btn-delete{background:linear-gradient(135deg,var(--danger),#F87171);color:#fff}
-.avatar-grid{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;padding:7px 0}
-.avatar-opt{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;border:2px solid transparent;background:var(--glass)}
+.avatar-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:12px 0}
+.avatar-opt{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;cursor:pointer;border:2px solid transparent;background:var(--glass)}
 .avatar-opt.selected{border-color:var(--primary);background:var(--primary-glow)}
-.pin-input{display:flex;gap:5px;justify-content:center;margin:10px 0}
-.pin-box{width:38px;height:44px;border-radius:8px;background:var(--glass);border:2px solid var(--border);text-align:center;font-size:1.1rem;font-weight:700;outline:none;color:var(--text)}
+.pin-input{display:flex;gap:8px;justify-content:center;margin:16px 0}
+.pin-box{width:48px;height:56px;border-radius:10px;background:var(--glass);border:2px solid var(--border);text-align:center;font-size:1.6rem;font-weight:700;outline:none;color:var(--text)}
 .pin-box:focus{border-color:var(--primary)}
-.toast{position:fixed;top:10px;left:50%;transform:translateX(-50%) translateY(-50px);padding:7px 14px;border-radius:8px;font-size:.58rem;font-weight:600;z-index:999;transition:transform .3s}
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);padding:10px 20px;border-radius:10px;font-size:.9rem;font-weight:600;z-index:999;transition:transform .3s}
 .toast.success{background:rgba(52,211,153,.95);color:#fff}.toast.error{background:rgba(248,113,113,.95);color:#fff}
 .toast.show{transform:translateX(-50%) translateY(0)}
-.device-id-box{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center;margin:8px 0}
-.device-id{font-size:.82rem;font-weight:800;letter-spacing:2px;color:var(--accent,var(--primary));margin:6px 0;direction:ltr}
-.license-status{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.5rem;font-weight:600}
+.device-id-box{background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;margin:12px 0}
+.device-id{font-size:1.2rem;font-weight:800;letter-spacing:3px;color:var(--accent,var(--primary));margin:8px 0;direction:ltr}
+.license-status{display:inline-block;padding:4px 12px;border-radius:8px;font-size:.8rem;font-weight:600}
 .license-status.free{background:rgba(251,191,36,.15);color:var(--warning)}
 .license-status.pro{background:rgba(52,211,153,.15);color:var(--success)}
-.share-btn{display:flex;align-items:center;justify-content:center;gap:4px;padding:5px 12px;border:none;border-radius:7px;background:var(--glass);border:1px solid var(--border);color:var(--text2);font-size:.52rem;font-weight:600;cursor:pointer;margin-top:5px}
-#bottom-nav{display:flex;align-items:center;justify-content:space-around;height:46px;padding:0 3px;background:var(--nav-bg);border-top:1px solid var(--border);position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;z-index:999}
-.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;flex:1;height:100%;cursor:pointer;border:none;background:transparent;color:var(--text3);font-size:.42rem;font-weight:500}
+.share-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border:none;border-radius:8px;background:var(--glass);border:1px solid var(--border);color:var(--text2);font-size:.8rem;font-weight:600;cursor:pointer;margin-top:8px}
+#bottom-nav{display:flex;align-items:center;justify-content:space-around;height:60px;padding:0 6px;background:var(--nav-bg);border-top:1px solid var(--border);position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;z-index:999}
+.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex:1;height:100%;cursor:pointer;border:none;background:transparent;color:var(--text3);font-size:.7rem;font-weight:500}
 .nav-item.active{color:var(--primary)}
 .nav-item:active{transform:scale(.82)}
-.nav-center{flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--primary2));display:flex;align-items:center;justify-content:center;margin-top:-12px;box-shadow:0 3px 10px var(--primary-glow);z-index:2;font-size:.9rem;color:#000}
+.nav-item .ne{font-size:1.3rem}
+.nav-center{flex:0 0 auto;width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--primary2));display:flex;align-items:center;justify-content:center;margin-top:-16px;box-shadow:0 4px 12px var(--primary-glow);z-index:2;font-size:1.4rem;color:#000}
 .nav-center:active{transform:scale(.85) translateY(2px)}
 #loadingOverlay{position:fixed;inset:0;z-index:2000;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .4s}
 #loadingOverlay.hide{opacity:0;pointer-events:none}
-.loading-spinner{width:30px;height:30px;border:3px solid var(--surface2);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+.loading-spinner{width:40px;height:40px;border:4px solid var(--surface2);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 input,textarea,select,.desc-field,.amount-field input,.search-box input,.chat-input-area input,.add-row input,.pin-box,.lock-pin{-webkit-text-fill-color:var(--text)!important;caret-color:var(--primary)!important;color:var(--text)!important}
 input::placeholder,textarea::placeholder{-webkit-text-fill-color:var(--text3)!important;opacity:1!important}
 [data-theme="light"] input,[data-theme="light"] textarea{-webkit-text-fill-color:#0F172A!important;caret-color:#D97706!important;color:#0F172A!important}
-.insight-row{display:flex;align-items:center;gap:6px;font-size:.52rem;color:var(--text2);padding:4px 0}
-.insight-row+.insight-row{border-top:1px solid var(--border)}
-.chart-wrap{display:flex;align-items:center;gap:8px}
-.donut{width:80px;height:80px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface2)}
-.donut::after{content:'';position:absolute;inset:16px;background:var(--bg);border-radius:50%;transition:background .3s}
-.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;font-weight:700;font-size:.45rem}
-.chart-legend{flex:1;display:flex;flex-direction:column;gap:2px}
-.legend-item{display:flex;align-items:center;gap:3px;font-size:.47rem}
-.legend-dot{width:5px;height:5px;border-radius:2px;flex-shrink:0}
+.insight-row{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text2);padding:6px 0}
+.chart-wrap{display:flex;align-items:center;gap:12px}
+.donut{width:100px;height:100px;border-radius:50%;position:relative;flex-shrink:0;background:var(--surface2)}
+.donut::after{content:'';position:absolute;inset:20px;background:var(--bg);border-radius:50%;transition:background .3s}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;font-weight:700;font-size:.7rem}
+.chart-legend{flex:1;display:flex;flex-direction:column;gap:4px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:.75rem}
+.legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
 .legend-item span:last-child{color:var(--text2);margin-right:auto}
-.zbb-row{display:flex;align-items:center;gap:5px;padding:5px 0;border-bottom:1px solid var(--border)}
-.zbb-input{width:90px;background:var(--glass);border:1px solid var(--border);border-radius:5px;padding:4px 5px;font-size:.55rem;text-align:center;direction:ltr;outline:none;font-weight:600;color:var(--text)}
+.zbb-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}
+.zbb-input{width:100px;background:var(--glass);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:.8rem;text-align:center;direction:ltr;outline:none;font-weight:600;color:var(--text)}
 .zbb-input:focus{border-color:var(--primary)}
-.zbb-status{width:8px;height:8px;border-radius:50%;background:var(--surface2);flex-shrink:0}
+.zbb-status{width:10px;height:10px;border-radius:50%;background:var(--surface2);flex-shrink:0}
 .zbb-status.ok{background:var(--success)}
-.zbb-summary{display:flex;justify-content:space-between;padding:7px;border-radius:8px;margin-top:5px;font-size:.55rem;font-weight:700}
+.zbb-summary{display:flex;justify-content:space-between;padding:10px;border-radius:10px;margin-top:8px;font-size:.85rem;font-weight:700}
 .zbb-summary.complete{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);color:var(--success)}
 .zbb-summary.incomplete{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:var(--danger)}
-.inv-card{background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:8px;margin-bottom:4px}
-.inv-dashboard{background:linear-gradient(135deg,rgba(251,191,36,.06),rgba(56,189,248,.06));border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:5px}
-.inv-total{font-size:.82rem;font-weight:800;text-align:center;margin-bottom:2px}
-.inv-pl{font-size:.65rem;font-weight:700;text-align:center;margin-bottom:6px}
+.zbb-spent{font-size:.7rem;color:var(--danger);direction:ltr;min-width:60px;text-align:left}
+.inv-card{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px}
+.inv-dashboard{background:linear-gradient(135deg,rgba(251,191,36,.06),rgba(56,189,248,.06));border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px}
+.inv-total{font-size:1.2rem;font-weight:800;text-align:center;margin-bottom:4px}
+.inv-pl{font-size:.9rem;font-weight:700;text-align:center;margin-bottom:8px}
 .inv-pl.pos{color:var(--success)}.inv-pl.neg{color:var(--danger)}
-.inv-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.inv-stat{background:var(--glass);border:1px solid var(--border);border-radius:6px;padding:5px;text-align:center}
-.inv-stat-label{font-size:.4rem;color:var(--text3)}
-.inv-stat-val{font-size:.6rem;font-weight:700}
-.inv-card-name{font-size:.62rem;font-weight:700;margin-bottom:2px}
-.inv-card-row{display:flex;justify-content:space-between;font-size:.5rem;margin:2px 0}
+.inv-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.inv-stat{background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center}
+.inv-stat-label{font-size:.7rem;color:var(--text3)}
+.inv-stat-val{font-size:.9rem;font-weight:700}
+.inv-card-name{font-size:.9rem;font-weight:700;margin-bottom:4px}
+.inv-card-row{display:flex;justify-content:space-between;font-size:.8rem;margin:4px 0}
 .inv-card-row span:first-child{color:var(--text3)}
-.inv-card-pl{font-size:.6rem;font-weight:800;margin:3px 0}
+.inv-card-pl{font-size:.9rem;font-weight:800;margin:4px 0}
 .inv-card-pl.pos{color:var(--success)}.inv-card-pl.neg{color:var(--danger)}
-.inv-card-actions,.inv-card-actions{display:flex;gap:3px;margin-top:5px}
-.inv-card-actions button{flex:1;padding:4px;border:none;border-radius:5px;background:var(--glass);border:1px solid var(--border);color:var(--text2);font-size:.45rem;font-weight:600;cursor:pointer}
-.inv-type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:8px}
-.inv-type-btn{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 2px;border-radius:7px;background:var(--glass);border:2px solid transparent;cursor:pointer;font-size:.38rem;color:var(--text2)}
+.inv-card-actions{display:flex;gap:4px;margin-top:8px}
+.inv-card-actions button{flex:1;padding:6px;border:none;border-radius:6px;background:var(--glass);border:1px solid var(--border);color:var(--text2);font-size:.75rem;font-weight:600;cursor:pointer}
+.inv-type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:12px}
+.inv-type-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:9px;background:var(--glass);border:2px solid transparent;cursor:pointer;font-size:.65rem;color:var(--text2)}
 .inv-type-btn.selected{border-color:var(--accent,var(--primary));background:var(--primary-glow);color:var(--text)}
-.inv-type-btn .ie{font-size:.9rem}
-.notif-item{display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid var(--border)}
-.notif-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.inv-type-btn .ie{font-size:1.4rem}
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.notif-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:6px}
 .notif-dot.red{background:var(--danger)}.notif-dot.yellow{background:var(--warning)}.notif-dot.green{background:var(--success)}
-.notif-text{font-size:.55rem;line-height:1.7}
-.wallet-card{background:var(--glass);border:1px solid var(--border);border-radius:8px;padding:8px;margin-bottom:4px}
-.wallet-title{font-size:.62rem;font-weight:700;margin-bottom:2px}
-.wallet-members{font-size:.43rem;color:var(--text3);margin-bottom:3px}
-.wallet-budget{font-size:.48rem;color:var(--text2);display:flex;justify-content:space-between}
-.wallet-bar{height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;margin:2px 0 3px}
-.wallet-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent,var(--primary)),var(--primary))}
-.notif-badge{display:none;position:absolute;top:-2px;right:-2px;min-width:11px;height:11px;border-radius:6px;background:var(--danger);color:#fff;font-size:.3rem;font-weight:700;align-items:center;justify-content:center;padding:0 2px}
+.notif-text{font-size:.85rem;line-height:1.6}
+.wallet-card{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:6px}
+.wallet-title{font-size:.9rem;font-weight:700;margin-bottom:4px}
+.wallet-members{font-size:.7rem;color:var(--text3);margin-bottom:6px}
+.wallet-budget{font-size:.8rem;color:var(--text2);display:flex;justify-content:space-between}
+.notif-badge{display:none;position:absolute;top:-2px;right:-2px;min-width:14px;height:14px;border-radius:7px;background:var(--danger);color:#fff;font-size:.5rem;font-weight:700;align-items:center;justify-content:center;padding:0 4px}
 </style>
 </head>
 <body>
 <div id="loadingOverlay"><div class="loading-spinner"></div></div>
-<div id="lockScreen" class="hidden">
-<div class="lock-logo">💰</div>
-<div class="lock-title">پولام</div>
-<div class="lock-sub">رمز عبور</div>
-<div class="lock-pins">
-<input class="lock-pin" type="tel" maxlength="1" inputmode="numeric" id="lp0" oninput="lpNext(this,1)">
-<input class="lock-pin" type="tel" maxlength="1" inputmode="numeric" id="lp1" oninput="lpNext(this,2)">
-<input class="lock-pin" type="tel" maxlength="1" inputmode="numeric" id="lp2" oninput="lpNext(this,3)">
-<input class="lock-pin" type="tel" maxlength="1" inputmode="numeric" id="lp3" oninput="lpCheck()">
-</div>
-<div class="lock-error" id="lockError"></div>
-<button class="lock-forgot" onclick="showRecover()">فراموشی رمز</button>
-<div id="recoverSection"><p id="recoverQ"></p><input class="desc-field" type="text" id="recoverA" placeholder="پاسخ..." style="max-width:240px;margin:0 auto 6px"><button class="save-btn" style="max-width:240px;margin:0 auto" onclick="doRecover()">بازیابی</button></div>
-</div>
+
 <div id="app" style="display:none">
 <div id="header">
 <div class="header-top"><div class="logo-area"><div class="logo-icon">💰</div><div><div class="logo-name">پولام</div><div class="logo-tag">دستیار مالی</div></div></div><div class="header-controls"><button class="h-ctrl" onclick="openNotif()" style="position:relative">🔔<span class="notif-badge" id="notifBadge">0</span></button><button class="h-ctrl" onclick="changeScale(1)">+</button><button class="h-ctrl" onclick="changeScale(-1)">−</button><button class="h-ctrl" onclick="toggleTheme()" id="themeIcon">☀️</button></div></div>
 <div class="mini-cal"><span class="mc-greeting" id="greeting"></span><span class="mc-date" id="jalaliDate"></span><span class="mc-clock" id="clock"></span></div>
-<div class="xp-bar-container"><span class="xp-level" id="xpLevel">🌱 ۱</span><div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:0%"></div></div><span class="xp-val" id="xpVal">0 XP</span></div>
+<div class="xp-bar-container"><span class="xp-level" id="xpLevel">🌱 سطح ۱</span><div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:0%"></div></div><span class="xp-val" id="xpVal">0 XP</span></div>
 <div class="vol-wrap"><span class="vol-label">🔊</span><input type="range" class="vol-slider" id="volSlider" min="0" max="200" value="100" oninput="setVolume(this.value)"><span class="vol-val" id="volVal">100%</span></div>
 </div>
+
+<div class="main-content">
 <div class="page active" id="page-home">
 <div class="stats-quad">
 <div class="st-box"><div class="st-label">مانده</div><button class="eye-btn" onclick="toggleBalance()" id="eyeBtn">👁</button><div class="st-val balance" id="balanceVal">-</div></div>
@@ -374,14 +346,14 @@ input::placeholder,textarea::placeholder{-webkit-text-fill-color:var(--text3)!im
 <div class="st-box"><div class="st-label">💪 سلامت</div><div class="st-val health" id="healthVal">-</div></div>
 </div>
 <div class="quick-row">
-<button class="q-btn" onclick="switchPage('ai')">🤖<span>دستیار</span></button>
-<button class="q-btn" onclick="switchPage('budget')">🎯<span>بودجه</span></button>
-<button class="q-btn" onclick="switchPage('investments')">💎<span>سرمایه</span></button>
-<button class="q-btn" onclick="openAddModal()">➕<span>ثبت</span></button>
+<button class="q-btn" onclick="switchPage('ai')"><span class="qe">🤖</span><span>دستیار</span></button>
+<button class="q-btn" onclick="switchPage('budget')"><span class="qe">🎯</span><span>بودجه</span></button>
+<button class="q-btn" onclick="switchPage('investments')"><span class="qe">💎</span><span>سرمایه</span></button>
+<button class="q-btn" onclick="openAddModal()"><span class="qe">➕</span><span>ثبت</span></button>
 </div>
 <div class="g-card" id="insightArea"></div>
 <div id="debtHomeArea"></div>
-<div class="g-card"><div class="sec-title">📊 نمودار هزینه</div><div class="chart-wrap"><div class="donut"><div class="donut-center"><span style="font-size:.42rem;color:var(--text2)">کل</span><span id="chartTotal" style="font-size:.56rem">-</span></div></div><div class="chart-legend" id="chartLegend"></div></div></div>
+<div class="g-card"><div class="sec-title">📊 نمودار هزینه</div><div class="chart-wrap"><div class="donut"><div class="donut-center"><span style="font-size:.7rem;color:var(--text2)">کل</span><span id="chartTotal" style="font-size:.9rem">-</span></div></div><div class="chart-legend" id="chartLegend"></div></div></div>
 <div class="g-card"><div class="sec-title">📋 آخرین تراکنش‌ها</div><div id="recentTx"></div><div class="view-all"><button class="view-all-btn" onclick="switchPage('transactions')">مشاهده همه ←</button></div></div>
 <button class="share-btn" onclick="shareSection()" style="width:100%">📤 اشتراک‌گذاری</button>
 </div>
@@ -403,19 +375,19 @@ input::placeholder,textarea::placeholder{-webkit-text-fill-color:var(--text3)!im
 <div class="g-card"><div class="sec-title">روند ۳ ماه</div><div class="report-bar" id="reportBar"></div></div>
 <div class="g-card"><div class="sec-title">مقایسه</div><div id="reportCompare"></div></div>
 <div class="g-card"><div class="sec-title">آمار</div><div id="reportStats"></div></div>
-<div id="reportMotivation" style="background:linear-gradient(135deg,rgba(52,211,153,.06),rgba(56,189,248,.06));border:1px solid var(--border);border-radius:8px;padding:7px 8px;margin-bottom:5px;font-size:.55rem;text-align:center;color:var(--text2)"></div>
+<div id="reportMotivation" style="background:linear-gradient(135deg,rgba(52,211,153,.06),rgba(56,189,248,.06));border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:8px;font-size:.85rem;text-align:center;color:var(--text2)"></div>
 <button class="share-btn" onclick="exportPDF()" style="width:100%">📄 PDF</button>
 </div>
 <div class="page" id="page-budget">
 <div class="page-header"><button class="back-btn" onclick="switchPage('home')">→</button><div class="page-title">بودجه و اهداف</div></div>
 <div class="tab-bar"><button class="tab-btn active" onclick="switchBTab('overview',this)">کلی</button><button class="tab-btn" onclick="switchBTab('zbb',this)">تقسیم</button><button class="tab-btn" onclick="switchBTab('wallets',this)">کیف</button></div>
 <div id="bt-overview">
-<div class="g-card"><div class="sec-title">بودجه ماه</div><div style="display:flex;justify-content:space-between;font-size:.55rem;margin-bottom:1px"><span id="budgetSpent">-</span><span style="color:var(--text3)">از <span id="budgetTotal">-</span></span></div><div class="budget-total-bar"><div class="budget-total-fill" id="budgetTotalFill" style="width:0%"></div></div><div style="text-align:center;font-size:.48rem;color:var(--text3);margin-top:1px" id="budgetPct">-</div></div>
-<div class="g-card"><div class="sec-title">دسته‌بندی‌ها</div><div id="budgetDetails"></div></div>
+<div class="g-card"><div class="sec-title">بودجه ماه</div><div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:4px"><span id="budgetSpent">-</span><span style="color:var(--text3)">از <span id="budgetTotal">-</span></span></div><div class="budget-total-bar"><div class="budget-total-fill" id="budgetTotalFill" style="width:0%"></div></div><div style="text-align:center;font-size:.75rem;color:var(--text3);margin-top:4px" id="budgetPct">-</div></div>
+<div class="g-card"><div class="sec-title">بودجه دسته‌بندی‌ها</div><div id="budgetDetails"></div></div>
 <div class="g-card"><div class="sec-title">اهداف پس‌انداز</div><div class="add-row"><input type="text" placeholder="هدف..." id="newGoalTitle"><input type="text" placeholder="مبلغ" id="newGoalAmount" inputmode="decimal" oninput="fmtInp(this)"><button class="add-row-btn" onclick="addGoal()">+</button></div><div id="goalsList"></div></div>
 </div>
-<div id="bt-zbb" style="display:none"><div class="g-card"><div class="sec-title">تقسیم درآمد</div><div style="margin-bottom:6px"><div class="st-label" style="text-align:right;margin-bottom:2px">درآمد ماه</div><input class="zbb-input" type="text" id="zbbIncome" inputmode="decimal" oninput="fmtInp(this);calcZBB()" style="width:100%;font-size:.7rem;padding:7px" placeholder="درآمد..."></div><div id="zbbRows"></div><div id="zbbSummary"></div></div></div>
-<div id="bt-wallets" style="display:none"><div class="g-card"><div class="sec-title">کیف پول‌ها</div><div id="walletList"></div><button class="modal-btn" onclick="openModal('walletModal')">+ کیف پول</button></div></div>
+<div id="bt-zbb" style="display:none"><div class="g-card"><div class="sec-title">تقسیم درآمد</div><div style="margin-bottom:10px"><div class="st-label" style="text-align:right;margin-bottom:4px">درآمد ماه</div><input class="zbb-input" type="text" id="zbbIncome" inputmode="decimal" oninput="fmtInp(this);calcZBB()" style="width:100%;font-size:1rem;padding:10px" placeholder="درآمد..."></div><div id="zbbRows"></div><div id="zbbSummary"></div></div></div>
+<div id="bt-wallets" style="display:none"><div class="g-card"><div class="sec-title">کیف پول‌ها</div><div id="walletList"></div><button class="modal-btn" onclick="openWalletModal()">+ کیف پول</button></div></div>
 </div>
 <div class="page" id="page-investments">
 <div class="page-header"><button class="back-btn" onclick="switchPage('home')">→</button><div class="page-title">سرمایه‌گذاری‌ها</div></div>
@@ -456,12 +428,13 @@ input::placeholder,textarea::placeholder{-webkit-text-fill-color:var(--text3)!im
 <button class="calc-btn" onclick="calcPress('1')">1</button><button class="calc-btn" onclick="calcPress('2')">2</button><button class="calc-btn" onclick="calcPress('3')">3</button><button class="calc-btn op" onclick="calcPress('+')">+</button>
 <button class="calc-btn" onclick="calcPress('00')">00</button><button class="calc-btn" onclick="calcPress('0')">0</button><button class="calc-btn" onclick="calcPress('.')">.</button><button class="calc-btn eq" onclick="calcPress('=')">=</button>
 </div></div>
-<div class="g-card"><div class="sec-title">سود وام</div><div style="display:flex;gap:3px;margin-bottom:3px"><input class="desc-field" type="text" placeholder="مبلغ وام" id="loanAmount" inputmode="decimal" oninput="fmtInp(this)" style="margin-bottom:0"><input class="desc-field" type="text" placeholder="نرخ %" id="loanRate" inputmode="decimal" style="margin-bottom:0"></div><input class="desc-field" type="text" placeholder="ماه" id="loanMonths" inputmode="numeric"><button class="save-btn" style="margin-bottom:0" onclick="calcLoan()">محاسبه</button><div id="loanResult" style="margin-top:5px;font-size:.55rem;text-align:center;color:var(--text2)"></div></div>
+<div class="g-card"><div class="sec-title">سود وام</div><div style="display:flex;gap:4px;margin-bottom:4px"><input class="desc-field" type="text" placeholder="مبلغ وام" id="loanAmount" inputmode="decimal" oninput="fmtInp(this)" style="margin-bottom:0"><input class="desc-field" type="text" placeholder="نرخ %" id="loanRate" inputmode="decimal" style="margin-bottom:0"></div><input class="desc-field" type="text" placeholder="ماه" id="loanMonths" inputmode="numeric"><button class="save-btn" style="margin-bottom:0" onclick="calcLoan()">محاسبه</button><div id="loanResult" style="margin-top:8px;font-size:.85rem;text-align:center;color:var(--text2)"></div></div>
 </div>
 <div class="page" id="page-customcats">
 <div class="page-header"><button class="back-btn" onclick="switchPage('profile')">→</button><div class="page-title">دسته‌بندی‌ها</div></div>
-<div class="g-card"><div class="sec-title">پیش‌فرض</div><div class="cc-grid" id="defaultCatsGrid"></div></div>
-<div class="g-card"><div class="sec-title">سفارشی</div><div id="customCatsList"></div><div class="add-row"><input type="text" placeholder="نام..." id="newCatName"><input type="text" placeholder="🙂" id="newCatEmoji" style="max-width:50px;text-align:center;font-size:1rem" onclick="openEmojiPicker()" readonly><button class="add-row-btn" onclick="addCustomCat()">+</button></div></div>
+<div class="g-card"><div class="sec-title">هزینه</div><div class="cc-grid" id="defaultCatsGrid"></div></div>
+<div class="g-card"><div class="sec-title">درآمد</div><div class="cc-grid" id="incomeCatsGrid"></div></div>
+<div class="g-card"><div class="sec-title">سفارشی</div><div id="customCatsList"></div><div class="add-row"><input type="text" placeholder="نام..." id="newCatName"><input type="text" placeholder="🙂" id="newCatEmoji" style="max-width:60px;text-align:center;font-size:1.2rem" onclick="openEmojiPicker()" readonly><button class="add-row-btn" onclick="addCustomCat()">+</button></div></div>
 </div>
 <div class="page" id="page-backup">
 <div class="page-header"><button class="back-btn" onclick="switchPage('profile')">→</button><div class="page-title">پشتیبان‌گیری</div></div>
@@ -493,66 +466,104 @@ input::placeholder,textarea::placeholder{-webkit-text-fill-color:var(--text3)!im
 <div class="settings-item" onclick="openHelpModal()"><div class="s-icon">❓</div><div class="s-label">راهنما</div><div class="s-arrow">‹</div></div>
 </div></div>
 </div>
-<!-- NAV -->
+
 <nav id="bottom-nav">
-<button class="nav-item active" data-page="home" onclick="switchPage('home')">🏠<br>خانه</button>
-<button class="nav-item" data-page="transactions" onclick="switchPage('transactions')">📋<br>تراکنش</button>
+<button class="nav-item active" data-page="home" onclick="switchPage('home')"><span class="ne">🏠</span><br>خانه</button>
+<button class="nav-item" data-page="transactions" onclick="switchPage('transactions')"><span class="ne">📋</span><br>تراکنش</button>
 <button class="nav-center" onclick="openAddModal()">➕</button>
-<button class="nav-item" data-page="budget" onclick="switchPage('budget')">🎯<br>بودجه</button>
-<button class="nav-item" data-page="profile" onclick="switchPage('profile')">👤<br>پروفایل</button>
+<button class="nav-item" data-page="budget" onclick="switchPage('budget')"><span class="ne">🎯</span><br>بودجه</button>
+<button class="nav-item" data-page="profile" onclick="switchPage('profile')"><span class="ne">👤</span><br>پروفایل</button>
 </nav>
-<!-- MODALS -->
-<div class="modal-overlay" id="addModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="addModalTitle">تراکنش جدید</h3><button class="modal-close" onclick="closeModal('addModal')">✕</button></div><div class="type-toggle"><button class="type-btn active" id="btnExpense" onclick="setTxType('expense')">هزینه</button><button class="type-btn" id="btnIncome" onclick="setTxType('income')">درآمد</button><button class="type-btn" id="btnTransfer" onclick="setTxType('transfer')">انتقال</button></div><div class="amount-field"><input type="text" placeholder="۰" id="addAmount" inputmode="decimal" oninput="fmtInp(this)"><div class="currency" id="modalCurrency">تومان</div></div><div class="cat-grid" id="catGrid"></div><div id="transferArea" style="display:none"><div class="sec-title" style="margin-bottom:3px">از حساب</div><div class="acc-grid" id="txFromAcc"></div><div class="sec-title" style="margin-bottom:3px">به حساب</div><div class="acc-grid" id="txToAcc"></div></div><div id="normalAccArea"><div class="sec-title" style="margin-bottom:3px">حساب</div><div class="acc-grid" id="txAccGrid"></div></div><input class="desc-field" type="text" placeholder="توضیحات..." id="addDesc"><button class="save-btn" onclick="saveTransaction()">ذخیره ✓</button></div></div>
+
+<div class="modal-overlay" id="addModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="addModalTitle">تراکنش جدید</h3><button class="modal-close" onclick="closeModal('addModal')">✕</button></div><div class="type-toggle"><button class="type-btn active" id="btnExpense" onclick="setTxType('expense')">هزینه</button><button class="type-btn" id="btnIncome" onclick="setTxType('income')">درآمد</button><button class="type-btn" id="btnTransfer" onclick="setTxType('transfer')">انتقال</button></div><div class="amount-field"><input type="text" placeholder="۰" id="addAmount" inputmode="decimal" oninput="fmtInp(this)"><div class="currency" id="modalCurrency">تومان</div></div><div class="cat-grid" id="catGrid"></div><div id="transferArea" style="display:none"><div class="sec-title" style="margin-bottom:6px">از حساب</div><div class="acc-grid" id="txFromAcc"></div><div class="sec-title" style="margin-bottom:6px">به حساب</div><div class="acc-grid" id="txToAcc"></div></div><div id="normalAccArea"><div class="sec-title" style="margin-bottom:6px">حساب</div><div class="acc-grid" id="txAccGrid"></div></div><input class="desc-field" type="text" placeholder="توضیحات..." id="addDesc"><button class="save-btn" onclick="saveTransaction()">ذخیره ✓</button></div></div>
 <div class="modal-overlay" id="deleteModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="confirm-box"><p>حذف شود؟</p><div class="confirm-actions"><button class="btn-cancel" onclick="closeModal('deleteModal')">انصراف</button><button class="btn-delete" onclick="confirmDelete()">حذف</button></div></div></div></div>
 <div class="modal-overlay" id="avatarModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>آواتار</h3><button class="modal-close" onclick="closeModal('avatarModal')">✕</button></div><div class="avatar-grid" id="avatarGrid"></div><button class="modal-btn" onclick="closeModal('avatarModal')">تأیید</button></div></div>
 <div class="modal-overlay" id="nameModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>ویرایش نام</h3><button class="modal-close" onclick="closeModal('nameModal')">✕</button></div><input class="desc-field" type="text" id="editNameInput" placeholder="نام..."><button class="save-btn" onclick="saveName()">ذخیره ✓</button></div></div>
-<div class="modal-overlay" id="securityModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>رمز عبور</h3><button class="modal-close" onclick="closeModal('securityModal')">✕</button></div><p style="font-size:.6rem;color:var(--text2);text-align:center;margin-bottom:2px">رمز ۴ رقمی</p><div class="pin-input"><input class="pin-box" type="tel" maxlength="1" inputmode="numeric" oninput="pinNext(this,1)" id="pin0"><input class="pin-box" type="tel" maxlength="1" inputmode="numeric" oninput="pinNext(this,2)" id="pin1"><input class="pin-box" type="tel" maxlength="1" inputmode="numeric" oninput="pinNext(this,3)" id="pin2"><input class="pin-box" type="tel" maxlength="1" inputmode="numeric" id="pin3"></div><p style="font-size:.52rem;color:var(--text2);text-align:center;margin-bottom:3px">سؤال امنیتی</p><input class="desc-field" type="text" id="secQuestion" placeholder="نام مادر"><input class="desc-field" type="text" id="secAnswer" placeholder="پاسخ"><button class="save-btn" onclick="savePin()">ذخیره ✓</button></div></div>
+<div class="modal-overlay" id="securityModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>رمز عبور</h3><button class="modal-close" onclick="closeModal('securityModal')">✕</button></div><p style="font-size:.9rem;color:var(--text2);text-align:center;margin-bottom:4px">رمز ۴ رقمی</p><div class="pin-input"><input class="pin-box" type="tel" maxlength="1" inputmode="numeric" oninput="pinNext(this,1)" id="pin0"><input class="pin-box" type="tel" maxlength="1" inputmode="numeric" oninput="pinNext(this,2)" id="pin1"><input class="pin-box" type="tel" maxlength="1" inputmode="numeric" oninput="pinNext(this,3)" id="pin2"><input class="pin-box" type="tel" maxlength="1" inputmode="numeric" id="pin3"></div><p style="font-size:.8rem;color:var(--text2);text-align:center;margin-bottom:6px">سؤال امنیتی</p><input class="desc-field" type="text" id="secQuestion" placeholder="نام مادر"><input class="desc-field" type="text" id="secAnswer" placeholder="پاسخ"><button class="save-btn" onclick="savePin()">ذخیره ✓</button></div></div>
 <div class="modal-overlay" id="notifModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>اعلان‌ها</h3><button class="modal-close" onclick="closeModal('notifModal')">✕</button></div><div id="notifList"></div></div></div>
-<div class="modal-overlay" id="helpModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>راهنما</h3><button class="modal-close" onclick="closeModal('helpModal')">✕</button></div><div style="font-size:.58rem;line-height:2;color:var(--text2)"><p>🏠 خانه: داشبورد</p><p>📋 تراکنش: ثبت/ویرایش</p><p>🎯 بودجه: تقسیم درآمد</p><p>🤖 دستیار هوشمند</p><p>💎 سرمایه‌گذاری</p><p>💰 بدهی و اقساط</p><p>🏦 حساب‌ها</p><p>💾 پشتیبان‌گیری</p><p>💵 واحد: تومان/ریال</p></div></div></div>
-<div class="modal-overlay" id="walletModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>کیف پول</h3><button class="modal-close" onclick="closeModal('walletModal')">✕</button></div><input class="desc-field" type="text" id="walletName" placeholder="نام"><input class="desc-field" type="text" id="walletBudget" placeholder="بودجه" inputmode="decimal" oninput="fmtInp(this)"><input class="desc-field" type="text" id="walletMembers" placeholder="اعضا"><button class="save-btn" onclick="addWallet()">ساخت ✓</button></div></div>
-<div class="modal-overlay" id="goalAddModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>افزودن مبلغ</h3><button class="modal-close" onclick="closeModal('goalAddModal')">✕</button></div><input class="desc-field" type="text" id="goalAddAmount" placeholder="مبلغ" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="confirmGoalAdd()">افزودن ✓</button></div></div>
+<div class="modal-overlay" id="helpModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>راهنما</h3><button class="modal-close" onclick="closeModal('helpModal')">✕</button></div><div style="font-size:.9rem;line-height:2;color:var(--text2)"><p>🏠 خانه: داشبورد</p><p>📋 تراکنش: ثبت/ویرایش</p><p>🎯 بودجه: تقسیم درآمد</p><p>🤖 دستیار هوشمند</p><p>💎 سرمایه‌گذاری</p><p>💰 بدهی و اقساط</p><p>🏦 حساب‌ها</p><p>💾 پشتیبان‌گیری</p><p>💵 واحد: تومان/ریال</p></div></div></div>
+<div class="modal-overlay" id="walletModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="walletModalTitle">کیف پول</h3><button class="modal-close" onclick="closeModal('walletModal')">✕</button></div><input class="desc-field" type="text" id="walletName" placeholder="نام"><input class="desc-field" type="text" id="walletBudget" placeholder="بودجه" inputmode="decimal" oninput="fmtInp(this)"><input class="desc-field" type="text" id="walletMembers" placeholder="اعضا"><button class="save-btn" onclick="saveWallet()">ذخیره ✓</button></div></div>
+<div class="modal-overlay" id="goalAddModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="goalModalTitle">افزودن مبلغ</h3><button class="modal-close" onclick="closeModal('goalAddModal')">✕</button></div><input class="desc-field" type="text" id="goalAddAmount" placeholder="مبلغ" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="confirmGoalAdd()">افزودن ✓</button></div></div>
+<div class="modal-overlay" id="goalEditModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>ویرایش هدف</h3><button class="modal-close" onclick="closeModal('goalEditModal')">✕</button></div><input class="desc-field" type="text" id="goalEditTitle" placeholder="عنوان"><input class="desc-field" type="text" id="goalEditTarget" placeholder="مبلغ هدف" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="confirmGoalEdit()">ذخیره ✓</button></div></div>
 <div class="modal-overlay" id="debtModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="debtModalTitle">بدهی جدید</h3><button class="modal-close" onclick="closeModal('debtModal')">✕</button></div><input class="desc-field" type="text" id="debtName" placeholder="نام"><input class="desc-field" type="text" id="debtAmount" placeholder="مبلغ" inputmode="decimal" oninput="fmtInp(this)"><input class="desc-field" type="text" id="debtNote" placeholder="توضیحات"><button class="save-btn" onclick="saveDebt()">ذخیره ✓</button></div></div>
-<div class="modal-overlay" id="payDebtModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>پرداخت بدهی</h3><button class="modal-close" onclick="closeModal('payDebtModal')">✕</button></div><p style="font-size:.6rem;color:var(--text2);text-align:center;margin-bottom:2px" id="payDebtInfo"></p><p style="font-size:.75rem;font-weight:800;text-align:center;margin-bottom:6px" id="payDebtAmount"></p><div class="confirm-actions"><button class="btn-cancel" onclick="payDebtWith('نقدی')" style="background:rgba(52,211,153,.15);color:var(--success)">💵 نقدی</button><button class="btn-cancel" onclick="payDebtWith('کارت')">💳 کارت</button></div></div></div>
-<div class="modal-overlay" id="instModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>قسط جدید</h3><button class="modal-close" onclick="closeModal('instModal')">✕</button></div><input class="desc-field" type="text" id="instName" placeholder="نام"><input class="desc-field" type="text" id="instMonthly" placeholder="ماهانه" inputmode="decimal" oninput="fmtInp(this)"><input class="desc-field" type="text" id="instTotal" placeholder="کل ماه‌ها" inputmode="numeric"><input class="desc-field" type="text" id="instPaid" placeholder="پرداخت‌شده" inputmode="numeric"><button class="save-btn" onclick="saveInst()">ذخیره ✓</button></div></div>
+<div class="modal-overlay" id="payDebtModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>پرداخت بدهی</h3><button class="modal-close" onclick="closeModal('payDebtModal')">✕</button></div><p style="font-size:.9rem;color:var(--text2);text-align:center;margin-bottom:4px" id="payDebtInfo"></p><p style="font-size:1.1rem;font-weight:800;text-align:center;margin-bottom:12px" id="payDebtAmount"></p><div class="confirm-actions"><button class="btn-cancel" onclick="payDebtWith('نقدی')" style="background:rgba(52,211,153,.15);color:var(--success)">💵 نقدی</button><button class="btn-cancel" onclick="payDebtWith('کارت')">💳 کارت</button></div></div></div>
+<div class="modal-overlay" id="instModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="instModalTitle">قسط جدید</h3><button class="modal-close" onclick="closeModal('instModal')">✕</button></div><input class="desc-field" type="text" id="instName" placeholder="نام"><input class="desc-field" type="text" id="instMonthly" placeholder="مبلغ ماهانه" inputmode="decimal" oninput="fmtInp(this)"><input class="desc-field" type="text" id="instTotal" placeholder="تعداد کل ماه‌ها" inputmode="numeric"><input class="desc-field" type="text" id="instPaid" placeholder="ماه‌های پرداخت‌شده" inputmode="numeric"><button class="save-btn" onclick="saveInst()">ذخیره ✓</button></div></div>
 <div class="modal-overlay" id="invModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="invModalTitle">سرمایه‌گذاری</h3><button class="modal-close" onclick="closeModal('invModal')">✕</button></div><div class="inv-type-grid" id="invTypeGrid"></div><input class="desc-field" type="text" id="invName" placeholder="نام"><input class="desc-field" type="text" id="invQty" placeholder="تعداد" inputmode="decimal"><input class="desc-field" type="text" id="invUnit" placeholder="واحد"><input class="desc-field" type="text" id="invBuyPrice" placeholder="قیمت خرید" inputmode="decimal" oninput="fmtInp(this)"><input class="desc-field" type="text" id="invCurPrice" placeholder="قیمت فعلی" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="submitInv()">ذخیره ✓</button></div></div>
-<div class="modal-overlay" id="accountModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="accModalTitle">حساب جدید</h3><button class="modal-close" onclick="closeModal('accountModal')">✕</button></div><div style="display:flex;gap:3px;margin-bottom:8px"><button class="chip active" id="accTypeCash" onclick="setAccType('cash')">💵 نقدی</button><button class="chip" id="accTypeBank" onclick="setAccType('bank')">🏦 بانکی</button></div><div id="accBankFields"><input class="desc-field" type="text" id="accBankName" placeholder="نام بانک"><input class="desc-field" type="text" id="accCardNumber" placeholder="شماره کارت" inputmode="numeric"><input class="desc-field" type="text" id="accSheba" placeholder="شبا"></div><input class="desc-field" type="text" id="accBalance" placeholder="موجودی" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="saveAccount()">ذخیره ✓</button></div></div>
+<div class="modal-overlay" id="accountModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="accModalTitle">حساب جدید</h3><button class="modal-close" onclick="closeModal('accountModal')">✕</button></div><div style="display:flex;gap:4px;margin-bottom:12px"><button class="chip active" id="accTypeCash" onclick="setAccType('cash')">💵 نقدی</button><button class="chip" id="accTypeBank" onclick="setAccType('bank')">🏦 بانکی</button></div><div id="accBankFields"><input class="desc-field" type="text" id="accBankName" placeholder="نام بانک"><input class="desc-field" type="text" id="accCardNumber" placeholder="شماره کارت" inputmode="numeric"><input class="desc-field" type="text" id="accSheba" placeholder="شبا"></div><input class="desc-field" type="text" id="accBalance" placeholder="موجودی" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="saveAccount()">ذخیره ✓</button></div></div>
 <div class="modal-overlay" id="invPriceModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>بروزرسانی قیمت</h3><button class="modal-close" onclick="closeModal('invPriceModal')">✕</button></div><input class="desc-field" type="text" id="invNewPrice" placeholder="قیمت فعلی" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="confirmInvPrice()">بروزرسانی ✓</button></div></div>
-<div class="modal-overlay" id="recurringModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>تکرارشونده</h3><button class="modal-close" onclick="closeModal('recurringModal')">✕</button></div><div class="type-toggle"><button class="type-btn active" id="recBtnExpense" onclick="setRecType('expense')">هزینه</button><button class="type-btn" id="recBtnIncome" onclick="setRecType('income')">درآمد</button></div><input class="desc-field" type="text" id="recName" placeholder="نام"><input class="desc-field" type="text" id="recAmount" placeholder="مبلغ" inputmode="decimal" oninput="fmtInp(this)"><div style="margin-bottom:8px"><div class="st-label" style="margin-bottom:3px">تکرار</div><div style="display:flex;gap:3px;flex-wrap:wrap"><button class="chip active" id="recFreqMonthly" onclick="setRecFreq('monthly')">ماهانه</button><button class="chip" id="recFreqWeekly" onclick="setRecFreq('weekly')">هفتگی</button><button class="chip" id="recFreqDaily" onclick="setRecFreq('daily')">روزانه</button></div></div><div class="cat-grid" id="recCatGrid"></div><button class="save-btn" onclick="saveRecurring()">ذخیره ✓</button></div></div>
-<div class="modal-overlay" id="licenseModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>لایسنس</h3><button class="modal-close" onclick="closeModal('licenseModal')">✕</button></div><div class="device-id-box"><div style="font-size:.55rem;color:var(--text3)">شناسه دستگاه</div><div class="device-id" id="deviceIdDisplay">-</div><div style="display:flex;gap:3px;justify-content:center"><button class="share-btn" onclick="copyDeviceId()">کپی</button></div></div><div style="display:flex;align-items:center;justify-content:center;gap:5px;margin:8px 0"><span style="font-size:.55rem">وضعیت:</span><span class="license-status" id="licenseStatus">-</span></div><div id="licenseLimits"></div><input class="desc-field" type="text" id="licenseInput" placeholder="کد لایسنس"><button class="save-btn" onclick="activateLicense()">فعال‌سازی</button></div></div>
-<div class="modal-overlay" id="emojiModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>ایموجی</h3><button class="modal-close" onclick="closeModal('emojiModal')">✕</button></div><div id="emojiGrid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px;max-height:200px;overflow-y:auto"></div></div></div>
+<div class="modal-overlay" id="recurringModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="recModalTitle">تکرارشونده</h3><button class="modal-close" onclick="closeModal('recurringModal')">✕</button></div><div class="type-toggle"><button class="type-btn active" id="recBtnExpense" onclick="setRecType('expense')">هزینه</button><button class="type-btn" id="recBtnIncome" onclick="setRecType('income')">درآمد</button></div><input class="desc-field" type="text" id="recName" placeholder="نام"><input class="desc-field" type="text" id="recAmount" placeholder="مبلغ" inputmode="decimal" oninput="fmtInp(this)"><div style="margin-bottom:12px"><div class="st-label" style="margin-bottom:6px">تکرار</div><div style="display:flex;gap:4px;flex-wrap:wrap"><button class="chip active" id="recFreqMonthly" onclick="setRecFreq('monthly')">ماهانه</button><button class="chip" id="recFreqWeekly" onclick="setRecFreq('weekly')">هفتگی</button><button class="chip" id="recFreqDaily" onclick="setRecFreq('daily')">روزانه</button></div></div><div class="cat-grid" id="recCatGrid"></div><button class="save-btn" onclick="saveRecurring()">ذخیره ✓</button></div></div>
+<div class="modal-overlay" id="licenseModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>لایسنس</h3><button class="modal-close" onclick="closeModal('licenseModal')">✕</button></div><div class="device-id-box"><div style="font-size:.85rem;color:var(--text3)">شناسه دستگاه</div><div class="device-id" id="deviceIdDisplay">-</div><div style="display:flex;gap:4px;justify-content:center"><button class="share-btn" onclick="copyDeviceId()">کپی</button></div></div><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin:12px 0"><span style="font-size:.85rem">وضعیت:</span><span class="license-status" id="licenseStatus">-</span></div><div id="licenseLimits"></div><input class="desc-field" type="text" id="licenseInput" placeholder="کد لایسنس"><button class="save-btn" onclick="activateLicense()">فعال‌سازی</button></div></div>
+<div class="modal-overlay" id="emojiModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>ایموجی</h3><button class="modal-close" onclick="closeModal('emojiModal')">✕</button></div><div id="emojiGrid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-height:250px;overflow-y:auto"></div></div></div>
 <div class="toast success" id="toast"></div>
 
 <script>
-document.addEventListener('contextmenu',function(e){e.preventDefault()});
-document.addEventListener('keydown',function(e){if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'))||(e.ctrlKey&&(e.key==='u'||e.key==='s'))){e.preventDefault()}});
-
-var DB_NAME='PoolamDB',DB_VERSION=7,db=null;
-var STORES=['transactions','accounts','investments','goals','wallets','debts','installments','recurring','settings','customCats'];
-function openDB(){return new Promise(function(r,j){var q=indexedDB.open(DB_NAME,DB_VERSION);q.onupgradeneeded=function(e){var d=e.target.result;STORES.forEach(function(s){if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:'id'})})};q.onsuccess=function(e){db=e.target.result;r()};q.onerror=function(){j()}})}
-function dbGet(st){return new Promise(function(r,j){var tx=db.transaction(st,'readonly');var q=tx.objectStore(st).getAll();q.onsuccess=function(){r(q.result||[])};q.onerror=function(){j()}})}
-function dbPut(st,d){return new Promise(function(r,j){var tx=db.transaction(st,'readwrite');var q=tx.objectStore(st).put(d);q.onsuccess=function(){r()};q.onerror=function(){j()}})}
-function dbDel(st,id){return new Promise(function(r,j){var tx=db.transaction(st,'readwrite');var q=tx.objectStore(st).delete(id);q.onsuccess=function(){r()};q.onerror=function(){j()}})}
-
+// Change: Switched to LocalStorage to bypass file:// restrictions in browsers
+var DB_NAME='PoolamData';
 var C={food:{n:'خوراک',e:'🍔'},transport:{n:'حمل‌ونقل',e:'🚗'},bills:{n:'قبوض',e:'💡'},fun:{n:'تفریح',e:'🎮'},health:{n:'سلامت',e:'💊'},edu:{n:'آموزش',e:'📚'},phone:{n:'ارتباطات',e:'📱'},other:{n:'سایر',e:'📦'}};
-var BUDGETS={food:12e6,transport:8e6,bills:5e6,fun:3e6,health:2e6,edu:2e6,phone:15e5,other:3e6};
+var INC={salary:{n:'حقوق',e:'💰'},freelance:{n:'فریلنسر',e:'💻'},gift:{n:'هدیه',e:'🎁'},invest_ret:{n:'سود سرمایه',e:'📈'},sale:{n:'فروش',e:'🏷️'},other_inc:{n:'سایر درآمد',e:'📦'}};
+var BUDGETS={food:0,transport:0,bills:0,fun:0,health:0,edu:0,phone:0,other:0};
 var AVATARS=['م','M','🧑','👩','👨','🦊','🐱','🐼','🌟','💎','🔥','🚀','🎯'];
 var INV_TYPES={gold:{n:'طلا',e:'🪙'},crypto:{n:'ارز دیجیتال',e:'₿'},stock:{n:'سهام',e:'📈'},fund:{n:'صندوق',e:'📊'},other:{n:'سایر',e:'📦'}};
 var EMOJIS=['🍔','🚗','💡','🎮','💊','📚','📱','📦','💰','🏠','🛒','☕','🍕','🚌','✈️','🎓','💍','🎁','👶','💻','🏋️','🎬','🎧','👕','🐕','🌸','🎨','🔧','⛽','💳','🏦','📈','🪙','📊','💎','🔥','🚀','🎯','⭐','👑','🎂','🍜','🥤','🚂','🏥','💉','⚽','🎲','🎸','📷','🔑','🔔','🏆','🥇','🎉','💯','❤️','☀️','🌙'];
 
-var state={transactions:[],accounts:[],investments:[],goals:[],wallets:[],debts:[],installments:[],recurring:[],customCats:[],settings:{name:'کاربر',avatar:'م',theme:'dark',font:'vazirmatn',scale:1,pin:'',secQ:'',secA:'',xp:0,hideBalance:false,volume:100,licenseKey:'',licenseStatus:'free',currency:'تومان'},currentPage:'home',txTab:'all',txType:'expense',selectedCat:null,selectedAcc:null,selectedFromAcc:null,selectedToAcc:null,editTxId:null,deleteTxId:null,invEditId:null,goalAddId:null,debtPayId:null,selectedInvType:'gold',recType:'expense',recFreq:'monthly',accType:'cash',calcExpr:'',calcResult:'0',calcNew:true};
+var state={
+    transactions:[],accounts:[],investments:[],goals:[],wallets:[],debts:[],installments:[],recurring:[],customCats:[],
+    settings:{name:'کاربر',avatar:'م',theme:'dark',scale:1,pin:'',secQ:'',secA:'',xp:0,hideBalance:false,volume:100,licenseKey:'',licenseStatus:'free',currency:'تومان'},
+    currentPage:'home',txTab:'all',txType:'expense',selectedCat:null,selectedAcc:null,selectedFromAcc:null,selectedToAcc:null,
+    editTxId:null,deleteTxId:null,invEditId:null,goalAddId:null,goalEditId:null,debtPayId:null,editInstId:null,editWalletId:null,editRecId:null,
+    selectedInvType:'gold',recType:'expense',recFreq:'monthly',accType:'cash',calcExpr:'',calcResult:'0',calcNew:true
+};
+
+// --- Storage Engine (LocalStorage) ---
+function saveData(){
+    try {
+        localStorage.setItem(DB_NAME, JSON.stringify({
+            transactions:state.transactions,
+            accounts:state.accounts,
+            investments:state.investments,
+            goals:state.goals,
+            wallets:state.wallets,
+            debts:state.debts,
+            installments:state.installments,
+            recurring:state.recurring,
+            customCats:state.customCats,
+            settings:state.settings,
+            budgets:BUDGETS
+        }));
+    } catch(e) { console.error("Save Error:", e); }
+}
+function loadData(){
+    try {
+        var raw = localStorage.getItem(DB_NAME);
+        if(raw) {
+            var d = JSON.parse(raw);
+            state.transactions = d.transactions || [];
+            state.accounts = d.accounts || [];
+            state.investments = d.investments || [];
+            state.goals = d.goals || [];
+            state.wallets = d.wallets || [];
+            state.debts = d.debts || [];
+            state.installments = d.installments || [];
+            state.recurring = d.recurring || [];
+            state.customCats = d.customCats || [];
+            if(d.settings) state.settings = Object.assign({}, state.settings, d.settings);
+            if(d.budgets) BUDGETS = d.budgets;
+        }
+    } catch(e) { console.error("Load Error:", e); }
+}
+function saveSettings(){ saveData(); }
+function saveBudgets(){ saveData(); }
 
 function uid(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5)}
 function parseNum(s){if(!s)return 0;return parseFloat(String(s).replace(/[^0-9.]/g,''))||0}
 function fmtInp(el){var v=el.value.replace(/[^0-9]/g,'');if(v)v=v.replace(/\B(?=(\d{3})+(?!\d))/g,',');el.value=v}
-function fmt(n){if(n==null||isNaN(n))return '-';var num=Math.round(Number(n));var s=num.toString();var parts=s.split('.');parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');return parts[0]+(parts[1]?'.'+parts[1]:'')}
-function getCurrency(){return state.settings.currency||'تومان'}
+function fmt(n){if(n==null||isNaN(n))return '-';var num=Math.round(Number(n));var s=num.toString();s=s.replace(/\B(?=(\d{3})+(?!\d))/g,',');return s}
+function getCur(){return state.settings.currency||'تومان'}
 function toast(m,t){var el=document.getElementById('toast');el.textContent=m;el.className='toast show '+(t||'success');setTimeout(function(){el.className='toast '+(t||'success')},2200)}
 function toJalali(gY,gM,gD){var gdm=[0,31,59,90,120,151,181,212,243,273,304,334];var gy2=(gM>2)?(gY+1):gY;var days=355666+(365*gY)+((gy2+3)/4|0)-((gy2+99)/100|0)+((gy2+399)/400|0)+gD+gdm[gM-1];var jy=-1595+(33*(days/12053|0));days%=12053;jy+=4*(days/1461|0);days%=1461;if(days>365){jy+=((days-1)/365|0);days=(days-1)%365}var jm,jd;if(days<186){jm=1+(days/31|0);jd=1+(days%31)}else{jm=7+((days-186)/30|0);jd=1+((days-186)%30)}return[jy,jm,jd]}
-function getTodayJalali(){var d=new Date();return toJalali(d.getFullYear(),d.getMonth()+1,d.getDate())}
 function jalaliStr(j){return j[0]+'/'+(j[1]<10?'0':'')+j[1]+'/'+(j[2]<10?'0':'')+j[2]}
 function jalaliMonthName(m){var n=['','فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];return n[m]||''}
-function getCatInfo(k){if(C[k])return C[k];var cc=state.customCats.find(function(c){return c.id===k});return cc?{e:cc.emoji,n:cc.name}:{e:'📦',n:'سایر'}}
-function catIconHtml(cat){return cat.e||'📦'}
+function getCatInfo(k){if(C[k])return C[k];if(INC[k])return INC[k];var cc=state.customCats.find(function(c){return c.id===k});return cc?{e:cc.emoji,n:cc.name}:{e:'📦',n:'سایر'}}
 
 function applyTheme(){var t=state.settings.theme||'dark';document.documentElement.setAttribute('data-theme',t);document.getElementById('themeIcon').textContent=t==='dark'?'☀️':'🌙';document.getElementById('themeLabel').textContent=t==='dark'?'تاریک':'روشن'}
 function toggleTheme(){state.settings.theme=state.settings.theme==='dark'?'light':'dark';applyTheme();saveSettings()}
@@ -561,270 +572,281 @@ function changeScale(d){var s=(state.settings.scale||1)+d*0.1;if(s<0.7)s=0.7;if(
 function setVolume(v){state.settings.volume=parseInt(v);document.getElementById('volVal').textContent=v+'%';saveSettings()}
 function playBeep(){try{var ac=new(window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator();var g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=800;g.gain.value=state.settings.volume/200;o.start();setTimeout(function(){o.stop();ac.close()},80)}catch(e){}}
 
-function saveBudgets(){if(db)dbPut('settings',{id:'budgets',data:Object.assign({},BUDGETS)})}
-async function loadBudgets(){var items=await dbGet('settings');var bi=items.find(function(i){return i.id==='budgets'});if(bi&&bi.data){Object.keys(bi.data).forEach(function(k){BUDGETS[k]=bi.data[k]})}}
-async function loadSettings(){var items=await dbGet('settings');if(items.length){var s=items.find(function(i){return i.id==='main'});if(s)state.settings=Object.assign(state.settings,s.data)}}
-async function loadAll(){state.transactions=await dbGet('transactions');state.accounts=await dbGet('accounts');state.investments=await dbGet('investments');state.goals=await dbGet('goals');state.wallets=await dbGet('wallets');state.debts=await dbGet('debts');state.installments=await dbGet('installments');state.recurring=await dbGet('recurring');state.customCats=await dbGet('customCats')}
 function getMonthTx(){var now=new Date();var y=now.getFullYear(),m=now.getMonth();return state.transactions.filter(function(t){var d=new Date(t.date);return d.getFullYear()===y&&d.getMonth()===m})}
 function toggleBalance(){state.settings.hideBalance=!state.settings.hideBalance;saveSettings();renderHome()}
 
-function switchPage(id){state.currentPage=id;var pages=document.querySelectorAll('.page');for(var i=0;i<pages.length;i++)pages[i].classList.remove('active');var el=document.getElementById('page-'+id);if(el)el.classList.add('active');var navs=document.querySelectorAll('.nav-item');for(var i=0;i<navs.length;i++){navs[i].classList.remove('active');if(navs[i].getAttribute('data-page')===id)navs[i].classList.add('active')}if(document.getElementById('app'))document.getElementById('app').scrollTop=0;renderPage(id)}
+function switchPage(id){
+    state.currentPage=id;
+    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+    var el=document.getElementById('page-'+id);
+    if(el)el.classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');if(n.getAttribute('data-page')===id)n.classList.add('active')});
+    var mc=document.querySelector('.main-content');
+    if(mc)mc.scrollTop=0;
+    renderPage(id);
+}
 function openModal(id){var m=document.getElementById(id);if(m)m.classList.add('open')}
 function closeModal(id){var m=document.getElementById(id);if(m)m.classList.remove('open')}
 function renderPage(id){var fn={home:renderHome,transactions:renderTransactions,budget:renderBudget,reports:renderReports,investments:renderInvestments,debts:renderDebts,installments:renderInstallments,accounts:renderAccounts,recurring:renderRecurring,reminders:renderReminders,profile:renderProfile,achievements:renderAchievements,customcats:renderCustomCats};if(fn[id])fn[id]()}
 
-/* ═══ RENDER HOME ═══ */
 function renderHome(){
-  var mtx=getMonthTx();var inc=0,exp=0;mtx.forEach(function(t){if(t.type==='income')inc+=t.amount;else if(t.type==='expense')exp+=t.amount});
+  var mtx=getMonthTx();var inc=0,exp=0;
+  mtx.forEach(function(t){if(t.type==='income')inc+=t.amount;else if(t.type==='expense')exp+=t.amount});
   var bal=0;state.accounts.forEach(function(a){bal+=a.balance||0});
-  var h=state.settings.hideBalance;var cur=' '+getCurrency();
+  var h=state.settings.hideBalance;var cur=' '+getCur();
   document.getElementById('balanceVal').textContent=h?'•••':fmt(bal)+cur;
   document.getElementById('incomeVal').textContent=h?'•••':fmt(inc)+cur;
   document.getElementById('expenseVal').textContent=h?'•••':fmt(exp)+cur;
-  var score=Math.min(100,Math.max(0,Math.round((1-exp/(inc||1))*100)));
+  var score=inc>0?Math.min(100,Math.max(0,Math.round((1-exp/inc)*100))):100;
   document.getElementById('healthVal').textContent=score+'%';
   var tips=['قانون ۵۰/۳۰/۲۰','قبل از خرید ۲۴ ساعت صبر کن','اقساط نباید از ۳۰٪ درآمد بیشتر باشد'];
   document.getElementById('insightArea').innerHTML='<div class="insight-row"><span>💡</span><span>'+tips[new Date().getDate()%3]+'</span></div>';
   var openDebts=state.debts.filter(function(d){return d.status==='open'});
   var dha=document.getElementById('debtHomeArea');
   if(openDebts.length){var dt=0;openDebts.forEach(function(d){dt+=d.amount});dha.innerHTML='<div class="g-card"><div class="sec-title">💰 بدهی‌های باز</div><div class="total-badge danger">جمع: '+fmt(dt)+cur+'</div></div>'}else{dha.innerHTML=''}
-  var catTotals={};var totalExp=0;mtx.forEach(function(t){if(t.type==='expense'){var ck=t.category||'other';catTotals[ck]=(catTotals[ck]||0)+t.amount;totalExp+=t.amount}});
+  var catTotals={};var totalExp=0;
+  mtx.forEach(function(t){if(t.type==='expense'){catTotals[t.category]=(catTotals[t.category]||0)+t.amount;totalExp+=t.amount}});
   document.getElementById('chartTotal').textContent=fmt(totalExp);
   var cats=Object.keys(C);var colors=['var(--cat-food)','var(--cat-transport)','var(--cat-bills)','var(--cat-fun)','var(--cat-health)','var(--cat-edu)','var(--cat-phone)','var(--cat-other)'];var gradParts=[];var cumPct=0;var legendHtml='';
   for(var ci=0;ci<cats.length;ci++){var k=cats[ci];var pct=totalExp>0?((catTotals[k]||0)/totalExp*100):0;if(pct>0.5){gradParts.push(colors[ci]+' '+cumPct.toFixed(1)+'% '+(cumPct+pct).toFixed(1)+'%');cumPct+=pct}legendHtml+='<div class="legend-item"><div class="legend-dot" style="background:'+colors[ci]+'"></div><span>'+C[k].e+' '+C[k].n+'</span><span>'+Math.round(pct)+'%</span></div>'}
   document.querySelector('.donut').style.background=gradParts.length?'conic-gradient('+gradParts.join(',')+')':'var(--surface2)';document.getElementById('chartLegend').innerHTML=legendHtml;
   var recent=state.transactions.slice().sort(function(a,b){return b.date-a.date}).slice(0,5);var rtx=document.getElementById('recentTx');
-  if(recent.length){var rh='';for(var ri=0;ri<recent.length;ri++){var t=recent[ri];var cat=getCatInfo(t.category);var d=new Date(t.date);var j=toJalali(d.getFullYear(),d.getMonth()+1,d.getDate());var timeStr=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});var aClass=t.type==='income'?'pos':(t.type==='transfer'?'pos':'neg');var aPref=t.type==='income'?'+':(t.type==='transfer'?'↔':'−');rh+='<div class="tx-item"><div class="tx-icon">'+catIconHtml(cat)+'</div><div class="tx-info"><div class="tx-title">'+(t.desc||cat.n)+'</div><div class="tx-cat">'+cat.n+' · '+jalaliStr(j)+' '+timeStr+'</div></div><div class="tx-amount '+aClass+'">'+aPref+fmt(t.amount)+cur+'</div></div>'}rtx.innerHTML=rh}else{rtx.innerHTML='<div style="text-align:center;color:var(--text3);font-size:.55rem;padding:8px">تراکنشی ثبت نشده</div>'}
+  if(recent.length){var rh='';for(var ri=0;ri<recent.length;ri++){var tx=recent[ri];var cat=getCatInfo(tx.category);var d=new Date(tx.date);var j=toJalali(d.getFullYear(),d.getMonth()+1,d.getDate());var timeStr=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});var aClass=tx.type==='income'?'pos':'neg';var aPref=tx.type==='income'?'+':'−';rh+='<div class="tx-item"><div class="tx-icon">'+(cat.e||'📦')+'</div><div class="tx-info"><div class="tx-title">'+(tx.desc||cat.n)+'</div><div class="tx-cat">'+cat.n+' · '+jalaliStr(j)+' '+timeStr+'</div></div><div class="tx-amount '+aClass+'">'+aPref+fmt(tx.amount)+cur+'</div></div>'}rtx.innerHTML=rh}else{rtx.innerHTML='<div style="text-align:center;color:var(--text3);font-size:.85rem;padding:12px">تراکنشی ثبت نشده</div>'}
   var xp=state.settings.xp||0;var lvl=0;var levels=[0,100,300,600,1000];for(var xi=levels.length-1;xi>=0;xi--){if(xp>=levels[xi]){lvl=xi;break}}var nextXp=lvl<levels.length-1?levels[lvl+1]:levels[lvl];var xpPct=lvl<levels.length-1?((xp-levels[lvl])/(nextXp-levels[lvl])*100):100;
   document.getElementById('xpLevel').textContent='🌱 سطح '+(lvl+1);document.getElementById('xpFill').style.width=xpPct+'%';document.getElementById('xpVal').textContent=xp+' XP';
 }
 
-/* ═══ TRANSACTIONS ═══ */
 function renderTransactions(){
-  var txs=state.transactions.slice().sort(function(a,b){return b.date-a.date});var search=document.getElementById('txSearch').value.trim();if(search){txs=txs.filter(function(t){return(t.desc||'').indexOf(search)!==-1||String(t.amount).indexOf(search)!==-1})}
+  var txs=state.transactions.slice().sort(function(a,b){return b.date-a.date});
+  var search=(document.getElementById('txSearch')||{value:''}).value.trim();
+  if(search){txs=txs.filter(function(t){return(t.desc||'').indexOf(search)!==-1||String(t.amount).indexOf(search)!==-1})}
   if(state.txTab==='income')txs=txs.filter(function(t){return t.type==='income'});else if(state.txTab==='expense')txs=txs.filter(function(t){return t.type==='expense'});
   var inc=0,exp=0;txs.forEach(function(t){if(t.type==='income')inc+=t.amount;else if(t.type==='expense')exp+=t.amount});
-  var cur=' '+getCurrency();document.getElementById('txSumInc').textContent=fmt(inc)+cur;document.getElementById('txSumExp').textContent=fmt(exp)+cur;
-  var list=document.getElementById('txList');if(!txs.length){list.innerHTML='<div style="text-align:center;color:var(--text3);font-size:.55rem;padding:12px">تراکنشی یافت نشد</div>';return}
+  var cur=' '+getCur();document.getElementById('txSumInc').textContent=fmt(inc)+cur;document.getElementById('txSumExp').textContent=fmt(exp)+cur;
+  var list=document.getElementById('txList');if(!txs.length){list.innerHTML='<div style="text-align:center;color:var(--text3);font-size:.85rem;padding:16px">تراکنشی یافت نشد</div>';return}
   var h='';var lastDate='';
-  txs.forEach(function(t){var cat=getCatInfo(t.category);var d=new Date(t.date);var jd=toJalali(d.getFullYear(),d.getMonth()+1,d.getDate());var dateStr=jalaliStr(jd);var timeStr=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});if(dateStr!==lastDate){h+='<div class="date-header">'+dateStr+'</div>';lastDate=dateStr}var aClass=t.type==='income'?'pos':(t.type==='transfer'?'pos':'neg');var aPref=t.type==='income'?'+':(t.type==='transfer'?'↔':'−');var typeName=t.type==='income'?'درآمد':(t.type==='transfer'?'انتقال':'هزینه');h+='<div class="tx-item"><div class="tx-icon">'+catIconHtml(cat)+'</div><div class="tx-info"><div class="tx-title">'+(t.desc||cat.n)+'</div><div class="tx-cat">'+typeName+' · '+timeStr+'</div></div><div class="tx-amount '+aClass+'">'+aPref+fmt(t.amount)+cur+'</div><div class="tx-actions"><button class="tx-act" onclick="editTx(\''+t.id+'\')">✏️</button><button class="tx-act del" onclick="askDeleteTx(\''+t.id+'\')">🗑️</button></div></div>'});
+  txs.forEach(function(tx){var cat=getCatInfo(tx.category);var d=new Date(tx.date);var jd=toJalali(d.getFullYear(),d.getMonth()+1,d.getDate());var dateStr=jalaliStr(jd);var timeStr=d.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'});if(dateStr!==lastDate){h+='<div class="date-header">'+dateStr+'</div>';lastDate=dateStr}var aClass=tx.type==='income'?'pos':'neg';var aPref=tx.type==='income'?'+':'−';var typeName=tx.type==='income'?'درآمد':(tx.type==='transfer'?'انتقال':'هزینه');h+='<div class="tx-item"><div class="tx-icon">'+(cat.e||'📦')+'</div><div class="tx-info"><div class="tx-title">'+(tx.desc||cat.n)+'</div><div class="tx-cat">'+typeName+' · '+timeStr+'</div></div><div class="tx-amount '+aClass+'">'+aPref+fmt(tx.amount)+cur+'</div><div class="tx-actions"><button class="tx-act" onclick="editTx(\''+tx.id+'\')">✏️</button><button class="tx-act del" onclick="askDeleteTx(\''+tx.id+'\')">🗑️</button></div></div>'});
   list.innerHTML=h;
 }
 function setTxTab(tab){state.txTab=tab;document.getElementById('tabAll').className='type-tab'+(tab==='all'?' active-all':'');document.getElementById('tabInc').className='type-tab'+(tab==='income'?' active-inc':'');document.getElementById('tabExp').className='type-tab'+(tab==='expense'?' active-exp':'');renderTransactions()}
 
-/* ═══ ADD TRANSACTION ═══ */
-function openAddModal(){state.editTxId=null;state.txType='expense';state.selectedCat=null;state.selectedAcc=null;state.selectedFromAcc=null;state.selectedToAcc=null;document.getElementById('addModalTitle').textContent='تراکنش جدید';document.getElementById('addAmount').value='';document.getElementById('addDesc').value='';document.getElementById('modalCurrency').textContent=getCurrency();setTxType('expense');renderCatGrid();renderAccGrid();openModal('addModal')}
-function setTxType(t){state.txType=t;document.getElementById('btnExpense').className='type-btn'+(t==='expense'?' active':'');document.getElementById('btnIncome').className='type-btn'+(t==='income'?' active':'');document.getElementById('btnTransfer').className='type-btn'+(t==='transfer'?' active':'');document.getElementById('transferArea').style.display=t==='transfer'?'block':'none';document.getElementById('normalAccArea').style.display=t==='transfer'?'none':'block';document.getElementById('catGrid').style.display=t==='transfer'?'none':'grid'}
-function renderCatGrid(){var grid=document.getElementById('catGrid');var h='';Object.keys(C).forEach(function(k){h+='<div class="cat-btn'+(state.selectedCat===k?' selected':'')+'" onclick="selectCat(\''+k+'\')"><span class="ce">'+C[k].e+'</span>'+C[k].n+'</div>'});state.customCats.forEach(function(cc){h+='<div class="cat-btn'+(state.selectedCat===cc.id?' selected':'')+'" onclick="selectCat(\''+cc.id+'\')"><span class="ce">'+cc.emoji+'</span>'+cc.name+'</div>'});grid.innerHTML=h}
+function openAddModal(){
+    state.editTxId=null;state.txType='expense';state.selectedCat=null;state.selectedAcc=null;state.selectedFromAcc=null;state.selectedToAcc=null;
+    document.getElementById('addModalTitle').textContent='تراکنش جدید';
+    document.getElementById('addAmount').value='';document.getElementById('addDesc').value='';
+    document.getElementById('modalCurrency').textContent=getCur();
+    setTxType('expense');renderAccGrid();openModal('addModal');
+}
+function setTxType(t){
+    state.txType=t;state.selectedCat=null;
+    document.getElementById('btnExpense').className='type-btn'+(t==='expense'?' active':'');
+    document.getElementById('btnIncome').className='type-btn'+(t==='income'?' active':'');
+    document.getElementById('btnTransfer').className='type-btn'+(t==='transfer'?' active':'');
+    document.getElementById('transferArea').style.display=t==='transfer'?'block':'none';
+    document.getElementById('normalAccArea').style.display=t==='transfer'?'none':'block';
+    document.getElementById('catGrid').style.display=t==='transfer'?'none':'grid';
+    renderCatGrid();
+}
+function renderCatGrid(){
+  var grid=document.getElementById('catGrid');var h='';
+  var cats=state.txType==='income'?INC:C;
+  Object.keys(cats).forEach(function(k){h+='<div class="cat-btn'+(state.selectedCat===k?' selected':'')+'" onclick="selectCat(\''+k+'\')"><span class="ce">'+cats[k].e+'</span>'+cats[k].n+'</div>'});
+  if(state.txType!=='income'){state.customCats.forEach(function(cc){h+='<div class="cat-btn'+(state.selectedCat===cc.id?' selected':'')+'" onclick="selectCat(\''+cc.id+'\')"><span class="ce">'+cc.emoji+'</span>'+cc.name+'</div>'})}
+  grid.innerHTML=h;
+}
 function selectCat(c){state.selectedCat=c;renderCatGrid()}
-function renderAccGrid(){var accs=state.accounts;var mkOpt=function(sel,fn){return accs.map(function(a){return '<div class="acc-opt'+(sel===a.id?' selected':'')+'" onclick="'+fn+'(\''+a.id+'\')"><span class="ae">'+(a.type==='bank'?'🏦':'💵')+'</span><span class="an">'+a.name+'</span></div>'}).join('')||'<div style="font-size:.5rem;color:var(--text3);text-align:center;padding:5px">حساب بسازید</div>'};document.getElementById('txAccGrid').innerHTML=mkOpt(state.selectedAcc,'selectAcc');document.getElementById('txFromAcc').innerHTML=mkOpt(state.selectedFromAcc,'selectFromAcc');document.getElementById('txToAcc').innerHTML=mkOpt(state.selectedToAcc,'selectToAcc')}
+function renderAccGrid(){var accs=state.accounts;var mkOpt=function(sel,fn){return accs.map(function(a){return '<div class="acc-opt'+(sel===a.id?' selected':'')+'" onclick="'+fn+'(\''+a.id+'\')"><span class="ae">'+(a.type==='bank'?'🏦':'💵')+'</span><span class="an">'+a.name+'</span></div>'}).join('')||'<div style="font-size:.8rem;color:var(--text3);text-align:center;padding:8px">حساب بسازید</div>'};document.getElementById('txAccGrid').innerHTML=mkOpt(state.selectedAcc,'selectAcc');document.getElementById('txFromAcc').innerHTML=mkOpt(state.selectedFromAcc,'selectFromAcc');document.getElementById('txToAcc').innerHTML=mkOpt(state.selectedToAcc,'selectToAcc')}
 function selectAcc(id){state.selectedAcc=id;renderAccGrid()}
 function selectFromAcc(id){state.selectedFromAcc=id;renderAccGrid()}
 function selectToAcc(id){state.selectedToAcc=id;renderAccGrid()}
-async function saveTransaction(){
-  var amount=parseNum(document.getElementById('addAmount').value);if(!amount){toast('مبلغ وارد کنید','error');return}
-  var desc=document.getElementById('addDesc').value.trim();var cat=state.txType==='transfer'?'other':(state.selectedCat||'other');
-  var tx={id:state.editTxId||uid(),type:state.txType,amount:amount,category:cat,desc:desc,date:state.editTxId?(state.transactions.find(function(x){return x.id===state.editTxId})||{}).date||Date.now():Date.now(),accountId:state.selectedAcc};
-  if(state.txType==='transfer'){tx.fromAcc=state.selectedFromAcc;tx.toAcc=state.selectedToAcc}
-  await dbPut('transactions',tx);
-  if(state.txType==='transfer'){var fa=state.accounts.find(function(x){return x.id===tx.fromAcc});var ta=state.accounts.find(function(x){return x.id===tx.toAcc});if(fa){fa.balance-=amount;await dbPut('accounts',fa)}if(ta){ta.balance+=amount;await dbPut('accounts',ta)}}
-  else{var acc=state.accounts.find(function(x){return x.id===tx.accountId});if(acc){if(state.txType==='expense')acc.balance-=amount;if(state.txType==='income')acc.balance+=amount;await dbPut('accounts',acc)}}
-  state.settings.xp=(state.settings.xp||0)+5;saveSettings();await loadAll();state.selectedCat=null;state.editTxId=null;closeModal('addModal');playBeep();toast('ذخیره شد');renderPage(state.currentPage);
-}
-function editTx(id){var t=state.transactions.find(function(x){return x.id===id});if(!t)return;state.editTxId=id;state.txType=t.type;state.selectedCat=t.category;state.selectedAcc=t.accountId;state.selectedFromAcc=t.fromAcc;state.selectedToAcc=t.toAcc;document.getElementById('addModalTitle').textContent='ویرایش';document.getElementById('addAmount').value=t.amount;document.getElementById('addDesc').value=t.desc||'';document.getElementById('modalCurrency').textContent=getCurrency();setTxType(t.type);renderCatGrid();renderAccGrid();openModal('addModal')}
-function askDeleteTx(id){state.deleteTxId=id;openModal('deleteModal')}
-async function confirmDelete(){if(!state.deleteTxId)return;var t=state.transactions.find(function(x){return x.id===state.deleteTxId});if(t){if(t.type==='transfer'){var fa=state.accounts.find(function(a){return a.id===t.fromAcc});var ta=state.accounts.find(function(a){return a.id===t.toAcc});if(fa){fa.balance+=t.amount;await dbPut('accounts',fa)}if(ta){ta.balance-=t.amount;await dbPut('accounts',ta)}}else{var acc=state.accounts.find(function(a){return a.id===t.accountId});if(acc){if(t.type==='expense')acc.balance+=t.amount;if(t.type==='income')acc.balance-=t.amount;await dbPut('accounts',acc)}}}await dbDel('transactions',state.deleteTxId);state.deleteTxId=null;await loadAll();closeModal('deleteModal');toast('حذف شد');renderPage(state.currentPage)}
 
-/* ═══ ACCOUNTS ═══ */
-function renderAccounts(){document.getElementById('accList').innerHTML=state.accounts.map(function(a){return '<div class="acc-card"><div class="acc-card-name">'+(a.type==='bank'?'🏦':'💵')+' '+a.name+(a.isDefault?' <span class="acc-default-badge">پیش‌فرض</span>':'')+'</div>'+(a.cardNumber?'<div class="acc-card-detail">💳 '+a.cardNumber+'</div>':'')+(a.sheba?'<div class="acc-card-detail">🔹 '+a.sheba+'</div>':'')+'<div class="acc-card-bal">'+fmt(a.balance)+' '+getCurrency()+'</div><div class="acc-card-actions"><button onclick="setDefaultAcc(\''+a.id+'\')">پیش‌فرض</button><button onclick="deleteAcc(\''+a.id+'\')">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.55rem;padding:10px">حسابی ثبت نشده</div>'}
+function saveTransaction(){
+  try{
+    var amount=parseNum(document.getElementById('addAmount').value);
+    if(!amount){toast('مبلغ وارد کنید','error');return}
+    var desc=document.getElementById('addDesc').value.trim();
+    var cat=state.txType==='transfer'?'other':(state.selectedCat||(state.txType==='income'?'salary':'other'));
+    var accId = state.txType==='transfer' ? null : state.selectedAcc;
+    if(!accId && state.accounts.length>0) accId = state.accounts[0].id; 
+    
+    var tx={id:state.editTxId||uid(),type:state.txType,amount:amount,category:cat,desc:desc,date:state.editTxId?(state.transactions.find(function(x){return x.id===state.editTxId})||{}).date||Date.now():Date.now(),accountId:accId};
+    if(state.txType==='transfer'){tx.fromAcc=state.selectedFromAcc;tx.toAcc=state.selectedToAcc}
+    
+    // Update state arrays directly
+    if(state.editTxId) {
+        state.transactions = state.transactions.map(t => t.id === state.editTxId ? tx : t);
+    } else {
+        state.transactions.push(tx);
+    }
+    
+    if(state.txType==='transfer'){
+        var fa=state.accounts.find(function(x){return x.id===tx.fromAcc});
+        var ta=state.accounts.find(function(x){return x.id===tx.toAcc});
+        if(fa){fa.balance=Math.round(fa.balance-amount);}
+        if(ta){ta.balance=Math.round(ta.balance+amount);}
+    } else {
+        var acc=state.accounts.find(function(x){return x.id===accId});
+        if(acc){
+            if(state.txType==='expense')acc.balance=Math.round(acc.balance-amount);
+            if(state.txType==='income')acc.balance=Math.round(acc.balance+amount);
+        }
+    }
+    
+    state.settings.xp=(state.settings.xp||0)+5;
+    saveData();
+    state.selectedCat=null;state.editTxId=null;
+    closeModal('addModal');
+    playBeep();
+    toast('ذخیره شد');
+    renderPage(state.currentPage);
+  }catch(e){
+    toast('خطا در ذخیره: '+e.message,'error');
+  }
+}
+function editTx(id){var tx=state.transactions.find(function(x){return x.id===id});if(!tx)return;state.editTxId=id;state.txType=tx.type;state.selectedCat=tx.category;state.selectedAcc=tx.accountId;state.selectedFromAcc=tx.fromAcc;state.selectedToAcc=tx.toAcc;document.getElementById('addModalTitle').textContent='ویرایش';document.getElementById('addAmount').value=fmt(tx.amount);document.getElementById('addDesc').value=tx.desc||'';document.getElementById('modalCurrency').textContent=getCur();setTxType(tx.type);renderAccGrid();openModal('addModal')}
+function askDeleteTx(id){state.deleteTxId=id;openModal('deleteModal')}
+function confirmDelete(){
+    if(!state.deleteTxId)return;
+    var tx=state.transactions.find(function(x){return x.id===state.deleteTxId});
+    if(tx){
+        if(tx.type==='transfer'){
+            var fa=state.accounts.find(function(a){return a.id===tx.fromAcc});
+            var ta=state.accounts.find(function(a){return a.id===tx.toAcc});
+            if(fa){fa.balance=Math.round(fa.balance+tx.amount);}
+            if(ta){ta.balance=Math.round(ta.balance-tx.amount);}
+        }else{
+            var acc=state.accounts.find(function(a){return a.id===tx.accountId});
+            if(acc){
+                if(tx.type==='expense')acc.balance=Math.round(acc.balance+tx.amount);
+                if(tx.type==='income')acc.balance=Math.round(acc.balance-tx.amount);
+            }
+        }
+    }
+    state.transactions = state.transactions.filter(t => t.id !== state.deleteTxId);
+    state.deleteTxId=null;saveData();closeModal('deleteModal');toast('حذف شد');renderPage(state.currentPage);
+}
+
+function renderAccounts(){document.getElementById('accList').innerHTML=state.accounts.map(function(a){return '<div class="acc-card"><div class="acc-card-name">'+(a.type==='bank'?'🏦':'💵')+' '+a.name+(a.isDefault?' <span class="acc-default-badge">پیش‌فرض</span>':'')+'</div>'+(a.cardNumber?'<div class="acc-card-detail">💳 '+a.cardNumber+'</div>':'')+(a.sheba?'<div class="acc-card-detail">🔹 '+a.sheba+'</div>':'')+'<div class="acc-card-bal">'+fmt(a.balance)+' '+getCur()+'</div><div class="acc-card-actions"><button onclick="setDefaultAcc(\''+a.id+'\')">پیش‌فرض</button><button onclick="deleteAcc(\''+a.id+'\')">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.85rem;padding:12px">حسابی ثبت نشده</div>'}
 function openAddAccount(){state.accType='cash';['accBankName','accCardNumber','accSheba','accBalance'].forEach(function(id){document.getElementById(id).value=''});setAccType('cash');openModal('accountModal')}
 function setAccType(t){state.accType=t;document.getElementById('accTypeCash').className='chip'+(t==='cash'?' active':'');document.getElementById('accTypeBank').className='chip'+(t==='bank'?' active':'');document.getElementById('accBankFields').style.display=t==='bank'?'block':'none'}
-async function saveAccount(){var name=state.accType==='bank'?document.getElementById('accBankName').value.trim():'نقدی';if(!name){toast('نام حساب','error');return}await dbPut('accounts',{id:uid(),type:state.accType,name:name,balance:parseNum(document.getElementById('accBalance').value),cardNumber:document.getElementById('accCardNumber').value.trim(),sheba:document.getElementById('accSheba').value.trim(),isDefault:state.accounts.length===0});await loadAll();closeModal('accountModal');toast('ذخیره شد');renderAccounts()}
-async function setDefaultAcc(id){for(var i=0;i<state.accounts.length;i++){state.accounts[i].isDefault=state.accounts[i].id===id;await dbPut('accounts',state.accounts[i])}toast('پیش‌فرض شد');renderAccounts()}
-async function deleteAcc(id){await dbDel('accounts',id);await loadAll();toast('حذف شد');renderAccounts()}
+function saveAccount(){var name=state.accType==='bank'?document.getElementById('accBankName').value.trim():'نقدی';if(!name){toast('نام حساب','error');return}state.accounts.push({id:uid(),type:state.accType,name:name,balance:parseNum(document.getElementById('accBalance').value),cardNumber:document.getElementById('accCardNumber').value.trim(),sheba:document.getElementById('accSheba').value.trim(),isDefault:state.accounts.length===0});saveData();closeModal('accountModal');toast('ذخیره شد');renderAccounts()}
+function setDefaultAcc(id){state.accounts.forEach(function(a){a.isDefault=a.id===id});saveData();toast('پیش‌فرض شد');renderAccounts()}
+function deleteAcc(id){state.accounts=state.accounts.filter(a=>a.id!==id);saveData();toast('حذف شد');renderAccounts()}
 
-/* ═══ INVESTMENTS ═══ */
-function renderInvestments(){var invs=state.investments;var total=0,pl=0;invs.forEach(function(inv){total+=(inv.curPrice||0)*inv.qty;pl+=((inv.curPrice||0)-(inv.buyPrice||0))*inv.qty});var cur=' '+getCurrency();document.getElementById('invDashboard').innerHTML='<div class="inv-dashboard"><div class="inv-total">'+fmt(total)+cur+'</div><div class="inv-pl '+(pl>=0?'pos':'neg')+'">'+(pl>=0?'+':'')+fmt(pl)+' سود/زیان</div><div class="inv-stats"><div class="inv-stat"><div class="inv-stat-label">تعداد</div><div class="inv-stat-val">'+invs.length+'</div></div><div class="inv-stat"><div class="inv-stat-label">بازدهی</div><div class="inv-stat-val">'+(total?Math.round(pl/(total-pl||1)*100):0)+'%</div></div></div></div>';document.getElementById('invList').innerHTML=invs.map(function(inv){var tp=INV_TYPES[inv.invType]||INV_TYPES.other;var ipl=((inv.curPrice||0)-(inv.buyPrice||0))*inv.qty;return '<div class="inv-card"><div class="inv-card-name">'+tp.e+' '+inv.name+'</div><div class="inv-card-row"><span>تعداد</span><span>'+inv.qty+' '+inv.unit+'</span></div><div class="inv-card-row"><span>خرید</span><span>'+fmt(inv.buyPrice)+cur+'</span></div><div class="inv-card-row"><span>فعلی</span><span>'+fmt(inv.curPrice)+cur+'</span></div><div class="inv-card-pl '+(ipl>=0?'pos':'neg')+'">'+(ipl>=0?'+':'')+fmt(ipl)+cur+'</div><div class="inv-card-actions"><button onclick="updateInvPrice(\''+inv.id+'\')">بروزرسانی</button><button onclick="deleteInv(\''+inv.id+'\')">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.55rem;padding:10px">سرمایه‌گذاری ندارید</div>'}
+function renderInvestments(){var invs=state.investments;var total=0,pl=0;invs.forEach(function(inv){total+=(inv.curPrice||0)*inv.qty;pl+=((inv.curPrice||0)-(inv.buyPrice||0))*inv.qty});var cur=' '+getCur();document.getElementById('invDashboard').innerHTML='<div class="inv-dashboard"><div class="inv-total">'+fmt(total)+cur+'</div><div class="inv-pl '+(pl>=0?'pos':'neg')+'">'+(pl>=0?'+':'')+fmt(pl)+' سود/زیان</div><div class="inv-stats"><div class="inv-stat"><div class="inv-stat-label">تعداد</div><div class="inv-stat-val">'+invs.length+'</div></div><div class="inv-stat"><div class="inv-stat-label">بازدهی</div><div class="inv-stat-val">'+(total>0?Math.round(pl/total*100):0)+'%</div></div></div></div>';document.getElementById('invList').innerHTML=invs.map(function(inv){var tp=INV_TYPES[inv.invType]||INV_TYPES.other;var ipl=((inv.curPrice||0)-(inv.buyPrice||0))*inv.qty;return '<div class="inv-card"><div class="inv-card-name">'+tp.e+' '+inv.name+'</div><div class="inv-card-row"><span>تعداد</span><span>'+inv.qty+' '+inv.unit+'</span></div><div class="inv-card-row"><span>خرید</span><span>'+fmt(inv.buyPrice)+cur+'</span></div><div class="inv-card-row"><span>فعلی</span><span>'+fmt(inv.curPrice)+cur+'</span></div><div class="inv-card-pl '+(ipl>=0?'pos':'neg')+'">'+(ipl>=0?'+':'')+fmt(ipl)+cur+'</div><div class="inv-card-actions"><button onclick="updateInvPrice(\''+inv.id+'\')">بروزرسانی</button><button onclick="deleteInv(\''+inv.id+'\')">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.85rem;padding:12px">سرمایه‌گذاری ندارید</div>'}
 function openInvModal(){state.selectedInvType='gold';document.getElementById('invTypeGrid').innerHTML=Object.keys(INV_TYPES).map(function(k){return '<div class="inv-type-btn'+(state.selectedInvType===k?' selected':'')+'" onclick="state.selectedInvType=\''+k+'\';document.querySelectorAll(\'#invTypeGrid .inv-type-btn\').forEach(function(e){e.classList.remove(\'selected\')});this.classList.add(\'selected\')"><span class="ie">'+INV_TYPES[k].e+'</span>'+INV_TYPES[k].n+'</div>'}).join('');['invName','invQty','invUnit','invBuyPrice','invCurPrice'].forEach(function(id){document.getElementById(id).value=''});openModal('invModal')}
-async function submitInv(){var name=document.getElementById('invName').value.trim();if(!name){toast('نام الزامی','error');return}await dbPut('investments',{id:uid(),invType:state.selectedInvType,name:name,qty:parseNum(document.getElementById('invQty').value)||parseFloat(document.getElementById('invQty').value)||0,unit:document.getElementById('invUnit').value.trim()||'عدد',buyPrice:parseNum(document.getElementById('invBuyPrice').value),curPrice:parseNum(document.getElementById('invCurPrice').value),date:Date.now()});await loadAll();closeModal('invModal');toast('ذخیره شد');renderInvestments()}
+function submitInv(){var name=document.getElementById('invName').value.trim();if(!name){toast('نام الزامی','error');return}state.investments.push({id:uid(),invType:state.selectedInvType,name:name,qty:parseNum(document.getElementById('invQty').value)||0,unit:document.getElementById('invUnit').value.trim()||'عدد',buyPrice:parseNum(document.getElementById('invBuyPrice').value),curPrice:parseNum(document.getElementById('invCurPrice').value),date:Date.now()});saveData();closeModal('invModal');toast('ذخیره شد');renderInvestments()}
 function updateInvPrice(id){state.invEditId=id;openModal('invPriceModal')}
-async function confirmInvPrice(){var inv=state.investments.find(function(i){return i.id===state.invEditId});if(!inv)return;inv.curPrice=parseNum(document.getElementById('invNewPrice').value);await dbPut('investments',inv);await loadAll();closeModal('invPriceModal');toast('بروزرسانی شد');renderInvestments()}
-async function deleteInv(id){await dbDel('investments',id);await loadAll();toast('حذف شد');renderInvestments()}
+function confirmInvPrice(){var inv=state.investments.find(function(i){return i.id===state.invEditId});if(!inv)return;inv.curPrice=parseNum(document.getElementById('invNewPrice').value);saveData();closeModal('invPriceModal');toast('بروزرسانی شد');renderInvestments()}
+function deleteInv(id){state.investments=state.investments.filter(i=>i.id!==id);saveData();toast('حذف شد');renderInvestments()}
 
-/* ═══ DEBTS ═══ */
-function renderDebts(){var cur=' '+getCurrency();var total=0;state.debts.filter(function(d){return d.status==='open'}).forEach(function(d){total+=d.amount});document.getElementById('debtTotalArea').innerHTML=total?'<div class="total-badge danger">بدهی باز: '+fmt(total)+cur+'</div>':'<div class="total-badge safe">بدون بدهی 🎉</div>';document.getElementById('debtList').innerHTML=state.debts.map(function(d){return '<div class="debt-card"><div class="debt-title"><span>'+d.name+'</span><span class="debt-status '+(d.status==='open'?'open':'paid')+'">'+(d.status==='open'?'باز':'پرداخت‌شده')+'</span></div><div class="debt-amount">'+fmt(d.amount)+cur+'</div><div class="debt-meta">'+(d.note||'')+'</div>'+(d.status==='open'?'<div class="debt-actions"><button onclick="payDebt(\''+d.id+'\')">پرداخت</button><button onclick="deleteDebt(\''+d.id+'\')">حذف</button></div>':'')+'</div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.55rem;padding:10px">بدهی ندارید</div>'}
+function renderDebts(){var cur=' '+getCur();var total=0;state.debts.filter(function(d){return d.status==='open'}).forEach(function(d){total+=d.amount});document.getElementById('debtTotalArea').innerHTML=total?'<div class="total-badge danger">بدهی باز: '+fmt(total)+cur+'</div>':'<div class="total-badge safe">بدون بدهی 🎉</div>';document.getElementById('debtList').innerHTML=state.debts.map(function(d){return '<div class="debt-card"><div class="debt-title"><span>'+d.name+'</span><span class="debt-status '+(d.status==='open'?'open':'paid')+'">'+(d.status==='open'?'باز':'پرداخت‌شده')+'</span></div><div class="debt-amount">'+fmt(d.amount)+cur+'</div><div class="debt-meta">'+(d.note||'')+'</div>'+(d.status==='open'?'<div class="debt-actions"><button onclick="payDebt(\''+d.id+'\')">پرداخت</button><button onclick="deleteDebt(\''+d.id+'\')">حذف</button></div>':'')+'</div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.85rem;padding:12px">بدهی ندارید</div>'}
 function openDebtModal(){['debtName','debtAmount','debtNote'].forEach(function(id){document.getElementById(id).value=''});openModal('debtModal')}
-async function saveDebt(){var name=document.getElementById('debtName').value.trim();if(!name){toast('نام الزامی','error');return}await dbPut('debts',{id:uid(),name:name,amount:parseNum(document.getElementById('debtAmount').value),status:'open',note:document.getElementById('debtNote').value.trim(),date:Date.now()});await loadAll();closeModal('debtModal');toast('ذخیره شد');renderDebts()}
-function payDebt(id){state.debtPayId=id;var d=state.debts.find(function(x){return x.id===id});if(!d)return;document.getElementById('payDebtInfo').textContent=d.name;document.getElementById('payDebtAmount').textContent=fmt(d.amount)+' '+getCurrency();openModal('payDebtModal')}
-async function payDebtWith(method){var d=state.debts.find(function(x){return x.id===state.debtPayId});if(!d)return;d.status='paid';d.payMethod=method;await dbPut('debts',d);await loadAll();closeModal('payDebtModal');toast('پرداخت شد');renderDebts()}
-async function deleteDebt(id){await dbDel('debts',id);await loadAll();toast('حذف شد');renderDebts()}
+function saveDebt(){var name=document.getElementById('debtName').value.trim();if(!name){toast('نام الزامی','error');return}state.debts.push({id:uid(),name:name,amount:parseNum(document.getElementById('debtAmount').value),status:'open',note:document.getElementById('debtNote').value.trim(),date:Date.now()});saveData();closeModal('debtModal');toast('ذخیره شد');renderDebts()}
+function payDebt(id){state.debtPayId=id;var d=state.debts.find(function(x){return x.id===id});if(!d)return;document.getElementById('payDebtInfo').textContent=d.name;document.getElementById('payDebtAmount').textContent=fmt(d.amount)+' '+getCur();openModal('payDebtModal')}
+function payDebtWith(method){var d=state.debts.find(function(x){return x.id===state.debtPayId});if(!d)return;d.status='paid';d.payMethod=method;saveData();closeModal('payDebtModal');toast('پرداخت شد');renderDebts()}
+function deleteDebt(id){state.debts=state.debts.filter(d=>d.id!==id);saveData();toast('حذف شد');renderDebts()}
 
-/* ═══ INSTALLMENTS ═══ */
-function renderInstallments(){var cur=' '+getCurrency();document.getElementById('instList').innerHTML=state.installments.map(function(inst){var pct=Math.round(inst.paid/(inst.total||1)*100);return '<div class="inst-card"><div class="inst-title"><span>'+inst.name+'</span><span style="font-size:.42rem;color:var(--text3)">'+inst.paid+'/'+inst.total+' ماه</span></div><div class="inst-meta"><span>ماهانه: '+fmt(inst.monthly)+cur+'</span><span>مانده: '+fmt((inst.total-inst.paid)*inst.monthly)+cur+'</span></div><div class="inst-progress"><div class="inst-bar"><div class="inst-fill" style="width:'+pct+'%"></div></div><div class="inst-pct">'+pct+'%</div></div><div class="inst-actions"><button onclick="deleteInst(\''+inst.id+'\')">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.55rem;padding:10px">قسطی ثبت نشده</div>'}
-function openInstModal(){['instName','instMonthly','instTotal','instPaid'].forEach(function(id){document.getElementById(id).value=''});openModal('instModal')}
-async function saveInst(){var name=document.getElementById('instName').value.trim();if(!name){toast('نام الزامی','error');return}await dbPut('installments',{id:uid(),name:name,monthly:parseNum(document.getElementById('instMonthly').value),total:parseNum(document.getElementById('instTotal').value)||12,paid:parseNum(document.getElementById('instPaid').value)||0,date:Date.now()});await loadAll();closeModal('instModal');toast('ذخیره شد');renderInstallments()}
-async function deleteInst(id){await dbDel('installments',id);await loadAll();toast('حذف شد');renderInstallments()}
+function renderInstallments(){var cur=' '+getCur();document.getElementById('instList').innerHTML=state.installments.map(function(inst){var total=Math.max(1,Number(inst.total)||1);var paid=Math.max(0,Math.min(Number(inst.paid)||0,total));var pct=Math.min(100,Math.round(paid/total*100));var remain=(total-paid)*(Number(inst.monthly)||0);return '<div class="inst-card"><div class="inst-title"><span>'+inst.name+'</span><span style="font-size:.7rem;color:var(--text3)">'+paid+'/'+total+' ماه</span></div><div class="inst-meta"><span>ماهانه: '+fmt(inst.monthly)+cur+'</span><span>مانده: '+fmt(remain)+cur+'</span></div><div class="inst-progress"><div class="inst-bar"><div class="inst-fill" style="width:'+pct+'%"></div></div><div class="inst-pct">'+pct+'%</div></div><div class="inst-actions"><button onclick="editInst(\''+inst.id+'\')">ویرایش</button><button onclick="deleteInst(\''+inst.id+'\')">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.85rem;padding:12px">قسطی ثبت نشده</div>'}
+function openInstModal(){state.editInstId=null;document.getElementById('instModalTitle').textContent='قسط جدید';['instName','instMonthly','instTotal','instPaid'].forEach(function(id){document.getElementById(id).value=''});openModal('instModal')}
+function editInst(id){var inst=state.installments.find(function(x){return x.id===id});if(!inst)return;state.editInstId=id;document.getElementById('instModalTitle').textContent='ویرایش قسط';document.getElementById('instName').value=inst.name;document.getElementById('instMonthly').value=fmt(inst.monthly);document.getElementById('instTotal').value=inst.total;document.getElementById('instPaid').value=inst.paid;openModal('instModal')}
+function saveInst(){var name=document.getElementById('instName').value.trim();if(!name){toast('نام الزامی','error');return}var total=Math.max(1,parseNum(document.getElementById('instTotal').value)||12);var paid=Math.max(0,Math.min(parseNum(document.getElementById('instPaid').value)||0,total));var inst={id:state.editInstId||uid(),name:name,monthly:parseNum(document.getElementById('instMonthly').value),total:total,paid:paid,date:Date.now()};if(state.editInstId){state.installments=state.installments.map(i=>i.id===state.editInstId?inst:i)}else{state.installments.push(inst)}state.editInstId=null;saveData();closeModal('instModal');toast('ذخیره شد');renderInstallments()}
+function deleteInst(id){state.installments=state.installments.filter(i=>i.id!==id);saveData();toast('حذف شد');renderInstallments()}
 
-/* ═══ BUDGET ═══ */
-function renderBudget(){
-  var mtx=getMonthTx();var spent=0;var catSpent={};
-  mtx.forEach(function(t){if(t.type==='expense'){spent+=t.amount;catSpent[t.category]=(catSpent[t.category]||0)+t.amount}});
-  var total=Object.values(BUDGETS).reduce(function(a,b){return a+b},0);
-  var cur=' '+getCurrency();
-  document.getElementById('budgetSpent').textContent=fmt(spent)+cur;
-  document.getElementById('budgetTotal').textContent=fmt(total)+cur;
-  document.getElementById('budgetTotalFill').style.width=Math.min(100,spent/total*100)+'%';
-  document.getElementById('budgetPct').textContent=Math.round(spent/total*100)+'% استفاده شده';
-  var dh='';
-  Object.keys(C).forEach(function(k){
-    var s=catSpent[k]||0;
-    var b=BUDGETS[k]||0;
-    var p=b>0?Math.round(s/b*100):0;
-    dh+='<div class="budget-row">';
-    dh+='<div class="budget-cat-icon">'+C[k].e+'</div>';
-    dh+='<div class="budget-info">';
-    dh+='<div class="budget-name"><span>'+C[k].n+'</span>';
-    dh+='<span style="font-size:.48rem;display:flex;align-items:center;gap:3px">'+fmt(s)+cur+' / ';
-    dh+='<input style="width:65px;background:var(--glass);border:1px solid var(--border);border-radius:4px;padding:1px 4px;font-size:.48rem;text-align:center;color:var(--text);direction:ltr" type="text" value="'+b+'" oninput="fmtInp(this)" onchange="updateBudget(\''+k+'\',this.value)">';
-    dh+='</span></div>';
-    dh+='<div class="budget-bar"><div class="budget-fill" style="width:'+Math.min(100,p)+'%;background:'+(p>100?'var(--danger)':p>70?'var(--warning)':'var(--success)')+'"></div></div>';
-    dh+='<div class="budget-pct">'+p+'%</div>';
-    dh+='</div></div>';
-  });
-  document.getElementById('budgetDetails').innerHTML=dh;
-  renderGoals();renderWallets();renderZBB();
-}function renderGoals(){var cur=' '+getCurrency();document.getElementById('goalsList').innerHTML=state.goals.map(function(g){var pct=g.target?Math.round(g.saved/g.target*100):0;return '<div class="goal-card"><div class="goal-header"><span class="goal-title">'+g.title+'</span><span class="goal-amounts">'+fmt(g.saved)+' / '+fmt(g.target)+cur+'</span></div><div class="goal-bar"><div class="goal-fill" style="width:'+Math.min(100,pct)+'%"></div></div><div class="goal-remain">'+(100-pct)+'% باقی</div><div style="display:flex;gap:3px;margin-top:3px"><button class="goal-add-btn" onclick="openGoalAdd(\''+g.id+'\')">+ مبلغ</button><button class="goal-add-btn" onclick="deleteGoal(\''+g.id+'\')" style="color:var(--danger)">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.5rem;padding:6px">هدفی ثبت نشده</div>'}
-async function addGoal(){var t=document.getElementById('newGoalTitle').value.trim();var a=parseNum(document.getElementById('newGoalAmount').value);if(!t||!a){toast('عنوان و مبلغ','error');return}await dbPut('goals',{id:uid(),title:t,target:a,saved:0,date:Date.now()});await loadAll();document.getElementById('newGoalTitle').value='';document.getElementById('newGoalAmount').value='';toast('ذخیره شد');renderGoals()}
-function openGoalAdd(id){state.goalAddId=id;openModal('goalAddModal')}
-async function confirmGoalAdd(){var g=state.goals.find(function(x){return x.id===state.goalAddId});if(!g)return;g.saved+=parseNum(document.getElementById('goalAddAmount').value);await dbPut('goals',g);await loadAll();closeModal('goalAddModal');toast('افزوده شد');renderGoals()}
-async function deleteGoal(id){await dbDel('goals',id);await loadAll();toast('حذف شد');renderGoals()}
-function renderWallets(){var cur=' '+getCurrency();document.getElementById('walletList').innerHTML=state.wallets.map(function(w){return '<div class="wallet-card"><div class="wallet-title">'+w.name+'</div><div class="wallet-members">'+(w.members||'')+'</div><div class="wallet-budget"><span>بودجه: '+fmt(w.budget)+cur+'</span></div><div class="wallet-actions"><button onclick="deleteWallet(\''+w.id+'\')">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.5rem;padding:6px">کیف پول ندارید</div>'}
-async function addWallet(){var n=document.getElementById('walletName').value.trim();if(!n){toast('نام الزامی','error');return}await dbPut('wallets',{id:uid(),name:n,budget:parseNum(document.getElementById('walletBudget').value),members:document.getElementById('walletMembers').value.trim(),date:Date.now()});await loadAll();closeModal('walletModal');toast('ساخته شد');renderWallets()}
-async function deleteWallet(id){await dbDel('wallets',id);await loadAll();toast('حذف شد');renderWallets()}
-function renderZBB(){document.getElementById('zbbRows').innerHTML=Object.keys(C).map(function(k){return '<div class="zbb-row"><span style="font-size:.75rem">'+C[k].e+'</span><span style="flex:1;font-size:.55rem;font-weight:600">'+C[k].n+'</span><input class="zbb-input" type="text" inputmode="decimal" oninput="fmtInp(this);calcZBB()" placeholder="0" data-cat="'+k+'"><span class="zbb-status" id="zbb-'+k+'"></span></div>'}).join('')}
+function renderBudget(){var mtx=getMonthTx();var spent=0;var catSpent={};mtx.forEach(function(t){if(t.type==='expense'){spent+=t.amount;catSpent[t.category]=(catSpent[t.category]||0)+t.amount}});var totalBudget=Object.values(BUDGETS).reduce(function(a,b){return a+b},0);var cur=' '+getCur();document.getElementById('budgetSpent').textContent=fmt(spent)+cur;document.getElementById('budgetTotal').textContent=fmt(totalBudget)+cur;document.getElementById('budgetTotalFill').style.width=totalBudget>0?Math.min(100,spent/totalBudget*100)+'%':'0%';document.getElementById('budgetPct').textContent=totalBudget>0?Math.round(spent/totalBudget*100)+'% استفاده شده':'بودجه تنظیم نشده';var dh='';Object.keys(C).forEach(function(k){var s=catSpent[k]||0;var b=BUDGETS[k]||0;var p=b>0?Math.min(100,Math.round(s/b*100)):0;dh+='<div class="budget-row"><div class="budget-cat-icon">'+C[k].e+'</div><div class="budget-info"><div class="budget-name"><span>'+C[k].n+'</span><span style="font-size:.75rem;display:flex;align-items:center;gap:6px">خرج: '+fmt(s)+cur+' | بودجه: <input style="width:80px;background:var(--glass);border:1px solid var(--border);border-radius:6px;padding:4px 6px;font-size:.75rem;text-align:center;color:var(--text);direction:ltr" type="text" value="'+(b||'')+'" placeholder="0" oninput="fmtInp(this)" onchange="updateBudget(\''+k+'\',this.value)"></span></div><div class="budget-bar"><div class="budget-fill" style="width:'+Math.min(100,p)+'%;background:'+(b>0?(p>100?'var(--danger)':p>70?'var(--warning)':'var(--success)'):'var(--surface2)')+'"></div></div><div class="budget-pct">'+(b>0?p+'%':'بودجه تعیین نشده')+'</div></div></div>'});document.getElementById('budgetDetails').innerHTML=dh;renderGoals();renderWallets();renderZBB()}
 function updateBudget(cat,val){BUDGETS[cat]=parseNum(val);saveBudgets()}
-function calcZBB(){var inc=parseNum(document.getElementById('zbbIncome').value);var total=0;Object.keys(C).forEach(function(k){var el=document.querySelector('[data-cat="'+k+'"]');if(el){var v=parseNum(el.value);total+=v;var st=document.getElementById('zbb-'+k);if(st)st.className='zbb-status'+(v>0?' ok':'')}});var sum=document.getElementById('zbbSummary');if(total<=inc&&total>0){sum.className='zbb-summary complete';sum.innerHTML='<span>بودجه‌بندی شده</span><span>'+fmt(total)+' از '+fmt(inc)+'</span>'}else if(total>0){sum.className='zbb-summary incomplete';sum.innerHTML='<span>بیش از درآمد!</span><span>'+fmt(total)+' از '+fmt(inc)+'</span>'}else{sum.innerHTML='';sum.className='zbb-summary'}}
-function switchBTab(tab,btn){document.querySelectorAll('#page-budget .tab-btn').forEach(function(b){b.classList.remove('active')});if(btn)btn.classList.add('active');document.getElementById('bt-overview').style.display=tab==='overview'?'block':'none';document.getElementById('bt-zbb').style.display=tab==='zbb'?'block':'none';document.getElementById('bt-wallets').style.display=tab==='wallets'?'block':'none'}
+function renderGoals(){var cur=' '+getCur();document.getElementById('goalsList').innerHTML=state.goals.map(function(g){var pct=g.target>0?Math.min(100,Math.round(g.saved/g.target*100)):0;return '<div class="goal-card"><div class="goal-header"><span class="goal-title">'+g.title+'</span><span class="goal-amounts">'+fmt(g.saved)+' / '+fmt(g.target)+cur+'</span></div><div class="goal-bar"><div class="goal-fill" style="width:'+pct+'%"></div></div><div class="goal-remain">'+(100-pct)+'% باقی</div><div class="goal-actions"><button onclick="openGoalAdd(\''+g.id+'\')">+ مبلغ</button><button onclick="editGoal(\''+g.id+'\')">ویرایش</button><button onclick="deleteGoal(\''+g.id+'\')" style="color:var(--danger)">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.8rem;padding:8px">هدفی ثبت نشده</div>'}
+function addGoal(){var t=document.getElementById('newGoalTitle').value.trim();var a=parseNum(document.getElementById('newGoalAmount').value);if(!t||!a){toast('عنوان و مبلغ','error');return}state.goals.push({id:uid(),title:t,target:a,saved:0,date:Date.now()});saveData();document.getElementById('newGoalTitle').value='';document.getElementById('newGoalAmount').value='';toast('ذخیره شد');renderGoals()}
+function openGoalAdd(id){state.goalAddId=id;document.getElementById('goalAddAmount').value='';openModal('goalAddModal')}
+function confirmGoalAdd(){var g=state.goals.find(function(x){return x.id===state.goalAddId});if(!g)return;g.saved=Math.round(g.saved+parseNum(document.getElementById('goalAddAmount').value));saveData();closeModal('goalAddModal');toast('افزوده شد');renderGoals()}
+function editGoal(id){var g=state.goals.find(function(x){return x.id===id});if(!g)return;state.goalEditId=id;document.getElementById('goalEditTitle').value=g.title;document.getElementById('goalEditTarget').value=fmt(g.target);openModal('goalEditModal')}
+function confirmGoalEdit(){var g=state.goals.find(function(x){return x.id===state.goalEditId});if(!g)return;var t=document.getElementById('goalEditTitle').value.trim();var a=parseNum(document.getElementById('goalEditTarget').value);if(!t||!a){toast('عنوان و مبلغ','error');return}g.title=t;g.target=a;saveData();closeModal('goalEditModal');toast('ویرایش شد');renderGoals()}
+function deleteGoal(id){state.goals=state.goals.filter(g=>g.id!==id);saveData();toast('حذف شد');renderGoals()}
 
-/* ═══ RECURRING ═══ */
-function renderRecurring(){var cur=' '+getCurrency();document.getElementById('recurringList').innerHTML=state.recurring.map(function(r){var cat=getCatInfo(r.category);return '<div class="recurring-card"><div style="font-size:.85rem">'+cat.e+'</div><div class="recurring-info"><div class="recurring-name">'+r.name+'</div><div class="recurring-meta">'+cat.n+' · '+r.freq+'</div></div><div class="recurring-amount" style="color:var(--danger)">'+fmt(r.amount)+cur+'</div><button class="tx-act del" onclick="deleteRecurring(\''+r.id+'\')">🗑️</button></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.55rem;padding:10px">تکرارشونده‌ای ندارید</div>'}
-function openRecurringModal(){state.recType='expense';state.recFreq='monthly';state.selectedCat=null;document.getElementById('recName').value='';document.getElementById('recAmount').value='';setRecType('expense');renderRecCatGrid();openModal('recurringModal')}
+function renderWallets(){var cur=' '+getCur();document.getElementById('walletList').innerHTML=state.wallets.map(function(w){return '<div class="wallet-card"><div class="wallet-title">'+w.name+'</div><div class="wallet-members">'+(w.members||'')+'</div><div class="wallet-budget"><span>بودجه: '+fmt(w.budget)+cur+'</span></div><div class="wallet-actions"><button onclick="editWallet(\''+w.id+'\')">ویرایش</button><button onclick="deleteWallet(\''+w.id+'\')">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.8rem;padding:8px">کیف پول ندارید</div>'}
+function openWalletModal(){state.editWalletId=null;document.getElementById('walletModalTitle').textContent='کیف پول جدید';document.getElementById('walletName').value='';document.getElementById('walletBudget').value='';document.getElementById('walletMembers').value='';openModal('walletModal')}
+function editWallet(id){var w=state.wallets.find(function(x){return x.id===id});if(!w)return;state.editWalletId=id;document.getElementById('walletModalTitle').textContent='ویرایش کیف پول';document.getElementById('walletName').value=w.name;document.getElementById('walletBudget').value=fmt(w.budget);document.getElementById('walletMembers').value=w.members||'';openModal('walletModal')}
+function saveWallet(){var n=document.getElementById('walletName').value.trim();if(!n){toast('نام الزامی','error');return}var w={id:state.editWalletId||uid(),name:n,budget:parseNum(document.getElementById('walletBudget').value),members:document.getElementById('walletMembers').value.trim(),date:Date.now()};if(state.editWalletId){state.wallets=state.wallets.map(x=>x.id===state.editWalletId?w:x)}else{state.wallets.push(w)}state.editWalletId=null;saveData();closeModal('walletModal');toast('ذخیره شد');renderWallets()}
+function deleteWallet(id){state.wallets=state.wallets.filter(w=>w.id!==id);saveData();toast('حذف شد');renderWallets()}
+
+function renderZBB(){var mtx=getMonthTx();var catSpent={};mtx.forEach(function(t){if(t.type==='expense'){catSpent[t.category]=(catSpent[t.category]||0)+t.amount}});var actualInc=0;mtx.forEach(function(t){if(t.type==='income')actualInc+=t.amount});var h=Object.keys(C).map(function(k){var spent=catSpent[k]||0;var budget=BUDGETS[k]||0;return '<div class="zbb-row"><span style="font-size:1.1rem">'+C[k].e+'</span><span style="flex:1;font-size:.8rem;font-weight:600">'+C[k].n+'</span><input class="zbb-input" type="text" inputmode="decimal" oninput="fmtInp(this);calcZBB()" placeholder="0" data-cat="'+k+'" value="'+(budget||'')+'"><span class="zbb-spent">خرج: '+fmt(spent)+'</span><span class="zbb-status" id="zbb-'+k+'"></span></div>'}).join('');document.getElementById('zbbRows').innerHTML=h;document.getElementById('zbbIncome').value=actualInc>0?fmt(actualInc):'';calcZBB()}
+function calcZBB(){var inc=parseNum(document.getElementById('zbbIncome').value);var total=0;Object.keys(C).forEach(function(k){var el=document.querySelector('[data-cat="'+k+'"]');if(el){var v=parseNum(el.value);total+=v;BUDGETS[k]=v;var st=document.getElementById('zbb-'+k);if(st)st.className='zbb-status'+(v>0?' ok':'')}});saveBudgets();var sum=document.getElementById('zbbSummary');if(inc>0&&total<=inc&&total>0){sum.className='zbb-summary complete';sum.innerHTML='<span>بودجه‌بندی شده</span><span>'+fmt(total)+' از '+fmt(inc)+'</span>'}else if(total>inc&&inc>0){sum.className='zbb-summary incomplete';sum.innerHTML='<span>بیش از درآمد!</span><span>'+fmt(total)+' از '+fmt(inc)+'</span>'}else{sum.innerHTML='';sum.className='zbb-summary'}}
+function switchBTab(tab,btn){document.querySelectorAll('#page-budget .tab-btn').forEach(function(b){b.classList.remove('active')});if(btn)btn.classList.add('active');document.getElementById('bt-overview').style.display=tab==='overview'?'block':'none';document.getElementById('bt-zbb').style.display=tab==='zbb'?'block':'none';document.getElementById('bt-wallets').style.display=tab==='wallets'?'block':'none';if(tab==='zbb')renderZBB()}
+
+function renderRecurring(){var cur=' '+getCur();document.getElementById('recurringList').innerHTML=state.recurring.map(function(r){var cat=getCatInfo(r.category);var fl=r.freq==='monthly'?'ماهانه':r.freq==='weekly'?'هفتگی':'روزانه';return '<div class="recurring-card"><div style="font-size:1.3rem">'+cat.e+'</div><div class="recurring-info"><div class="recurring-name">'+r.name+'</div><div class="recurring-meta">'+cat.n+' · '+fl+'</div></div><div class="recurring-amount" style="color:var(--danger)">'+fmt(r.amount)+cur+'</div><div style="display:flex;gap:4px"><button class="tx-act" onclick="editRecurring(\''+r.id+'\')">✏️</button><button class="tx-act del" onclick="deleteRecurring(\''+r.id+'\')">🗑️</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.85rem;padding:12px">تکرارشونده‌ای ندارید</div>'}
+function openRecurringModal(){state.editRecId=null;state.recType='expense';state.recFreq='monthly';state.selectedCat=null;document.getElementById('recModalTitle').textContent='تکرارشونده جدید';document.getElementById('recName').value='';document.getElementById('recAmount').value='';setRecType('expense');setRecFreq('monthly');renderRecCatGrid();openModal('recurringModal')}
+function editRecurring(id){var r=state.recurring.find(function(x){return x.id===id});if(!r)return;state.editRecId=id;state.recType=r.type||'expense';state.recFreq=r.freq||'monthly';state.selectedCat=r.category;document.getElementById('recModalTitle').textContent='ویرایش';document.getElementById('recName').value=r.name;document.getElementById('recAmount').value=fmt(r.amount);setRecType(state.recType);setRecFreq(state.recFreq);renderRecCatGrid();openModal('recurringModal')}
 function setRecType(t){state.recType=t;document.getElementById('recBtnExpense').className='type-btn'+(t==='expense'?' active':'');document.getElementById('recBtnIncome').className='type-btn'+(t==='income'?' active':'')}
 function setRecFreq(f){state.recFreq=f;['Monthly','Weekly','Daily'].forEach(function(x){document.getElementById('recFreq'+x).className='chip'+(f===x.toLowerCase()?' active':'')})}
 function renderRecCatGrid(){document.getElementById('recCatGrid').innerHTML=Object.keys(C).map(function(k){return '<div class="cat-btn'+(state.selectedCat===k?' selected':'')+'" onclick="state.selectedCat=\''+k+'\';renderRecCatGrid()"><span class="ce">'+C[k].e+'</span>'+C[k].n+'</div>'}).join('')}
-async function saveRecurring(){var n=document.getElementById('recName').value.trim();if(!n){toast('نام الزامی','error');return}await dbPut('recurring',{id:uid(),name:n,amount:parseNum(document.getElementById('recAmount').value),type:state.recType,freq:state.recFreq,category:state.selectedCat||'other',date:Date.now()});await loadAll();closeModal('recurringModal');toast('ذخیره شد');renderRecurring()}
-async function deleteRecurring(id){await dbDel('recurring',id);await loadAll();toast('حذف شد');renderRecurring()}
+function saveRecurring(){var n=document.getElementById('recName').value.trim();if(!n){toast('نام الزامی','error');return}var r={id:state.editRecId||uid(),name:n,amount:parseNum(document.getElementById('recAmount').value),type:state.recType,freq:state.recFreq,category:state.selectedCat||'other',date:Date.now()};if(state.editRecId){state.recurring=state.recurring.map(x=>x.id===state.editRecId?r:x)}else{state.recurring.push(r)}state.editRecId=null;saveData();closeModal('recurringModal');toast('ذخیره شد');renderRecurring()}
+function deleteRecurring(id){state.recurring=state.recurring.filter(r=>r.id!==id);saveData();toast('حذف شد');renderRecurring()}
 
-/* ═══ REMINDERS ═══ */
-function renderReminders(){var cur=' '+getCurrency();var items=[];state.installments.forEach(function(inst){if(inst.paid<inst.total)items.push({icon:'📅',title:inst.name+' - قسط',date:'هر ماه',type:'ok'})});state.debts.filter(function(d){return d.status==='open'}).forEach(function(d){items.push({icon:'💰',title:d.name+' - بدهی',date:fmt(d.amount)+cur,type:'urgent'})});state.recurring.forEach(function(r){items.push({icon:'🔄',title:r.name+' - '+r.freq,date:fmt(r.amount)+cur,type:'soon'})});document.getElementById('reminderList').innerHTML=items.length?items.map(function(it){return '<div class="reminder-item"><div class="reminder-icon">'+it.icon+'</div><div class="reminder-info"><div class="reminder-title">'+it.title+'</div><div class="reminder-date">'+it.date+'</div></div><span class="reminder-days '+it.type+'">'+(it.type==='urgent'?'فوری':it.type==='soon'?'نزدیک':'عادی')+'</span></div>'}).join(''):'<div style="text-align:center;color:var(--text3);font-size:.55rem;padding:10px">یادآوری ندارید</div>'}
+function renderReminders(){var cur=' '+getCur();var items=[];state.installments.forEach(function(inst){if(inst.paid<inst.total)items.push({icon:'📅',title:inst.name+' - قسط',date:'هر ماه',type:'ok'})});state.debts.filter(function(d){return d.status==='open'}).forEach(function(d){items.push({icon:'💰',title:d.name+' - بدهی',date:fmt(d.amount)+cur,type:'urgent'})});state.recurring.forEach(function(r){var fl=r.freq==='monthly'?'ماهانه':r.freq==='weekly'?'هفتگی':'روزانه';items.push({icon:'🔄',title:r.name+' - '+fl,date:fmt(r.amount)+cur,type:'soon'})});document.getElementById('reminderList').innerHTML=items.length?items.map(function(it){return '<div class="reminder-item"><div class="reminder-icon">'+it.icon+'</div><div class="reminder-info"><div class="reminder-title">'+it.title+'</div><div class="reminder-date">'+it.date+'</div></div><span class="reminder-days '+it.type+'">'+(it.type==='urgent'?'فوری':it.type==='soon'?'نزدیک':'عادی')+'</span></div>'}).join(''):'<div style="text-align:center;color:var(--text3);font-size:.85rem;padding:12px">یادآوری ندارید</div>'}
 
-/* ═══ REPORTS ═══ */
-function renderReports(){var cur=' '+getCurrency();var now=new Date();var barData=[];for(var mi=2;mi>=0;mi--){var d=new Date(now.getFullYear(),now.getMonth()-mi,1);var jd=toJalali(d.getFullYear(),d.getMonth()+1,1);var inc=0,exp=0;state.transactions.forEach(function(t){var td=new Date(t.date);if(td.getFullYear()===d.getFullYear()&&td.getMonth()===d.getMonth()){if(t.type==='income')inc+=t.amount;if(t.type==='expense')exp+=t.amount}});barData.push({label:jalaliMonthName(jd[1]),inc:inc,exp:exp})}var maxVal=1;barData.forEach(function(b){maxVal=Math.max(maxVal,b.inc,b.exp)});document.getElementById('reportBar').innerHTML=barData.map(function(b){return '<div class="rbar-col"><div class="rbar-val" style="color:var(--success)">'+fmt(b.inc)+'</div><div class="rbar" style="height:'+Math.max(3,b.inc/maxVal*60)+'px"></div><div class="rbar" style="height:'+Math.max(3,b.exp/maxVal*60)+'px;background:linear-gradient(180deg,var(--danger),#F87171)"></div><div class="rbar-label">'+b.label+'</div></div>'}).join('');var tm=barData[2]||{inc:0,exp:0};var lm=barData[1]||{inc:0,exp:0};var id=lm.inc?Math.round((tm.inc-lm.inc)/lm.inc*100):0;var ed=lm.exp?Math.round((tm.exp-lm.exp)/lm.exp*100):0;document.getElementById('reportCompare').innerHTML='<div class="compare-row"><span class="compare-label">درآمد</span><span class="compare-val '+(id>=0?'up':'down')+'">'+(id>=0?'+':'')+id+'%</span></div><div class="compare-row"><span class="compare-label">هزینه</span><span class="compare-val '+(ed<=0?'down':'up')+'">'+(ed>=0?'+':'')+ed+'%</span></div>';var mtx=getMonthTx();document.getElementById('reportStats').innerHTML='<div class="compare-row"><span class="compare-label">تراکنش‌ها</span><span class="compare-val">'+mtx.length+'</span></div>';document.getElementById('reportMotivation').textContent='ادامه بدهید! 💪'}
+function renderReports(){var cur=' '+getCur();var now=new Date();var barData=[];for(var mi=2;mi>=0;mi--){var d=new Date(now.getFullYear(),now.getMonth()-mi,1);var jd=toJalali(d.getFullYear(),d.getMonth()+1,1);var inc=0,exp=0;state.transactions.forEach(function(t){var td=new Date(t.date);if(td.getFullYear()===d.getFullYear()&&td.getMonth()===d.getMonth()){if(t.type==='income')inc+=t.amount;if(t.type==='expense')exp+=t.amount}});barData.push({label:jalaliMonthName(jd[1]),inc:inc,exp:exp})}var maxVal=1;barData.forEach(function(b){maxVal=Math.max(maxVal,b.inc,b.exp)});document.getElementById('reportBar').innerHTML=barData.map(function(b){return '<div class="rbar-col"><div class="rbar-val" style="color:var(--success)">'+fmt(b.inc)+'</div><div class="rbar" style="height:'+Math.max(4,b.inc/maxVal*80)+'px"></div><div class="rbar" style="height:'+Math.max(4,b.exp/maxVal*80)+'px;background:linear-gradient(180deg,var(--danger),#F87171)"></div><div class="rbar-label">'+b.label+'</div></div>'}).join('');var tm=barData[2]||{inc:0,exp:0};var lm=barData[1]||{inc:0,exp:0};var id=lm.inc?Math.round((tm.inc-lm.inc)/lm.inc*100):0;var ed=lm.exp?Math.round((tm.exp-lm.exp)/lm.exp*100):0;document.getElementById('reportCompare').innerHTML='<div class="compare-row"><span class="compare-label">درآمد</span><span class="compare-val '+(id>=0?'up':'down')+'">'+(id>=0?'+':'')+id+'%</span></div><div class="compare-row"><span class="compare-label">هزینه</span><span class="compare-val '+(ed<=0?'down':'up')+'">'+(ed>=0?'+':'')+ed+'%</span></div>';var mtx=getMonthTx();document.getElementById('reportStats').innerHTML='<div class="compare-row"><span class="compare-label">تراکنش‌ها</span><span class="compare-val">'+mtx.length+'</span></div>';document.getElementById('reportMotivation').textContent='ادامه بدهید! 💪'}
 
-/* ═══ ACHIEVEMENTS ═══ */
-function renderAchievements(){var achs=[{icon:'🎯',title:'اولین تراکنش',check:state.transactions.length>=1},{icon:'📊',title:'۱۰ تراکنش',check:state.transactions.length>=10},{icon:'🏦',title:'اولین حساب',check:state.accounts.length>=1},{icon:'💎',title:'سرمایه‌گذار',check:state.investments.length>=1},{icon:'🎯',title:'هدف‌گذار',check:state.goals.length>=1},{icon:'🔥',title:'۱۰۰ XP',check:(state.settings.xp||0)>=100},{icon:'👑',title:'استاد',check:(state.settings.xp||0)>=1000}];var earned=achs.filter(function(a){return a.check}).length;document.getElementById('achSummary').textContent=earned+'/'+achs.length;document.getElementById('achCount').textContent=earned;document.getElementById('achievementsList').innerHTML=achs.map(function(a){return '<div class="achievement"><div class="ach-icon '+(a.check?'earned':'')+'">'+a.icon+'</div><div class="ach-info"><div class="ach-title">'+a.title+'</div></div><span style="font-size:.6rem">'+(a.check?'✅':'🔒')+'</span></div>'}).join('')}
+function renderAchievements(){var achs=[{icon:'🎯',title:'اولین تراکنش',check:state.transactions.length>=1},{icon:'📊',title:'۱۰ تراکنش',check:state.transactions.length>=10},{icon:'🏦',title:'اولین حساب',check:state.accounts.length>=1},{icon:'💎',title:'سرمایه‌گذار',check:state.investments.length>=1},{icon:'🎯',title:'هدف‌گذار',check:state.goals.length>=1},{icon:'🔥',title:'۱۰۰ XP',check:(state.settings.xp||0)>=100},{icon:'👑',title:'استاد',check:(state.settings.xp||0)>=1000}];var earned=achs.filter(function(a){return a.check}).length;document.getElementById('achSummary').textContent=earned+'/'+achs.length;document.getElementById('achCount').textContent=earned;document.getElementById('achievementsList').innerHTML=achs.map(function(a){return '<div class="achievement"><div class="ach-icon '+(a.check?'earned':'')+'">'+a.icon+'</div><div class="ach-info"><div class="ach-title">'+a.title+'</div></div><span style="font-size:.9rem">'+(a.check?'✅':'🔒')+'</span></div>'}).join('')}
 
-/* ═══ PROFILE ═══ */
-function renderProfile(){document.getElementById('userName').textContent=state.settings.name;document.getElementById('userAvatar').textContent=state.settings.avatar;document.getElementById('txCount').textContent=state.transactions.length;document.getElementById('accCount').textContent=state.accounts.length;var openDebts=state.debts.filter(function(d){return d.status==='open'});var dt=0;openDebts.forEach(function(d){dt+=d.amount});document.getElementById('debtSummary').textContent=openDebts.length?fmt(dt)+' '+getCurrency():'بدون بدهی';document.getElementById('instSummary').textContent=state.installments.filter(function(i){return i.paid<i.total}).length+' قسط';var invTotal=0;state.investments.forEach(function(i){invTotal+=(i.curPrice||0)*i.qty});document.getElementById('invSummary').textContent=state.investments.length?fmt(invTotal)+' '+getCurrency():'ندارد';document.getElementById('accountsSummary').textContent=state.accounts.length+' حساب';document.getElementById('recurringSummary').textContent=state.recurring.length+' مورد';document.getElementById('reminderSummary').textContent=(state.installments.filter(function(i){return i.paid<i.total}).length+state.debts.filter(function(d){return d.status==='open'}).length)+' یادآور';document.getElementById('currencyLabel').textContent=getCurrency();document.getElementById('securityStatus').textContent=state.settings.pin?'فعال':'غیرفعال';document.getElementById('licenseLabel').textContent=state.settings.licenseStatus==='pro'?'PRO':'رایگان'}
+function renderProfile(){document.getElementById('userName').textContent=state.settings.name;document.getElementById('userAvatar').textContent=state.settings.avatar;document.getElementById('txCount').textContent=state.transactions.length;document.getElementById('accCount').textContent=state.accounts.length;var od=state.debts.filter(function(d){return d.status==='open'});var dt=0;od.forEach(function(d){dt+=d.amount});document.getElementById('debtSummary').textContent=od.length?fmt(dt)+' '+getCur():'بدون بدهی';document.getElementById('instSummary').textContent=state.installments.filter(function(i){return i.paid<i.total}).length+' قسط';var invT=0;state.investments.forEach(function(i){invT+=(i.curPrice||0)*i.qty});document.getElementById('invSummary').textContent=state.investments.length?fmt(invT)+' '+getCur():'ندارد';document.getElementById('accountsSummary').textContent=state.accounts.length+' حساب';document.getElementById('recurringSummary').textContent=state.recurring.length+' مورد';document.getElementById('reminderSummary').textContent=(state.installments.filter(function(i){return i.paid<i.total}).length+state.debts.filter(function(d){return d.status==='open'}).length)+' یادآور';document.getElementById('currencyLabel').textContent=getCur();document.getElementById('securityStatus').textContent=state.settings.pin?'فعال':'غیرفعال';document.getElementById('licenseLabel').textContent=state.settings.licenseStatus==='pro'?'PRO':'رایگان'}
 
-/* ═══ CUSTOM CATS ═══ */
-function renderCustomCats(){document.getElementById('defaultCatsGrid').innerHTML=Object.keys(C).map(function(k){return '<div class="cc-item"><span class="ce">'+C[k].e+'</span>'+C[k].n+'</div>'}).join('');document.getElementById('customCatsList').innerHTML=state.customCats.map(function(cc){return '<div class="cc-item"><span class="ce">'+cc.emoji+'</span>'+cc.name+'<span class="cc-del" onclick="deleteCustomCat(\''+cc.id+'\')">×</span></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.5rem;padding:6px">دسته سفارشی ندارید</div>'}
-async function addCustomCat(){var n=document.getElementById('newCatName').value.trim();if(!n){toast('نام الزامی','error');return}var e=document.getElementById('newCatEmoji').value.trim()||'📦';await dbPut('customCats',{id:uid(),name:n,emoji:e,date:Date.now()});await loadAll();document.getElementById('newCatName').value='';document.getElementById('newCatEmoji').value='';toast('اضافه شد');renderCustomCats()}
-async function deleteCustomCat(id){await dbDel('customCats',id);await loadAll();toast('حذف شد');renderCustomCats()}
-function openEmojiPicker(){document.getElementById('emojiGrid').innerHTML=EMOJIS.map(function(e){return '<div style="text-align:center;font-size:1.3rem;padding:5px;cursor:pointer;border-radius:5px" onclick="document.getElementById(\'newCatEmoji\').value=\''+e+'\';closeModal(\'emojiModal\')">'+e+'</div>'}).join('');openModal('emojiModal')}
+function renderCustomCats(){document.getElementById('defaultCatsGrid').innerHTML=Object.keys(C).map(function(k){return '<div class="cc-item"><span class="ce">'+C[k].e+'</span>'+C[k].n+'</div>'}).join('');document.getElementById('incomeCatsGrid').innerHTML=Object.keys(INC).map(function(k){return '<div class="cc-item"><span class="ce">'+INC[k].e+'</span>'+INC[k].n+'</div>'}).join('');document.getElementById('customCatsList').innerHTML=state.customCats.map(function(cc){return '<div class="cc-item"><span class="ce">'+cc.emoji+'</span>'+cc.name+'<span class="cc-del" onclick="deleteCustomCat(\''+cc.id+'\')">×</span></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.8rem;padding:8px">دسته سفارشی ندارید</div>'}
+function addCustomCat(){var n=document.getElementById('newCatName').value.trim();if(!n){toast('نام الزامی','error');return}var e=document.getElementById('newCatEmoji').value.trim()||'📦';state.customCats.push({id:uid(),name:n,emoji:e,date:Date.now()});saveData();document.getElementById('newCatName').value='';document.getElementById('newCatEmoji').value='';toast('اضافه شد');renderCustomCats()}
+function deleteCustomCat(id){state.customCats=state.customCats.filter(c=>c.id!==id);saveData();toast('حذف شد');renderCustomCats()}
+function openEmojiPicker(){document.getElementById('emojiGrid').innerHTML=EMOJIS.map(function(e){return '<div style="text-align:center;font-size:1.6rem;padding:6px;cursor:pointer;border-radius:6px" onclick="document.getElementById(\'newCatEmoji\').value=\''+e+'\';closeModal(\'emojiModal\')">'+e+'</div>'}).join('');openModal('emojiModal')}
 
-/* ═══ AVATAR/NAME ═══ */
 function openAvatarModal(){document.getElementById('avatarGrid').innerHTML=AVATARS.map(function(a){return '<div class="avatar-opt'+(state.settings.avatar===a?' selected':'')+'" onclick="selectAvatar(this,\''+a+'\')">'+a+'</div>'}).join('');openModal('avatarModal')}
 function selectAvatar(el,a){state.settings.avatar=a;document.querySelectorAll('#avatarGrid .avatar-opt').forEach(function(e){e.classList.remove('selected')});el.classList.add('selected');saveSettings();document.getElementById('userAvatar').textContent=a}
 function openEditNameModal(){document.getElementById('editNameInput').value=state.settings.name;openModal('nameModal')}
 function saveName(){var n=document.getElementById('editNameInput').value.trim();if(!n){toast('نام خالی','error');return}state.settings.name=n;saveSettings();document.getElementById('userName').textContent=n;closeModal('nameModal');toast('ذخیره شد')}
 
-/* ═══ SECURITY ═══ */
 function openSecurityModal(){document.getElementById('secQuestion').value=state.settings.secQ||'';document.getElementById('secAnswer').value=state.settings.secA||'';['pin0','pin1','pin2','pin3'].forEach(function(id,i){document.getElementById(id).value=state.settings.pin?state.settings.pin[i]||'':''});openModal('securityModal')}
 function pinNext(el,next){if(el.value.length===1&&next<4)document.getElementById('pin'+next).focus()}
 function savePin(){var p=document.getElementById('pin0').value+document.getElementById('pin1').value+document.getElementById('pin2').value+document.getElementById('pin3').value;state.settings.pin=p;state.settings.secQ=document.getElementById('secQuestion').value.trim();state.settings.secA=document.getElementById('secAnswer').value.trim();saveSettings();closeModal('securityModal');toast(p?'رمز تنظیم شد':'رمز حذف شد');document.getElementById('securityStatus').textContent=p?'فعال':'غیرفعال'}
 
-/* ═══ NOTIFICATIONS ═══ */
-function openNotif(){var items=[];var openDebts=state.debts.filter(function(d){return d.status==='open'});if(openDebts.length)items.push({dot:'red',text:'بدهی باز: '+openDebts.length+' مورد'});state.installments.forEach(function(i){if(i.paid<i.total)items.push({dot:'yellow',text:'قسط '+i.name+' پرداخت نشده'})});var mtx=getMonthTx();var spent=0;mtx.forEach(function(t){if(t.type==='expense')spent+=t.amount});var totalBudget=Object.values(BUDGETS).reduce(function(a,b){return a+b},0);if(spent>totalBudget*0.8)items.push({dot:'red',text:'بودجه '+Math.round(spent/totalBudget*100)+'% مصرف شده'});if(!items.length)items.push({dot:'green',text:'همه چیز عالی!'});document.getElementById('notifList').innerHTML=items.map(function(n){return '<div class="notif-item"><span class="notif-dot '+n.dot+'"></span><span class="notif-text">'+n.text+'</span></div>'}).join('');document.getElementById('notifBadge').style.display='none';openModal('notifModal')}
+function openNotif(){var items=[];var od=state.debts.filter(function(d){return d.status==='open'});if(od.length)items.push({dot:'red',text:'بدهی باز: '+od.length+' مورد'});state.installments.forEach(function(i){if(i.paid<i.total)items.push({dot:'yellow',text:'قسط '+i.name+' پرداخت نشده'})});var mtx=getMonthTx();var spent=0;mtx.forEach(function(t){if(t.type==='expense')spent+=t.amount});var tb=Object.values(BUDGETS).reduce(function(a,b){return a+b},0);if(tb>0&&spent>tb*0.8)items.push({dot:'red',text:'بودجه '+Math.round(spent/tb*100)+'% مصرف شده'});if(!items.length)items.push({dot:'green',text:'همه چیز عالی!'});document.getElementById('notifList').innerHTML=items.map(function(n){return '<div class="notif-item"><span class="notif-dot '+n.dot+'"></span><span class="notif-text">'+n.text+'</span></div>'}).join('');document.getElementById('notifBadge').style.display='none';openModal('notifModal')}
 
-/* ═══ LICENSE ═══ */
-function openLicenseModal(){var nav=navigator.userAgent;var id=0;for(var i=0;i<nav.length;i++){id=((id<<5)-id)+nav.charCodeAt(i);id=id&id}var did=Math.abs(id).toString(36).toUpperCase().substr(0,8);document.getElementById('deviceIdDisplay').textContent=did;var ls=state.settings.licenseStatus||'free';var el=document.getElementById('licenseStatus');el.textContent=ls==='pro'?'PRO':'رایگان';el.className='license-status '+ls;document.getElementById('licenseLimits').innerHTML=ls==='free'?'<div style="font-size:.52rem;color:var(--text2);text-align:center;margin-bottom:5px">نسخه رایگان: ۵۰ تراکنش/ماه</div>':'<div style="font-size:.52rem;color:var(--success);text-align:center;margin-bottom:5px">نسخه نامحدود PRO</div>';openModal('licenseModal')}
+function openLicenseModal(){var nav=navigator.userAgent;var id=0;for(var i=0;i<nav.length;i++){id=((id<<5)-id)+nav.charCodeAt(i);id=id&id}var did=Math.abs(id).toString(36).toUpperCase().substr(0,8);document.getElementById('deviceIdDisplay').textContent=did;var ls=state.settings.licenseStatus||'free';var el=document.getElementById('licenseStatus');el.textContent=ls==='pro'?'PRO':'رایگان';el.className='license-status '+ls;document.getElementById('licenseLimits').innerHTML=ls==='free'?'<div style="font-size:.8rem;color:var(--text2);text-align:center;margin-bottom:8px">نسخه رایگان: ۵۰ تراکنش/ماه</div>':'<div style="font-size:.8rem;color:var(--success);text-align:center;margin-bottom:8px">نسخه نامحدود PRO</div>';openModal('licenseModal')}
 function copyDeviceId(){var did=document.getElementById('deviceIdDisplay').textContent;if(navigator.clipboard){navigator.clipboard.writeText(did);toast('کپی شد')}else{prompt('کپی کنید:',did)}}
 function activateLicense(){var key=document.getElementById('licenseInput').value.trim();if(!key){toast('کد وارد کنید','error');return}if(key==='PRO-ALAVI-2025'||key.length>=8){state.settings.licenseStatus='pro';state.settings.licenseKey=key;saveSettings();toast('فعال شد');openLicenseModal()}else{toast('کد نامعتبر','error')}}
-
-/* ═══ HELP ═══ */
 function openHelpModal(){openModal('helpModal')}
 
-/* ═══ CALCULATOR ═══ */
 function calcPress(k){if(k==='C'){state.calcExpr='';state.calcResult='0';state.calcNew=true}else if(k==='⌫'){state.calcExpr=state.calcExpr.slice(0,-1)}else if(k==='='){try{state.calcResult=String(Function('"use strict";return('+state.calcExpr+')')());state.calcExpr=state.calcResult;state.calcNew=true}catch(e){state.calcResult='خطا'}}else{if(state.calcNew&&'0123456789'.indexOf(k)!==-1){state.calcExpr='';state.calcNew=false}state.calcExpr+=k;state.calcNew=false}document.getElementById('calcExpr').textContent=state.calcExpr||'\u00A0';document.getElementById('calcResult').textContent=state.calcResult||'0'}
-function calcLoan(){var p=parseNum(document.getElementById('loanAmount').value);var r=parseNum(document.getElementById('loanRate').value)/100/12;var n=parseNum(document.getElementById('loanMonths').value);if(!p||!n){toast('مبلغ و ماه','error');return}var monthly=r?((p*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1)):(p/n);document.getElementById('loanResult').innerHTML='ماهانه: <b>'+fmt(Math.round(monthly))+' '+getCurrency()+'</b><br>کل: <b>'+fmt(Math.round(monthly*n))+' '+getCurrency()+'</b>'}
+function calcLoan(){var p=parseNum(document.getElementById('loanAmount').value);var r=parseNum(document.getElementById('loanRate').value)/100/12;var n=parseNum(document.getElementById('loanMonths').value);if(!p||!n){toast('مبلغ و ماه','error');return}var monthly=r>0?((p*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1)):(p/n);document.getElementById('loanResult').innerHTML='ماهانه: <b>'+fmt(Math.round(monthly))+' '+getCur()+'</b><br>کل: <b>'+fmt(Math.round(monthly*n))+' '+getCur()+'</b>'}
 
-/* ═══ AI CHAT ═══ */
 function sendSug(s){document.getElementById('chatInput').value=s;sendChat()}
-function sendChat(){var input=document.getElementById('chatInput');var msg=input.value.trim();if(!msg)return;input.value='';var chat=document.getElementById('chatMessages');chat.innerHTML+='<div class="msg user">'+msg+'</div>';var reply='سؤال شما دریافت شد!';var mtx=getMonthTx();var inc=0,exp=0;mtx.forEach(function(t){if(t.type==='income')inc+=t.amount;if(t.type==='expense')exp+=t.amount});var bal=0;state.accounts.forEach(function(a){bal+=a.balance||0});if(msg.indexOf('هزینه')!==-1)reply='هزینه ماه: '+fmt(exp)+' '+getCurrency();else if(msg.indexOf('درآمد')!==-1)reply='درآمد ماه: '+fmt(inc)+' '+getCurrency();else if(msg.indexOf('مانده')!==-1||msg.indexOf('موجودی')!==-1)reply='مانده: '+fmt(bal)+' '+getCurrency();else if(msg.indexOf('بدهی')!==-1){var od=state.debts.filter(function(d){return d.status==='open'});var dt=0;od.forEach(function(d){dt+=d.amount});reply='بدهی باز: '+od.length+' مورد، جمع: '+fmt(dt)+' '+getCurrency()}else if(msg.indexOf('وضعیت')!==-1)reply='💰 مانده: '+fmt(bal)+'\n📈 درآمد: '+fmt(inc)+'\n📉 هزینه: '+fmt(exp);chat.innerHTML+='<div class="msg ai">'+reply+'</div>';chat.scrollTop=chat.scrollHeight}
+function sendChat(){var input=document.getElementById('chatInput');var msg=input.value.trim();if(!msg)return;input.value='';var chat=document.getElementById('chatMessages');chat.innerHTML+='<div class="msg user">'+msg+'</div>';var reply='سؤال شما دریافت شد!';var mtx=getMonthTx();var inc=0,exp=0;mtx.forEach(function(t){if(t.type==='income')inc+=t.amount;if(t.type==='expense')exp+=t.amount});var bal=0;state.accounts.forEach(function(a){bal+=a.balance||0});if(msg.indexOf('هزینه')!==-1)reply='هزینه ماه: '+fmt(exp)+' '+getCur();else if(msg.indexOf('درآمد')!==-1)reply='درآمد ماه: '+fmt(inc)+' '+getCur();else if(msg.indexOf('مانده')!==-1||msg.indexOf('موجودی')!==-1)reply='مانده: '+fmt(bal)+' '+getCur();else if(msg.indexOf('بدهی')!==-1){var od=state.debts.filter(function(d){return d.status==='open'});var dt=0;od.forEach(function(d){dt+=d.amount});reply='بدهی باز: '+od.length+' مورد، جمع: '+fmt(dt)+' '+getCur()}else if(msg.indexOf('وضعیت')!==-1)reply='💰 مانده: '+fmt(bal)+'\n📈 درآمد: '+fmt(inc)+'\n📉 هزینه: '+fmt(exp);chat.innerHTML+='<div class="msg ai">'+reply+'</div>';chat.scrollTop=chat.scrollHeight}
 
-/* ═══ BACKUP ═══ */
-function exportBackup(){var data={transactions:state.transactions,accounts:state.accounts,investments:state.investments,goals:state.goals,wallets:state.wallets,debts:state.debts,installments:state.installments,recurring:state.recurring,customCats:state.customCats,settings:state.settings};var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='poolam-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();toast('خروجی گرفته شد')}
-async function importBackup(evt){var f=evt.target.files[0];if(!f)return;var reader=new FileReader();reader.onload=async function(e){try{var data=JSON.parse(e.target.result);var stores=['transactions','accounts','investments','goals','wallets','debts','installments','recurring','customCats'];for(var si=0;si<stores.length;si++){var st=stores[si];if(data[st]){for(var i=0;i<data[st].length;i++)await dbPut(st,data[st][i])}}if(data.settings){state.settings=Object.assign(state.settings,data.settings);saveSettings()}await loadAll();toast('بازیابی شد');renderPage(state.currentPage)}catch(err){toast('فایل نامعتبر','error')}};reader.readAsText(f)}
+function exportBackup(){var data={transactions:state.transactions,accounts:state.accounts,investments:state.investments,goals:state.goals,wallets:state.wallets,debts:state.debts,installments:state.installments,recurring:state.recurring,customCats:state.customCats,settings:state.settings,budgets:BUDGETS};var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='poolam-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();toast('خروجی گرفته شد')}
+function importBackup(evt){var f=evt.target.files[0];if(!f)return;var reader=new FileReader();reader.onload=function(e){try{var data=JSON.parse(e.target.result);state.transactions=data.transactions||[];state.accounts=data.accounts||[];state.investments=data.investments||[];state.goals=data.goals||[];state.wallets=data.wallets||[];state.debts=data.debts||[];state.installments=data.installments||[];state.recurring=data.recurring||[];state.customCats=data.customCats||[];if(data.settings){state.settings=Object.assign({},state.settings,data.settings)}if(data.budgets){BUDGETS=data.budgets}saveData();applyTheme();toast('بازیابی شد');renderPage(state.currentPage)}catch(err){toast('فایل نامعتبر','error')}};reader.readAsText(f)}
 function exportCSV(){var h='نوع,مبلغ,دسته,توضیحات,تاریخ\n';state.transactions.forEach(function(t){var cat=getCatInfo(t.category);h+=t.type+','+t.amount+','+cat.n+','+(t.desc||'')+','+new Date(t.date).toLocaleDateString('fa-IR')+'\n'});var blob=new Blob(['\uFEFF'+h],{type:'text/csv;charset=utf-8'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='poolam.csv';a.click();toast('CSV خروجی شد')}
 function exportPDF(){window.print()}
-function shareSection(){var mtx=getMonthTx();var inc=0,exp=0;mtx.forEach(function(t){if(t.type==='income')inc+=t.amount;if(t.type==='expense')exp+=t.amount});var bal=0;state.accounts.forEach(function(a){bal+=a.balance||0});var text='📊 گزارش مالی پولام\n💰 مانده: '+fmt(bal)+' '+getCurrency()+'\n📈 درآمد: '+fmt(inc)+' '+getCurrency()+'\n📉 هزینه: '+fmt(exp)+' '+getCurrency()+'\n📅 '+jalaliStr(getTodayJalali());if(navigator.share){navigator.share({text:text}).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(text);toast('کپی شد')}}
+function shareSection(){var mtx=getMonthTx();var inc=0,exp=0;mtx.forEach(function(t){if(t.type==='income')inc+=t.amount;if(t.type==='expense')exp+=t.amount});var bal=0;state.accounts.forEach(function(a){bal+=a.balance||0});var text='📊 گزارش مالی پولام\n💰 مانده: '+fmt(bal)+' '+getCur()+'\n📈 درآمد: '+fmt(inc)+' '+getCur()+'\n📉 هزینه: '+fmt(exp)+' '+getCur()+'\n📅 '+jalaliStr(toJalali(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()));if(navigator.share){navigator.share({text:text}).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(text);toast('کپی شد')}}
 
-/* ═══ CURRENCY ═══ */
 function toggleCurrency(){
-  var oldCur=state.settings.currency;
-  var newCur=oldCur==='تومان'?'ریال':'تومان';
-  var m=newCur==='ریال'?10:0.1;
-
-  state.transactions.forEach(function(t){t.amount=Math.round(t.amount*m)});
-  for(var i=0;i<state.transactions.length;i++){dbPut('transactions',state.transactions[i])}
-
-  state.accounts.forEach(function(a){a.balance=Math.round(a.balance*m)});
-  for(var i=0;i<state.accounts.length;i++){dbPut('accounts',state.accounts[i])}
-
-  state.investments.forEach(function(inv){inv.buyPrice=Math.round(inv.buyPrice*m);inv.curPrice=Math.round(inv.curPrice*m)});
-  for(var i=0;i<state.investments.length;i++){dbPut('investments',state.investments[i])}
-
-  state.goals.forEach(function(g){g.target=Math.round(g.target*m);g.saved=Math.round(g.saved*m)});
-  for(var i=0;i<state.goals.length;i++){dbPut('goals',state.goals[i])}
-
-  state.debts.forEach(function(d){d.amount=Math.round(d.amount*m)});
-  for(var i=0;i<state.debts.length;i++){dbPut('debts',state.debts[i])}
-
-  state.installments.forEach(function(inst){inst.monthly=Math.round(inst.monthly*m)});
-  for(var i=0;i<state.installments.length;i++){dbPut('installments',state.installments[i])}
-
-  state.wallets.forEach(function(w){w.budget=Math.round(w.budget*m)});
-  for(var i=0;i<state.wallets.length;i++){dbPut('wallets',state.wallets[i])}
-
-  state.recurring.forEach(function(r){r.amount=Math.round(r.amount*m)});
-  for(var i=0;i<state.recurring.length;i++){dbPut('recurring',state.recurring[i])}
-
-  Object.keys(BUDGETS).forEach(function(k){BUDGETS[k]=Math.round(BUDGETS[k]*m)});
-  saveBudgets();
-
-  state.settings.currency=newCur;
-  saveSettings();
-  document.getElementById('currencyLabel').textContent=newCur;
-  renderPage(state.currentPage);
-  toast('واحد: '+newCur);
+  var oldCur=state.settings.currency||'تومان';var newCur=oldCur==='تومان'?'ریال':'تومان';var m=oldCur==='تومان'?10:0.1;
+  state.transactions.forEach(function(t){t.amount=Math.max(0,Math.round(t.amount*m))});state.accounts.forEach(function(a){a.balance=Math.round(a.balance*m)});state.investments.forEach(function(inv){inv.buyPrice=Math.max(0,Math.round(inv.buyPrice*m));inv.curPrice=Math.max(0,Math.round(inv.curPrice*m))});state.goals.forEach(function(g){g.target=Math.max(0,Math.round(g.target*m));g.saved=Math.max(0,Math.round(g.saved*m))});state.debts.forEach(function(d){d.amount=Math.max(0,Math.round(d.amount*m))});state.installments.forEach(function(inst){inst.monthly=Math.max(0,Math.round(inst.monthly*m))});state.wallets.forEach(function(w){w.budget=Math.max(0,Math.round(w.budget*m))});state.recurring.forEach(function(r){r.amount=Math.max(0,Math.round(r.amount*m))});Object.keys(BUDGETS).forEach(function(k){BUDGETS[k]=Math.max(0,Math.round(BUDGETS[k]*m))});
+  state.settings.currency=newCur;saveData();document.getElementById('currencyLabel').textContent=newCur;renderPage(state.currentPage);toast('واحد: '+newCur);
 }
-/* ═══ GREETING/CLOCK ═══ */
+
 function updateGreeting(){var h=new Date().getHours();document.getElementById('greeting').textContent=h<6?'🌙 بخواب':h<12?'☀️ صبح بخیر':h<17?'🌤️ عصر بخیر':h<21?'🌅 غروب بخیر':'🌙 شب بخیر'}
 function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
-function updateJalali(){var jd=getTodayJalali();document.getElementById('jalaliDate').textContent=jalaliMonthName(jd[1])+' '+jd[2]+', '+jd[0]}
+function updateJalali(){var jd=toJalali(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());document.getElementById('jalaliDate').textContent=jalaliMonthName(jd[1])+' '+jd[2]+', '+jd[0]}
 
-/* ═══ LOCK SCREEN ═══ */
-function lpNext(el,next){if(el.value.length===1&&next<4)document.getElementById('lp'+next).focus()}
-function lpCheck(){var p=document.getElementById('lp0').value+document.getElementById('lp1').value+document.getElementById('lp2').value+document.getElementById('lp3').value;if(p===state.settings.pin){document.getElementById('lockScreen').classList.add('hidden');document.getElementById('app').style.display='block';renderHome()}else{document.getElementById('lockError').textContent='رمز اشتباه';['lp0','lp1','lp2','lp3'].forEach(function(id){document.getElementById(id).value=''});document.getElementById('lp0').focus()}}
-function showRecover(){var sec=document.getElementById('recoverSection');sec.style.display=sec.style.display==='none'?'block':'none';document.getElementById('recoverQ').textContent=state.settings.secQ||'سؤال تنظیم نشده'}
-function doRecover(){if(document.getElementById('recoverA').value.trim()===state.settings.secA){state.settings.pin='';saveSettings();document.getElementById('lockScreen').classList.add('hidden');document.getElementById('app').style.display='block';toast('رمز حذف شد');renderHome()}else{toast('پاسخ اشتباه','error')}}
-
-/* ═══ INIT ═══ */
-async function init(){await openDB();await loadSettings();await loadBudgets();applyTheme();applyScale();document.getElementById('volSlider').value=state.settings.volume||100;document.getElementById('volVal').textContent=(state.settings.volume||100)+'%';updateGreeting();updateClock();updateJalali();setInterval(updateClock,1000);if(state.settings.pin){document.getElementById('loadingOverlay').classList.add('hide');document.getElementById('lockScreen').classList.remove('hidden');document.getElementById('lp0').focus();return}await loadAll();document.getElementById('loadingOverlay').classList.add('hide');document.getElementById('app').style.display='block';renderHome()}
+// Init
+function init(){
+  loadData();
+  applyTheme();applyScale();
+  document.getElementById('volSlider').value=state.settings.volume||100;
+  document.getElementById('volVal').textContent=(state.settings.volume||100)+'%';
+  updateGreeting();updateClock();updateJalali();
+  setInterval(updateClock,1000);
+  
+  document.getElementById('loadingOverlay').classList.add('hide');
+  document.getElementById('app').style.display='flex';
+  renderHome();
+}
 init();
-
-(function(){console.log=function(){};console.debug=function(){};console.warn=function(){};console.error=function(){}});
 </script>
 </body>
 </html>
