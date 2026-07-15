@@ -102,16 +102,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .amount-field input{background:none;border:none;outline:none;font-size:1.8rem;font-weight:800;width:100%;text-align:center;direction:ltr;color:var(--text)}
 .amount-field input::placeholder{font-size:1.2rem;color:var(--text3)}
 .amount-field .currency{font-size:.8rem;color:var(--text3);margin-top:4px}
-.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
-.cat-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:9px;background:var(--glass);border:2px solid transparent;cursor:pointer;color:var(--text2);font-size:.7rem}
+
+/* Fix: Dynamic Grid for Categories */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(70px, 1fr));gap:6px;margin-bottom:12px}
+.cat-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:9px;background:var(--glass);border:2px solid transparent;cursor:pointer;color:var(--text2);font-size:.7rem;overflow:hidden;text-align:center}
 .cat-btn.selected{border-color:var(--primary);background:var(--primary-glow);color:var(--text)}
 .cat-btn .ce{font-size:1.4rem}
+
 .desc-field{background:var(--glass);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:12px;width:100%;font-size:.9rem;outline:none;color:var(--text)}
 .desc-field:focus{border-color:var(--primary)}
 .desc-field::placeholder{color:var(--text3)}
 .save-btn{width:100%;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#000;font-size:1rem;font-weight:700;cursor:pointer}
-.acc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:12px}
-.acc-opt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:9px;background:var(--glass);border:2px solid transparent;cursor:pointer;font-size:.7rem;color:var(--text2)}
+.acc-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(90px, 1fr));gap:4px;margin-bottom:12px}
+.acc-opt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:9px;background:var(--glass);border:2px solid transparent;cursor:pointer;font-size:.7rem;color:var(--text2);overflow:hidden;text-align:center}
 .acc-opt.selected{border-color:var(--primary);background:var(--primary-glow);color:var(--text)}
 .acc-opt .ae{font-size:1.2rem}
 .acc-opt .an{font-size:.65rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
@@ -221,8 +224,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ach-icon.earned{background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(56,189,248,.15));border-color:var(--accent,var(--primary))}
 .ach-info{flex:1}
 .ach-title{font-size:.85rem;font-weight:600}
-.cc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:10px}
-.cc-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:8px;background:var(--glass);border:1px solid var(--border);font-size:.65rem;color:var(--text2);position:relative}
+.cc-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(80px, 1fr));gap:4px;margin-bottom:10px}
+.cc-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:8px;background:var(--glass);border:1px solid var(--border);font-size:.65rem;color:var(--text2);position:relative;overflow:hidden;text-align:center}
 .cc-item .ce{font-size:1.3rem}
 .cc-del{position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:var(--danger);color:#fff;font-size:.5rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .add-row{display:flex;gap:6px;margin-bottom:10px}
@@ -274,7 +277,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 #loadingOverlay.hide{opacity:0;pointer-events:none}
 .loading-spinner{width:40px;height:40px;border:4px solid var(--surface2);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-input,textarea,select,.desc-field,.amount-field input,.search-box input,.chat-input-area input,.add-row input,.pin-box,.lock-pin{-webkit-text-fill-color:var(--text)!important;caret-color:var(--primary)!important;color:var(--text)!important}
+input,textarea,select,.desc-field,.amount-field input,.search-box input,.chat-input-area input,.add-row input,.pin-box{-webkit-text-fill-color:var(--text)!important;caret-color:var(--primary)!important;color:var(--text)!important}
 input::placeholder,textarea::placeholder{-webkit-text-fill-color:var(--text3)!important;opacity:1!important}
 [data-theme="light"] input,[data-theme="light"] textarea{-webkit-text-fill-color:#0F172A!important;caret-color:#D97706!important;color:#0F172A!important}
 .insight-row{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text2);padding:6px 0}
@@ -311,8 +314,8 @@ input::placeholder,textarea::placeholder{-webkit-text-fill-color:var(--text3)!im
 .inv-card-pl.pos{color:var(--success)}.inv-card-pl.neg{color:var(--danger)}
 .inv-card-actions{display:flex;gap:4px;margin-top:8px}
 .inv-card-actions button{flex:1;padding:6px;border:none;border-radius:6px;background:var(--glass);border:1px solid var(--border);color:var(--text2);font-size:.75rem;font-weight:600;cursor:pointer}
-.inv-type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:12px}
-.inv-type-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:9px;background:var(--glass);border:2px solid transparent;cursor:pointer;font-size:.65rem;color:var(--text2)}
+.inv-type-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(70px, 1fr));gap:4px;margin-bottom:12px}
+.inv-type-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:9px;background:var(--glass);border:2px solid transparent;cursor:pointer;font-size:.65rem;color:var(--text2);overflow:hidden;text-align:center}
 .inv-type-btn.selected{border-color:var(--accent,var(--primary));background:var(--primary-glow);color:var(--text)}
 .inv-type-btn .ie{font-size:1.4rem}
 .notif-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
@@ -488,16 +491,15 @@ input::placeholder,textarea::placeholder{-webkit-text-fill-color:var(--text3)!im
 <div class="modal-overlay" id="debtModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="debtModalTitle">بدهی جدید</h3><button class="modal-close" onclick="closeModal('debtModal')">✕</button></div><input class="desc-field" type="text" id="debtName" placeholder="نام"><input class="desc-field" type="text" id="debtAmount" placeholder="مبلغ" inputmode="decimal" oninput="fmtInp(this)"><input class="desc-field" type="text" id="debtNote" placeholder="توضیحات"><button class="save-btn" onclick="saveDebt()">ذخیره ✓</button></div></div>
 <div class="modal-overlay" id="payDebtModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>پرداخت بدهی</h3><button class="modal-close" onclick="closeModal('payDebtModal')">✕</button></div><p style="font-size:.9rem;color:var(--text2);text-align:center;margin-bottom:4px" id="payDebtInfo"></p><p style="font-size:1.1rem;font-weight:800;text-align:center;margin-bottom:12px" id="payDebtAmount"></p><div class="confirm-actions"><button class="btn-cancel" onclick="payDebtWith('نقدی')" style="background:rgba(52,211,153,.15);color:var(--success)">💵 نقدی</button><button class="btn-cancel" onclick="payDebtWith('کارت')">💳 کارت</button></div></div></div>
 <div class="modal-overlay" id="instModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="instModalTitle">قسط جدید</h3><button class="modal-close" onclick="closeModal('instModal')">✕</button></div><input class="desc-field" type="text" id="instName" placeholder="نام"><input class="desc-field" type="text" id="instMonthly" placeholder="مبلغ ماهانه" inputmode="decimal" oninput="fmtInp(this)"><input class="desc-field" type="text" id="instTotal" placeholder="تعداد کل ماه‌ها" inputmode="numeric"><input class="desc-field" type="text" id="instPaid" placeholder="ماه‌های پرداخت‌شده" inputmode="numeric"><button class="save-btn" onclick="saveInst()">ذخیره ✓</button></div></div>
-<div class="modal-overlay" id="invModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="invModalTitle">سرمایه‌گذاری</h3><button class="modal-close" onclick="closeModal('invModal')">✕</button></div><div class="inv-type-grid" id="invTypeGrid"></div><input class="desc-field" type="text" id="invName" placeholder="نام"><input class="desc-field" type="text" id="invQty" placeholder="تعداد" inputmode="decimal"><input class="desc-field" type="text" id="invUnit" placeholder="واحد"><input class="desc-field" type="text" id="invBuyPrice" placeholder="قیمت خرید" inputmode="decimal" oninput="fmtInp(this)"><input class="desc-field" type="text" id="invCurPrice" placeholder="قیمت فعلی" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="submitInv()">ذخیره ✓</button></div></div>
+<div class="modal-overlay" id="invModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="invModalTitle">سرمایه‌گذاری</h3><button class="modal-close" onclick="closeModal('invModal')">✕</button></div><div class="inv-type-grid" id="invTypeGrid"></div><input class="desc-field" type="text" id="invName" placeholder="نام"><input class="desc-field" type="text" id="invQty" placeholder="تعداد (مثلاً 180)" inputmode="decimal"><input class="desc-field" type="text" id="invUnit" placeholder="واحد (مثلاً گرم)"><input class="desc-field" type="text" id="invBuyPrice" placeholder="قیمت خرید هر واحد" inputmode="decimal" oninput="fmtInp(this)"><input class="desc-field" type="text" id="invCurPrice" placeholder="قیمت فعلی هر واحد" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="submitInv()">ذخیره ✓</button></div></div>
 <div class="modal-overlay" id="accountModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="accModalTitle">حساب جدید</h3><button class="modal-close" onclick="closeModal('accountModal')">✕</button></div><div style="display:flex;gap:4px;margin-bottom:12px"><button class="chip active" id="accTypeCash" onclick="setAccType('cash')">💵 نقدی</button><button class="chip" id="accTypeBank" onclick="setAccType('bank')">🏦 بانکی</button></div><div id="accBankFields"><input class="desc-field" type="text" id="accBankName" placeholder="نام بانک"><input class="desc-field" type="text" id="accCardNumber" placeholder="شماره کارت" inputmode="numeric"><input class="desc-field" type="text" id="accSheba" placeholder="شبا"></div><input class="desc-field" type="text" id="accBalance" placeholder="موجودی" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="saveAccount()">ذخیره ✓</button></div></div>
-<div class="modal-overlay" id="invPriceModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>بروزرسانی قیمت</h3><button class="modal-close" onclick="closeModal('invPriceModal')">✕</button></div><input class="desc-field" type="text" id="invNewPrice" placeholder="قیمت فعلی" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="confirmInvPrice()">بروزرسانی ✓</button></div></div>
+<div class="modal-overlay" id="invPriceModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>بروزرسانی قیمت</h3><button class="modal-close" onclick="closeModal('invPriceModal')">✕</button></div><input class="desc-field" type="text" id="invNewPrice" placeholder="قیمت فعلی هر واحد" inputmode="decimal" oninput="fmtInp(this)"><button class="save-btn" onclick="confirmInvPrice()">بروزرسانی ✓</button></div></div>
 <div class="modal-overlay" id="recurringModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3 id="recModalTitle">تکرارشونده</h3><button class="modal-close" onclick="closeModal('recurringModal')">✕</button></div><div class="type-toggle"><button class="type-btn active" id="recBtnExpense" onclick="setRecType('expense')">هزینه</button><button class="type-btn" id="recBtnIncome" onclick="setRecType('income')">درآمد</button></div><input class="desc-field" type="text" id="recName" placeholder="نام"><input class="desc-field" type="text" id="recAmount" placeholder="مبلغ" inputmode="decimal" oninput="fmtInp(this)"><div style="margin-bottom:12px"><div class="st-label" style="margin-bottom:6px">تکرار</div><div style="display:flex;gap:4px;flex-wrap:wrap"><button class="chip active" id="recFreqMonthly" onclick="setRecFreq('monthly')">ماهانه</button><button class="chip" id="recFreqWeekly" onclick="setRecFreq('weekly')">هفتگی</button><button class="chip" id="recFreqDaily" onclick="setRecFreq('daily')">روزانه</button></div></div><div class="cat-grid" id="recCatGrid"></div><button class="save-btn" onclick="saveRecurring()">ذخیره ✓</button></div></div>
 <div class="modal-overlay" id="licenseModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>لایسنس</h3><button class="modal-close" onclick="closeModal('licenseModal')">✕</button></div><div class="device-id-box"><div style="font-size:.85rem;color:var(--text3)">شناسه دستگاه</div><div class="device-id" id="deviceIdDisplay">-</div><div style="display:flex;gap:4px;justify-content:center"><button class="share-btn" onclick="copyDeviceId()">کپی</button></div></div><div style="display:flex;align-items:center;justify-content:center;gap:8px;margin:12px 0"><span style="font-size:.85rem">وضعیت:</span><span class="license-status" id="licenseStatus">-</span></div><div id="licenseLimits"></div><input class="desc-field" type="text" id="licenseInput" placeholder="کد لایسنس"><button class="save-btn" onclick="activateLicense()">فعال‌سازی</button></div></div>
 <div class="modal-overlay" id="emojiModal"><div class="modal-sheet"><div class="modal-handle"></div><div class="modal-title"><h3>ایموجی</h3><button class="modal-close" onclick="closeModal('emojiModal')">✕</button></div><div id="emojiGrid" style="display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-height:250px;overflow-y:auto"></div></div></div>
 <div class="toast success" id="toast"></div>
 
 <script>
-// Change: Switched to LocalStorage to bypass file:// restrictions in browsers
 var DB_NAME='PoolamData';
 var C={food:{n:'خوراک',e:'🍔'},transport:{n:'حمل‌ونقل',e:'🚗'},bills:{n:'قبوض',e:'💡'},fun:{n:'تفریح',e:'🎮'},health:{n:'سلامت',e:'💊'},edu:{n:'آموزش',e:'📚'},phone:{n:'ارتباطات',e:'📱'},other:{n:'سایر',e:'📦'}};
 var INC={salary:{n:'حقوق',e:'💰'},freelance:{n:'فریلنسر',e:'💻'},gift:{n:'هدیه',e:'🎁'},invest_ret:{n:'سود سرمایه',e:'📈'},sale:{n:'فروش',e:'🏷️'},other_inc:{n:'سایر درآمد',e:'📦'}};
@@ -514,21 +516,10 @@ var state={
     selectedInvType:'gold',recType:'expense',recFreq:'monthly',accType:'cash',calcExpr:'',calcResult:'0',calcNew:true
 };
 
-// --- Storage Engine (LocalStorage) ---
 function saveData(){
     try {
         localStorage.setItem(DB_NAME, JSON.stringify({
-            transactions:state.transactions,
-            accounts:state.accounts,
-            investments:state.investments,
-            goals:state.goals,
-            wallets:state.wallets,
-            debts:state.debts,
-            installments:state.installments,
-            recurring:state.recurring,
-            customCats:state.customCats,
-            settings:state.settings,
-            budgets:BUDGETS
+            transactions:state.transactions,accounts:state.accounts,investments:state.investments,goals:state.goals,wallets:state.wallets,debts:state.debts,installments:state.installments,recurring:state.recurring,customCats:state.customCats,settings:state.settings,budgets:BUDGETS
         }));
     } catch(e) { console.error("Save Error:", e); }
 }
@@ -537,15 +528,7 @@ function loadData(){
         var raw = localStorage.getItem(DB_NAME);
         if(raw) {
             var d = JSON.parse(raw);
-            state.transactions = d.transactions || [];
-            state.accounts = d.accounts || [];
-            state.investments = d.investments || [];
-            state.goals = d.goals || [];
-            state.wallets = d.wallets || [];
-            state.debts = d.debts || [];
-            state.installments = d.installments || [];
-            state.recurring = d.recurring || [];
-            state.customCats = d.customCats || [];
+            state.transactions = d.transactions || [];state.accounts = d.accounts || [];state.investments = d.investments || [];state.goals = d.goals || [];state.wallets = d.wallets || [];state.debts = d.debts || [];state.installments = d.installments || [];state.recurring = d.recurring || [];state.customCats = d.customCats || [];
             if(d.settings) state.settings = Object.assign({}, state.settings, d.settings);
             if(d.budgets) BUDGETS = d.budgets;
         }
@@ -581,8 +564,7 @@ function switchPage(id){
     var el=document.getElementById('page-'+id);
     if(el)el.classList.add('active');
     document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');if(n.getAttribute('data-page')===id)n.classList.add('active')});
-    var mc=document.querySelector('.main-content');
-    if(mc)mc.scrollTop=0;
+    var mc=document.querySelector('.main-content');if(mc)mc.scrollTop=0;
     renderPage(id);
 }
 function openModal(id){var m=document.getElementById(id);if(m)m.classList.add('open')}
@@ -672,7 +654,6 @@ function saveTransaction(){
     var tx={id:state.editTxId||uid(),type:state.txType,amount:amount,category:cat,desc:desc,date:state.editTxId?(state.transactions.find(function(x){return x.id===state.editTxId})||{}).date||Date.now():Date.now(),accountId:accId};
     if(state.txType==='transfer'){tx.fromAcc=state.selectedFromAcc;tx.toAcc=state.selectedToAcc}
     
-    // Update state arrays directly
     if(state.editTxId) {
         state.transactions = state.transactions.map(t => t.id === state.editTxId ? tx : t);
     } else {
@@ -733,7 +714,8 @@ function saveAccount(){var name=state.accType==='bank'?document.getElementById('
 function setDefaultAcc(id){state.accounts.forEach(function(a){a.isDefault=a.id===id});saveData();toast('پیش‌فرض شد');renderAccounts()}
 function deleteAcc(id){state.accounts=state.accounts.filter(a=>a.id!==id);saveData();toast('حذف شد');renderAccounts()}
 
-function renderInvestments(){var invs=state.investments;var total=0,pl=0;invs.forEach(function(inv){total+=(inv.curPrice||0)*inv.qty;pl+=((inv.curPrice||0)-(inv.buyPrice||0))*inv.qty});var cur=' '+getCur();document.getElementById('invDashboard').innerHTML='<div class="inv-dashboard"><div class="inv-total">'+fmt(total)+cur+'</div><div class="inv-pl '+(pl>=0?'pos':'neg')+'">'+(pl>=0?'+':'')+fmt(pl)+' سود/زیان</div><div class="inv-stats"><div class="inv-stat"><div class="inv-stat-label">تعداد</div><div class="inv-stat-val">'+invs.length+'</div></div><div class="inv-stat"><div class="inv-stat-label">بازدهی</div><div class="inv-stat-val">'+(total>0?Math.round(pl/total*100):0)+'%</div></div></div></div>';document.getElementById('invList').innerHTML=invs.map(function(inv){var tp=INV_TYPES[inv.invType]||INV_TYPES.other;var ipl=((inv.curPrice||0)-(inv.buyPrice||0))*inv.qty;return '<div class="inv-card"><div class="inv-card-name">'+tp.e+' '+inv.name+'</div><div class="inv-card-row"><span>تعداد</span><span>'+inv.qty+' '+inv.unit+'</span></div><div class="inv-card-row"><span>خرید</span><span>'+fmt(inv.buyPrice)+cur+'</span></div><div class="inv-card-row"><span>فعلی</span><span>'+fmt(inv.curPrice)+cur+'</span></div><div class="inv-card-pl '+(ipl>=0?'pos':'neg')+'">'+(ipl>=0?'+':'')+fmt(ipl)+cur+'</div><div class="inv-card-actions"><button onclick="updateInvPrice(\''+inv.id+'\')">بروزرسانی</button><button onclick="deleteInv(\''+inv.id+'\')">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.85rem;padding:12px">سرمایه‌گذاری ندارید</div>'}
+// Fix: Investment calculation logic (Unit Price * Qty)
+function renderInvestments(){var invs=state.investments;var total=0,pl=0;invs.forEach(function(inv){var invTotal=(inv.curPrice||0)*inv.qty;total+=invTotal;pl+=(invTotal - ((inv.buyPrice||0)*inv.qty))});var cur=' '+getCur();document.getElementById('invDashboard').innerHTML='<div class="inv-dashboard"><div class="inv-total">'+fmt(total)+cur+'</div><div class="inv-pl '+(pl>=0?'pos':'neg')+'">'+(pl>=0?'+':'')+fmt(pl)+' سود/زیان</div><div class="inv-stats"><div class="inv-stat"><div class="inv-stat-label">تعداد</div><div class="inv-stat-val">'+invs.length+'</div></div><div class="inv-stat"><div class="inv-stat-label">بازدهی</div><div class="inv-stat-val">'+(total>0?Math.round(pl/total*100):0)+'%</div></div></div></div>';document.getElementById('invList').innerHTML=invs.map(function(inv){var tp=INV_TYPES[inv.invType]||INV_TYPES.other;var invTotal=(inv.curPrice||0)*inv.qty;var invCost=(inv.buyPrice||0)*inv.qty;var ipl=invTotal-invCost;return '<div class="inv-card"><div class="inv-card-name">'+tp.e+' '+inv.name+'</div><div class="inv-card-row"><span>تعداد</span><span>'+inv.qty+' '+inv.unit+'</span></div><div class="inv-card-row"><span>قیمت خرید هر واحد</span><span>'+fmt(inv.buyPrice)+cur+'</span></div><div class="inv-card-row"><span>قیمت فعلی هر واحد</span><span>'+fmt(inv.curPrice)+cur+'</span></div><div class="inv-card-row"><span>ارزش فعلی کل</span><span>'+fmt(invTotal)+cur+'</span></div><div class="inv-card-pl '+(ipl>=0?'pos':'neg')+'">'+(ipl>=0?'+':'')+fmt(ipl)+cur+' سود/زیان</div><div class="inv-card-actions"><button onclick="updateInvPrice(\''+inv.id+'\')">بروزرسانی قیمت</button><button onclick="deleteInv(\''+inv.id+'\')">حذف</button></div></div>'}).join('')||'<div style="text-align:center;color:var(--text3);font-size:.85rem;padding:12px">سرمایه‌گذاری ندارید</div>'}
 function openInvModal(){state.selectedInvType='gold';document.getElementById('invTypeGrid').innerHTML=Object.keys(INV_TYPES).map(function(k){return '<div class="inv-type-btn'+(state.selectedInvType===k?' selected':'')+'" onclick="state.selectedInvType=\''+k+'\';document.querySelectorAll(\'#invTypeGrid .inv-type-btn\').forEach(function(e){e.classList.remove(\'selected\')});this.classList.add(\'selected\')"><span class="ie">'+INV_TYPES[k].e+'</span>'+INV_TYPES[k].n+'</div>'}).join('');['invName','invQty','invUnit','invBuyPrice','invCurPrice'].forEach(function(id){document.getElementById(id).value=''});openModal('invModal')}
 function submitInv(){var name=document.getElementById('invName').value.trim();if(!name){toast('نام الزامی','error');return}state.investments.push({id:uid(),invType:state.selectedInvType,name:name,qty:parseNum(document.getElementById('invQty').value)||0,unit:document.getElementById('invUnit').value.trim()||'عدد',buyPrice:parseNum(document.getElementById('invBuyPrice').value),curPrice:parseNum(document.getElementById('invCurPrice').value),date:Date.now()});saveData();closeModal('invModal');toast('ذخیره شد');renderInvestments()}
 function updateInvPrice(id){state.invEditId=id;openModal('invPriceModal')}
@@ -833,15 +815,11 @@ function updateGreeting(){var h=new Date().getHours();document.getElementById('g
 function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
 function updateJalali(){var jd=toJalali(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());document.getElementById('jalaliDate').textContent=jalaliMonthName(jd[1])+' '+jd[2]+', '+jd[0]}
 
-// Init
 function init(){
-  loadData();
-  applyTheme();applyScale();
+  loadData();applyTheme();applyScale();
   document.getElementById('volSlider').value=state.settings.volume||100;
   document.getElementById('volVal').textContent=(state.settings.volume||100)+'%';
-  updateGreeting();updateClock();updateJalali();
-  setInterval(updateClock,1000);
-  
+  updateGreeting();updateClock();updateJalali();setInterval(updateClock,1000);
   document.getElementById('loadingOverlay').classList.add('hide');
   document.getElementById('app').style.display='flex';
   renderHome();
