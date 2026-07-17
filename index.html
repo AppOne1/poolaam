@@ -494,27 +494,36 @@ async function loadAll(){try{state.transactions=await dbGet('transactions');stat
 function reconcileAccounts(){
   if(!state.accounts.length) return;
   var defId = state.accounts[0].id;
-  var acc = state.accounts.find(function(a){ return a.id === defId });
-  if(!acc) return;
 
-  var oldExp = 0, oldInc = 0, changed = false;
-
+  // تراکنش‌های بدون حساب → حساب اول
   state.transactions.forEach(function(t){
-    // فقط تراکنش‌های بدون حساب = قدیمی‌ها
     if(!t.accountId && t.type !== 'transfer'){
       t.accountId = defId;
-      changed = true;
-      if(t.type === 'expense') oldExp += t.amount;
-      else if(t.type === 'income') oldInc += t.amount;
     }
   });
 
-  if(changed){
-    // موجودی فعلی منهای هزینه‌های قدیمی بعلاوه درآمدهای قدیمی
-    acc.balance = Math.round((acc.balance - oldExp + oldInc) * 100) / 100;
-    state.transactions.forEach(function(t){ dbPut('transactions', t); });
-    state.accounts.forEach(function(a){ dbPut('accounts', a); });
+  // فقط یکبار بازمحاسبه کامل
+  if(!state.meta.hardRebalanced){
+    state.accounts.forEach(function(acc){
+      var bal = 0;
+      state.transactions.forEach(function(t){
+        if(t.type === 'transfer'){
+          if(t.fromAcc === acc.id) bal -= t.amount;
+          if(t.toAcc === acc.id) bal += t.amount;
+        } else if(t.accountId === acc.id){
+          if(t.type === 'income') bal += t.amount;
+          else if(t.type === 'expense') bal -= t.amount;
+        }
+      });
+      acc.balance = Math.round(bal * 100) / 100;
+      delete acc.initialBalance;
+    });
+    state.meta.hardRebalanced = true;
+    saveMeta();
   }
+
+  state.accounts.forEach(function(a){ dbPut('accounts', a); });
+  state.transactions.forEach(function(t){ dbPut('transactions', t); });
 }
 
 function switchPage(id){state.currentPage=id;document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});var el=document.getElementById('page-'+id);if(el)el.classList.add('active');document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');if(n.getAttribute('data-page')===id)n.classList.add('active')});window.scrollTo(0,0);renderPage(id)}
