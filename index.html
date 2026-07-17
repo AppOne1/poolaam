@@ -492,45 +492,29 @@ async function getDeviceId(){if(state.deviceId)return state.deviceId;if(state.me
 async function loadAll(){try{state.transactions=await dbGet('transactions');state.accounts=await dbGet('accounts');state.investments=await dbGet('investments');state.goals=await dbGet('goals');state.wallets=await dbGet('wallets');state.debts=await dbGet('debts');state.installments=await dbGet('installments');state.recurring=await dbGet('recurring');state.customCats=await dbGet('customCats');var s=await dbGet('settings');s=s.find(function(i){return i.id==='main'});if(s&&s.data)state.settings=Object.assign({},state.settings,s.data);var m=await dbGet('meta');m=m.find(function(i){return i.id==='device'});if(m)state.meta=m;else state.meta={};var b=await dbGet('settings');b=b.find(function(i){return i.id==='budgets'});if(b&&b.data)BUDGETS=b.data;await getDeviceId();updateCurrencyLabels();if(!state.settings.joinDate){state.settings.joinDate=Date.now();await saveSettings()}}catch(e){console.error(e)}}
 /* ===== FIX: Reconcile - assign old tx to accounts & recalculate ===== */
 function reconcileAccounts(){
-  if(!state.accounts.length)return;
-  var defaultAccId=state.accounts[0].id;
-  // Assign orphan transactions to first account
+  if(!state.accounts.length) return;
+  var defId = state.accounts[0].id;
+  var acc = state.accounts.find(function(a){ return a.id === defId });
+  if(!acc) return;
+
+  var oldExp = 0, oldInc = 0, changed = false;
+
   state.transactions.forEach(function(t){
-    if(!t.accountId&&t.type!=='transfer'){t.accountId=defaultAccId}
-  });
-  // Set initialBalance if not set (balance before any transaction)
-  state.accounts.forEach(function(acc){
-    if(acc.initialBalance===undefined){
-      var txEffect=0;
-      state.transactions.forEach(function(t){
-        if(t.type==='transfer'){
-          if(t.fromAcc===acc.id)txEffect-=t.amount;
-          if(t.toAcc===acc.id)txEffect+=t.amount;
-        }else if(t.accountId===acc.id){
-          if(t.type==='income')txEffect+=t.amount;
-          else if(t.type==='expense')txEffect-=t.amount;
-        }
-      });
-      acc.initialBalance=Math.round(((acc.balance||0)-txEffect)*100)/100;
+    // فقط تراکنش‌های بدون حساب = قدیمی‌ها
+    if(!t.accountId && t.type !== 'transfer'){
+      t.accountId = defId;
+      changed = true;
+      if(t.type === 'expense') oldExp += t.amount;
+      else if(t.type === 'income') oldInc += t.amount;
     }
   });
-  // Recalculate: balance = initialBalance + all tx effects
-  state.accounts.forEach(function(acc){
-    var bal=acc.initialBalance||0;
-    state.transactions.forEach(function(t){
-      if(t.type==='transfer'){
-        if(t.fromAcc===acc.id)bal-=t.amount;
-        if(t.toAcc===acc.id)bal+=t.amount;
-      }else if(t.accountId===acc.id){
-        if(t.type==='income')bal+=t.amount;
-        else if(t.type==='expense')bal-=t.amount;
-      }
-    });
-    acc.balance=Math.round(bal*100)/100;
-  });
-  // Save
-  state.transactions.forEach(function(t){dbPut('transactions',t)});
-  state.accounts.forEach(function(a){dbPut('accounts',a)});
+
+  if(changed){
+    // موجودی فعلی منهای هزینه‌های قدیمی بعلاوه درآمدهای قدیمی
+    acc.balance = Math.round((acc.balance - oldExp + oldInc) * 100) / 100;
+    state.transactions.forEach(function(t){ dbPut('transactions', t); });
+    state.accounts.forEach(function(a){ dbPut('accounts', a); });
+  }
 }
 
 function switchPage(id){state.currentPage=id;document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});var el=document.getElementById('page-'+id);if(el)el.classList.add('active');document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');if(n.getAttribute('data-page')===id)n.classList.add('active')});window.scrollTo(0,0);renderPage(id)}
