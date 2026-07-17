@@ -271,6 +271,21 @@ button{font-family:inherit;cursor:pointer}
 .report-bar-val{min-width:55px;text-align:left;font-weight:600;direction:ltr}
 @media(min-width:768px){body{display:flex;flex-direction:column;align-items:center}.header,.page{max-width:600px;width:100%}.cat-grid{grid-template-columns:repeat(5,1fr)}.acc-grid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:1024px){.bottom-nav{max-width:600px;left:50%;transform:translateX(-50%);border-radius:16px 16px 0 0}}
+#securityModal .modal-box,
+#securityModal .modal-body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.pin-box {
+  position: relative;
+  z-index: 1;
+}
+#securityModal .modal-body {
+  padding-bottom: 200px;
+}
+#recoverPinSection {
+  padding-bottom: 80px;
+}
 </style>
 </head>
 <body>
@@ -293,12 +308,18 @@ button{font-family:inherit;cursor:pointer}
 <button class="pin-btn special" onclick="showRecover()">بازیابی</button><button class="pin-btn" onclick="lpPress('0')">۰</button><button class="pin-btn special" onclick="lpBack()">⌫</button>
 </div>
 <div class="recover-area" id="recoverSection"><div style="font-size:.75rem;color:var(--text2);margin-bottom:6px" id="recoverQ"></div><input type="text" id="recoverA" placeholder="پاسخ"><button onclick="doRecover()">بازیابی</button></div>
-<div class="recover-pin" id="recoverPinSection"><div style="font-size:.85rem;color:var(--text2);margin-bottom:10px">رمز جدید ۴ رقمی:</div><div class="pin-display">
-<input class="pin-box" id="rp0" type="password" maxlength="1" inputmode="numeric" oninput="rpNext(this,1)" onclick="this.value=''">
-<input class="pin-box" id="rp1" type="password" maxlength="1" inputmode="numeric" oninput="rpNext(this,2)" onclick="this.value=''">
-<input class="pin-box" id="rp2" type="password" maxlength="1" inputmode="numeric" oninput="rpNext(this,3)" onclick="this.value=''">
-<input class="pin-box" id="rp3" type="password" maxlength="1" inputmode="numeric" onclick="this.value=''">
-</div><button onclick="saveRecoveredPin()">ذخیره و ورود</button></div>
+<div class="recover-pin" id="recoverPinSection">
+  <div style="font-size:.85rem;color:var(--text2);margin-bottom:10px">رمز جدید ۴ رقمی:</div>
+  <div style="padding-bottom:40px">
+    <div class="pin-display">
+      <input class="pin-box" id="rp0" type="tel" maxlength="1" inputmode="numeric" oninput="rpNext(this,1)" onfocus="this.scrollIntoView({block:'center',behavior:'smooth'})">
+      <input class="pin-box" id="rp1" type="tel" maxlength="1" inputmode="numeric" oninput="rpNext(this,2)" onfocus="this.scrollIntoView({block:'center',behavior:'smooth'})">
+      <input class="pin-box" id="rp2" type="tel" maxlength="1" inputmode="numeric" oninput="rpNext(this,3)" onfocus="this.scrollIntoView({block:'center',behavior:'smooth'})">
+      <input class="pin-box" id="rp3" type="tel" maxlength="1" inputmode="numeric" onfocus="this.scrollIntoView({block:'center',behavior:'smooth'})">
+    </div>
+  </div>
+  <button onclick="saveRecoveredPin()">ذخیره و ورود</button>
+</div>
 </div>
 <div id="app" style="display:none">
 <div class="header"><div class="greeting" id="greeting"></div>
@@ -374,7 +395,6 @@ button{font-family:inherit;cursor:pointer}
 <div class="more-item" onclick="closeMoreSheet();openModal('calcModal')"><span class="mi">🧮</span><span class="ml">ماشین‌حساب</span></div>
 <div class="more-item" onclick="closeMoreSheet();switchPage('settings')"><span class="mi">⚙️</span><span class="ml">تنظیمات</span></div>
 </div></div></div>
-<!-- All Modals Same As Before -->
 <div class="modal" id="addModal"><div class="modal-box"><div class="modal-header"><h3 id="addModalTitle">تراکنش جدید</h3><button onclick="closeModal('addModal')">✕</button></div><div class="modal-body"><div class="type-btns"><div class="type-btn active" id="btnExpense" onclick="setTxType('expense')">هزینه</div><div class="type-btn" id="btnIncome" onclick="setTxType('income')">درآمد</div><div class="type-btn" id="btnTransfer" onclick="setTxType('transfer')">انتقال</div></div><input class="form-input" id="addAmount" placeholder="مبلغ" inputmode="decimal" style="direction:ltr" oninput="fmtInp(this)"><div style="font-size:.75rem;color:var(--text2);margin-bottom:10px">واحد: <span id="modalCurrency">تومان</span></div><input class="form-input" id="addDesc" placeholder="توضیحات"><div class="date-pick" onclick="openDateModal('addDate')"><span>📅</span><span id="addDateText">تاریخ</span></div><input type="hidden" id="addDate"><div class="cat-grid" id="catGrid"></div><div class="want-toggle" id="wantToggleWrap" onclick="toggleNeedWant()"><input type="checkbox" id="addIsWant"> <span>خواسته</span></div><div id="normalAccArea"><div style="font-size:.7rem;color:var(--text2);margin-bottom:6px">حساب:</div><div class="acc-grid" id="txAccGrid"></div></div><div id="transferArea" style="display:none"><div style="font-size:.7rem;color:var(--text2);margin-bottom:6px">از:</div><div class="acc-grid" id="txFromAcc"></div><div style="font-size:.7rem;color:var(--text2);margin-bottom:6px">به:</div><div class="acc-grid" id="txToAcc"></div></div></div><div class="modal-footer"><button class="btn btn-primary" onclick="saveTransaction()">ذخیره</button></div></div></div>
 <div class="modal" id="deleteModal"><div class="modal-box"><div class="modal-header"><h3>حذف</h3><button onclick="closeModal('deleteModal')">✕</button></div><div class="modal-body"><p style="text-align:center;padding:16px">حذف شود؟</p></div><div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('deleteModal')">انصراف</button><button class="btn btn-danger" onclick="confirmDelete()">حذف</button></div></div></div>
 <div class="modal" id="dateModal"><div class="modal-box"><div class="modal-header"><h3>تاریخ</h3><button onclick="closeModal('dateModal')">✕</button></div><div class="modal-body"><div style="display:flex;gap:8px"><select class="form-input" id="dateY" style="flex:1"></select><select class="form-input" id="dateM" style="flex:1"></select><select class="form-input" id="dateD" style="flex:1"></select></div></div><div class="modal-footer"><button class="btn btn-primary" onclick="confirmDate()">تأیید</button></div></div></div>
@@ -392,16 +412,17 @@ button{font-family:inherit;cursor:pointer}
 <div class="modal" id="licenseModal"><div class="modal-box"><div class="modal-header"><h3>لایسنس</h3><button onclick="closeModal('licenseModal')">✕</button></div><div class="modal-body"><div id="deviceIdDisplay" style="text-align:center;font-family:monospace;font-size:.9rem;padding:12px;background:var(--glass);border-radius:10px;margin-bottom:12px;cursor:pointer;user-select:all;direction:ltr" onclick="copyDeviceId()"></div><div style="text-align:center"><span class="license-status" id="licenseStatus">رایگان</span></div><div id="licenseLimits" style="margin:12px 0"></div><input class="form-input" id="licenseInput" placeholder="کد لایسنس" style="text-align:center;direction:ltr"></div><div class="modal-footer"><button class="btn btn-primary" onclick="activateLicense()">فعال‌سازی</button></div></div></div>
 <div class="modal" id="notifModal"><div class="modal-box"><div class="modal-header"><h3>اعلان‌ها</h3><button onclick="closeModal('notifModal')">✕</button></div><div class="modal-body"><div id="notifList"></div></div></div></div>
 <div class="modal" id="avatarModal"><div class="modal-box"><div class="modal-header"><h3>آواتار</h3><button onclick="closeModal('avatarModal')">✕</button></div><div class="modal-body"><div class="avatar-grid" id="avatarGrid"></div></div></div></div>
-<div class="modal" id="securityModal"><div class="modal-box"><div class="modal-header"><h3>🔒 امنیت</h3><button onclick="closeModal('securityModal')">✕</button></div><div class="modal-body">
+<div class="modal" id="securityModal"><div class="modal-box"><div class="modal-header"><h3>🔒 امنیت</h3><button onclick="closeModal('securityModal')">✕</button></div><div class="modal-body" style="padding-bottom:200px">
 <div style="font-size:.75rem;color:var(--text2);margin-bottom:12px" id="pinStatus">بررسی...</div>
-<div style="font-size:.7rem;color:var(--text2);margin-bottom:6px">رمز ۴ رقمی جدید:</div>
+<div style="font-size:.7rem;color:var(--text2);margin-bottom:10px">رمز ۴ رقمی جدید:</div>
 <div style="display:flex;gap:10px;justify-content:center;margin-bottom:16px;direction:ltr">
-<input class="pin-box" id="pin0" type="password" maxlength="1" inputmode="numeric" oninput="pinNext(this,1)" onfocus="this.scrollIntoView({block:'center'})" style="width:50px;height:56px;text-align:center;font-size:1.5rem">
-<input class="pin-box" id="pin1" type="password" maxlength="1" inputmode="numeric" oninput="pinNext(this,2)" onfocus="this.scrollIntoView({block:'center'})" style="width:50px;height:56px;text-align:center;font-size:1.5rem">
-<input class="pin-box" id="pin2" type="password" maxlength="1" inputmode="numeric" oninput="pinNext(this,3)" onfocus="this.scrollIntoView({block:'center'})" style="width:50px;height:56px;text-align:center;font-size:1.5rem">
-<input class="pin-box" id="pin3" type="password" maxlength="1" inputmode="numeric" onfocus="this.scrollIntoView({block:'center'})" style="width:50px;height:56px;text-align:center;font-size:1.5rem">
+<input class="pin-box" id="pin0" type="tel" maxlength="1" inputmode="numeric" oninput="pinNext(this,1)" onfocus="var s=this;setTimeout(function(){s.scrollIntoView({block:'center'})},300)" style="width:50px;height:56px;text-align:center;font-size:1.5rem">
+<input class="pin-box" id="pin1" type="tel" maxlength="1" inputmode="numeric" oninput="pinNext(this,2)" onfocus="var s=this;setTimeout(function(){s.scrollIntoView({block:'center'})},300)" style="width:50px;height:56px;text-align:center;font-size:1.5rem">
+<input class="pin-box" id="pin2" type="tel" maxlength="1" inputmode="numeric" oninput="pinNext(this,3)" onfocus="var s=this;setTimeout(function(){s.scrollIntoView({block:'center'})},300)" style="width:50px;height:56px;text-align:center;font-size:1.5rem">
+<input class="pin-box" id="pin3" type="tel" maxlength="1" inputmode="numeric" onfocus="var s=this;setTimeout(function(){s.scrollIntoView({block:'center'})},300)" style="width:50px;height:56px;text-align:center;font-size:1.5rem">
 </div>
-<input class="form-input" id="secQuestion" placeholder="سوال امنیتی (اختیاری)"><input class="form-input" id="secAnswer" placeholder="پاسخ امنیتی (اختیاری)">
+<input class="form-input" id="secQuestion" placeholder="سوال امنیتی (اختیاری)">
+<input class="form-input" id="secAnswer" placeholder="پاسخ امنیتی (اختیاری)">
 <div style="display:flex;gap:8px;margin-top:12px">
 <button class="btn btn-primary btn-sm" style="flex:1" onclick="savePin()">💾 ذخیره رمز</button>
 <button class="btn btn-sm" style="flex:1;background:rgba(248,113,113,.1);color:var(--danger);border:1px solid rgba(248,113,113,.2)" onclick="deletePin()">🗑️ حذف رمز</button></div>
@@ -411,21 +432,21 @@ button{font-family:inherit;cursor:pointer}
 <div class="modal" id="calcModal"><div class="modal-box" style="max-height:92vh"><div class="modal-header"><h3>🧮 ماشین‌حساب</h3><button onclick="closeModal('calcModal')">✕</button></div><div class="modal-body" style="direction:ltr;padding:12px 14px">
 <div class="calc-display">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-<span style="font-size:.5rem;color:var(--primary);cursor:pointer;padding:2px 6px;border:1px solid var(--border);border-radius:5px;background:var(--glass);font-weight:700" onclick="toggleDegRad()" id="degRadBtn">DEG</span>
-<button onclick="toggleSci()" id="sciToggle" style="font-size:.5rem;color:var(--primary);cursor:pointer;padding:2px 6px;border:1px solid var(--border);border-radius:5px;background:var(--glass);font-weight:700;border:none">🔬 علمی</button>
-<span style="font-size:.5rem;color:var(--success);font-weight:700" id="calcSumDisplay">Σ: ۰</span>
-<span style="font-size:.5rem;color:var(--text2)" id="memLabel"></span></div>
+<span style="font-size:.65rem;color:var(--primary);cursor:pointer;padding:4px 10px;border:2px solid var(--primary);border-radius:6px;background:rgba(99,102,241,.1);font-weight:700" onclick="toggleDegRad()" id="degRadBtn">DEG</span>
+<button onclick="toggleSci()" id="sciToggle" class="calc-sci-toggle">🔬 علمی</button>
+<span style="font-size:.6rem;color:var(--success);font-weight:700" id="calcSumDisplay">Σ: ۰</span>
+<span style="font-size:.6rem;color:var(--text2)" id="memLabel"></span></div>
 <div class="calc-expr" id="calcExpr">&nbsp;</div>
 <div class="calc-result" id="calcResult">۰</div></div>
 <div style="overflow-y:auto;max-height:calc(92vh - 220px);-webkit-overflow-scrolling:touch">
 <div id="sciArea" style="display:none">
-<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:4px">
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:6px">
 <button class="calc-btn func" onclick="calcFn('sin')">sin</button><button class="calc-btn func" onclick="calcFn('cos')">cos</button><button class="calc-btn func" onclick="calcFn('tan')">tan</button><button class="calc-btn func" onclick="calcFn('asin')">sin⁻¹</button><button class="calc-btn func" onclick="calcFn('acos')">cos⁻¹</button>
 <button class="calc-btn func" onclick="calcFn('atan')">tan⁻¹</button><button class="calc-btn func" onclick="calcFn('sinh')">sinh</button><button class="calc-btn func" onclick="calcFn('cosh')">cosh</button><button class="calc-btn func" onclick="calcFn('tanh')">tanh</button><button class="calc-btn func" onclick="calcConst('Math.PI')">π</button>
 <button class="calc-btn func" onclick="calcFn('log')">log</button><button class="calc-btn func" onclick="calcFn('ln')">ln</button><button class="calc-btn func" onclick="calcFn('log2')">log₂</button><button class="calc-btn func" onclick="calcFn('sqrt')">√</button><button class="calc-btn func" onclick="calcFn('cbrt')">∛</button>
 <button class="calc-btn func" onclick="calcOp('**2')">x²</button><button class="calc-btn func" onclick="calcOp('**3')">x³</button><button class="calc-btn func" onclick="calcOp('**')">xⁿ</button><button class="calc-btn func" onclick="calcFn('exp')">eˣ</button><button class="calc-btn func" onclick="calcFn('pow10')">10ˣ</button>
 <button class="calc-btn func" onclick="calcFn('pow2')">2ˣ</button><button class="calc-btn func" onclick="calcFn('abs')">|x|</button><button class="calc-btn func" onclick="calcOp('!')">n!</button><button class="calc-btn func" onclick="calcOp('^(-1)')">1/x</button><button class="calc-btn func" onclick="calcConst('Math.E')">e</button></div>
-<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:4px">
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:6px">
 <button class="calc-btn mem" onclick="calcMemoryFn('mc')">MC</button><button class="calc-btn mem" onclick="calcMemoryFn('mr')">MR</button><button class="calc-btn mem" onclick="calcMemoryFn('m+')">M+</button><button class="calc-btn mem" onclick="calcMemoryFn('m-')">M−</button><button class="calc-btn mem" onclick="calcMemoryFn('sum')">Σ</button></div></div>
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:4px">
 <button class="calc-btn" onclick="calcClear()" style="color:var(--danger)">AC</button><button class="calc-btn" onclick="calcPress('(')">(</button><button class="calc-btn" onclick="calcPress(')')">)</button><button class="calc-btn op" onclick="calcBack()">⌫</button>
@@ -438,7 +459,7 @@ button{font-family:inherit;cursor:pointer}
 <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);direction:rtl">
 <div style="font-size:.7rem;font-weight:600;margin-bottom:6px;color:var(--text2)">💰 محاسبه وام</div>
 <div style="display:flex;gap:6px"><input class="form-input" id="loanAmount" placeholder="مبلغ" style="flex:1;margin:0;direction:ltr;text-align:right" oninput="fmtInp(this)"><input class="form-input" id="loanRate" placeholder="سود٪" style="width:70px;margin:0;direction:ltr;text-align:center" oninput="fmtInp(this)"><input class="form-input" id="loanMonths" placeholder="ماه" style="width:60px;margin:0;direction:ltr;text-align:center" inputmode="numeric"></div>
-<button class="btn btn-outline btn-sm" style="margin-top:6px" onclick="calcLoan()">محاسبه وام</button>
+<button class="btn btn-outline btn-sm" style="margin-top:6px" onclick="calcLoan()">محاسبه</button>
 <div class="loan-result" id="loanResult"></div></div></div></div></div>
 <div class="modal" id="emojiModal"><div class="modal-box"><div class="modal-header"><h3>ایموجی</h3><button onclick="closeModal('emojiModal')">✕</button></div><div class="modal-body"><div class="emoji-grid" id="emojiGrid"></div></div></div></div>
 <div class="modal" id="smsModal"><div class="modal-box"><div class="modal-header"><h3>📱 پیامک بانکی</h3><button onclick="closeModal('smsModal')">✕</button></div><div class="modal-body"><textarea class="sms-textarea" id="smsInput" placeholder="پیامک بانکی را بچسبانید..."></textarea><button class="btn btn-primary" onclick="parseSmsInput()">🔍 تحلیل</button><div class="sms-preview" id="smsPreview"><div class="sms-p-row"><span class="sms-p-label">نوع:</span><span class="sms-p-val" id="smsType"></span></div><div class="sms-p-row"><span class="sms-p-label">مبلغ:</span><span class="sms-p-val" id="smsAmount"></span></div><div class="sms-p-row"><span class="sms-p-label">بانک:</span><span class="sms-p-val" id="smsBank"></span></div><div class="sms-p-row"><span class="sms-p-label">تاریخ:</span><span class="sms-p-val" id="smsDate"></span></div><div class="sms-p-row"><span class="sms-p-label">توضیح:</span><span class="sms-p-val" id="smsDesc"></span></div><div id="smsCatSection" style="display:none;margin-top:10px"><div style="font-size:.7rem;color:var(--text2);margin-bottom:6px">دسته‌بندی:</div><div class="cat-grid" id="smsCatGrid"></div></div><div style="margin-top:10px"><button class="btn btn-success btn-sm btn-block" onclick="applySmsTransaction()">✅ ثبت</button></div></div></div></div></div>
@@ -464,8 +485,13 @@ function parseNum(s){if(!s)return 0;var str=String(s).replace(/[۰-۹]/g,functio
 function toFa(n){return String(n).replace(/[0-9]/g,function(d){return'۰۱۲۳۴۵۶۷۸۹'[d]})}
 function fmtInp(el){var raw=el.value.replace(/[۰-۹]/g,function(d){return'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)}).replace(/[٠-٩]/g,function(d){return'٠١٢٣٤٥٦٧٨٩'.indexOf(d)});var v=raw.replace(/[^0-9.]/g,'');var p=v.split('.');if(p.length>2)v=p[0]+'.'+p.slice(1).join('');if(p[0])v=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,',')+(p.length>1?'.'+p[1]:'');el.value=v}
 function fmt(n){if(n==null||isNaN(n))return'-';var num=Number(n),s;if(num%1===0)s=Math.round(num).toString();else s=num.toFixed(2);var p=s.split('.');p[0]=p[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');return toFa(p.join('.'))}
-function getCur(){return state.settings.currency||'تومان'}
-function updateCurrencyLabels(){document.querySelectorAll('.cur-label,#modalCurrency').forEach(function(l){l.textContent=getCur()})}
+function getCur(){
+  var c = state.settings.currency || 'تومان';
+  if(c === 'تومان') return ' تومان';
+  if(c === 'ریال') return ' ریال';
+  if(c === 'دلار') return ' $';
+  return ' ' + c;
+}function updateCurrencyLabels(){document.querySelectorAll('.cur-label,#modalCurrency').forEach(function(l){l.textContent=getCur()})}
 function toast(m,t){var el=document.getElementById('toast');el.textContent=m;el.className='toast show '+(t||'success');setTimeout(function(){el.className='toast '+(t||'success')},2200)}
 function toJalali(gY,gM,gD){var gdm=[0,31,59,90,120,151,181,212,243,273,304,334];var gy2=(gM>2)?(gY+1):gY;var days=355666+(365*gY)+((gy2+3)/4|0)-((gy2+99)/100|0)+((gy2+399)/400|0)+gD+gdm[gM-1];var jy=-1595+(33*(days/12053|0));days%=12053;jy+=4*(days/1461|0);days%=1461;if(days>365){jy+=((days-1)/365|0);days=(days-1)%365}var jm,jd;if(days<186){jm=1+(days/31|0);jd=1+(days%31)}else{jm=7+((days-186)/30|0);jd=1+((days-186)%30)}return[jy,jm,jd]}
 function jalaliStr(j){return toFa(j[0]+'/'+(j[1]<10?'0':'')+j[1]+'/'+(j[2]<10?'0':'')+j[2])}
@@ -637,24 +663,27 @@ function openNotif(){var html='';var dl=state.settings.dailyLimit||0;if(dl>0){va
 /* AVATAR */
 function openAvatarModal(){var h='';AVATARS.forEach(function(a){h+='<div class="avatar-opt'+(state.settings.avatar===a?' selected':'')+'" onclick="pickAvatar(\''+a+'\')">'+a+'</div>'});document.getElementById('avatarGrid').innerHTML=h;openModal('avatarModal')}
 async function pickAvatar(a){state.settings.avatar=a;await saveSettings();document.getElementById('homeAvatar').textContent=a;document.getElementById('userAvatar').textContent=a;closeModal('avatarModal');toast('ذخیره شد')}
-/* SECURITY */
-function openSecurityModal(){document.getElementById('pinStatus').textContent=state.settings.pin?'رمز فعال است':'رمز تنظیم نشده';document.getElementById('secQuestion').value=state.settings.secQ||'';document.getElementById('secAnswer').value=state.settings.secA||'';['pin0','pin1','pin2','pin3'].forEach(function(id){document.getElementById(id).value=''});openModal('securityModal')}
+function openSecurityModal(){
+  document.getElementById('pinStatus').textContent=state.settings.pin?'رمز فعال است':'رمز تنظیم نشده';
+  document.getElementById('secQuestion').value=state.settings.secQ||'';
+  document.getElementById('secAnswer').value=state.settings.secA||'';
+  ['pin0','pin1','pin2','pin3'].forEach(function(id){document.getElementById(id).value=''});
+  openModal('securityModal');
+  setTimeout(function(){document.querySelector('#securityModal .modal-body').scrollTop=0},400);
+}
 function pinNext(el,next){if(el.value.length===1){var n=document.getElementById('pin'+next);if(n)n.focus()}}
 async function savePin(){var p='';for(var i=0;i<4;i++){p+=document.getElementById('pin'+i).value}if(p.length!==4){toast('رمز ۴ رقمی','error');return}state.settings.pin=p;state.settings.secQ=document.getElementById('secQuestion').value.trim();state.settings.secA=document.getElementById('secAnswer').value.trim();await saveSettings();toast('ذخیره شد');renderSettings();closeModal('securityModal')}
 async function deletePin(){if(!confirm('حذف رمز؟'))return;state.settings.pin='';await saveSettings();toast('حذف شد');renderSettings();closeModal('securityModal')}
-function toggleCurrency(){var currencies=['تومان','ریال','دلار'];var idx=currencies.indexOf(state.settings.currency||'تومان');state.settings.currency=currencies[(idx+1)%currencies.length];saveSettings();document.getElementById('currencyLabel').textContent=state.settings.currency;updateCurrencyLabels();renderPage(state.currentPage)}
+function getCur(){var c=state.settings.currency||'تومان';if(c==='تومان')return' تومان';if(c==='ریال')return' ریال';if(c==='دلار')return' $';return' '+c}
+function toggleCurrency(){var currencies=['تومان','ریال','دلار'];var idx=currencies.indexOf(state.settings.currency||'تومان');state.settings.currency=currencies[(idx+1)%currencies.length];saveSettings();document.getElementById('currencyLabel').textContent=state.settings.currency;renderPage(state.currentPage)}
 function saveDailyLimit(){state.settings.dailyLimit=parseNum(document.getElementById('dailyLimitInput').value);saveSettings();toast('ذخیره شد');renderHome()}
-function checkBudgetAlerts(){var mtx=getMonthTx(),exp=0,catExp={};mtx.forEach(function(t){if(t.type==='expense'){exp+=t.amount;catExp[t.category]=(catExp[t.category]||0)+t.amount}});var alerts=[];Object.keys(BUDGETS).forEach(function(k){if(BUDGETS[k]>0&&catExp[k]>=BUDGETS[k]*.8){alerts.push({cat:k,spent:catExp[k]||0,budget:BUDGETS[k],pct:Math.round((catExp[k]||0)/BUDGETS[k]*100)})}});if(alerts.length){var html='';alerts.forEach(function(a){html+='<div style="padding:8px;border-bottom:1px solid var(--border);font-size:.8rem">'+(C[a.cat]?C[a.cat].e+' '+C[a.cat].n:a.cat)+': '+fmt(a.spent)+' / '+fmt(a.budget)+' ('+toFa(a.pct)+'٪)</div>'});document.getElementById('budgetAlertContent').innerHTML=html;openModal('budgetAlertModal')}}
-function dismissBudgetAlert(){closeModal('budgetAlertModal')}
-function snoozeBudgetAlert(){closeModal('budgetAlertModal')}
-function checkDailyLimit(){var dl=state.settings.dailyLimit||0;if(!dl)return;var today=new Date();today.setHours(0,0,0,0);var todayEnd=new Date(today);todayEnd.setHours(23,59,59,999);var sp=0;state.transactions.forEach(function(t){if(t.type==='expense'&&t.date>=today.getTime()&&t.date<=todayEnd.getTime())sp+=t.amount});if(sp>dl){document.getElementById('dailyLimitContent').innerHTML='<div style="text-align:center;font-size:.9rem;padding:10px">هزینه امروز: <b>'+fmt(sp)+'</b><br>سقف: <b>'+fmt(dl)+'</b></div>';openModal('dailyLimitModal')}}
-function dismissDailyLimit(){closeModal('dailyLimitModal')}
-/* BACKUP */
+function calcEval(){var fullExpr=calcState.expr;if(!calcState.isNew||calcState.hasResult){fullExpr+=calcState.cur}fullExpr=fullExpr.replace(/\s+/g,' ').trim();if(!fullExpr)return;var o=(fullExpr.match(/$$/g)||[]).length;var c2=(fullExpr.match(/$$/g)||[]).length;while(c2<o){fullExpr+=')';c2++}try{var safe=fullExpr.replace(/[^0-9+\-*/.()eE ]/g,'');if(!safe.trim())throw'err';var result=Function('"use strict";return('+safe+')')();if(!isFinite(result))throw'err';calcState.sum+=result;var rounded=Math.round(result*1e10)/1e10;calcState.cur=String(rounded);calcState.cur=calcState.cur.replace(/\.?0+$/,'');calcState.expr=fullExpr+' =';calcState.hasResult=true;calcState.isNew=true}catch(e){calcState.cur='خطا';calcState.hasResult=true}updateCalcDisplay()}/* BACKUP */
 function exportBackup(){var data={transactions:state.transactions,accounts:state.accounts,investments:state.investments,goals:state.goals,wallets:state.wallets,debts:state.debts,installments:state.installments,settings:state.settings,customCats:state.customCats};var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='poolam-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();toast('خروجی گرفته شد')}
 function importBackup(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=async function(ev){try{var data=JSON.parse(ev.target.result);if(data.transactions)state.transactions=data.transactions;if(data.accounts)state.accounts=data.accounts;if(data.investments)state.investments=data.investments;if(data.goals)state.goals=data.goals;if(data.wallets)state.wallets=data.wallets;if(data.debts)state.debts=data.debts;if(data.installments)state.installments=data.installments;if(data.customCats)state.customCats=data.customCats;if(data.settings)state.settings=Object.assign({},state.settings,data.settings);for(var i=0;i<state.transactions.length;i++)await dbPut('transactions',state.transactions[i]);for(var i=0;i<state.accounts.length;i++)await dbPut('accounts',state.accounts[i]);for(var i=0;i<state.investments.length;i++)await dbPut('investments',state.investments[i]);for(var i=0;i<state.goals.length;i++)await dbPut('goals',state.goals[i]);for(var i=0;i<state.wallets.length;i++)await dbPut('wallets',state.wallets[i]);for(var i=0;i<state.debts.length;i++)await dbPut('debts',state.debts[i]);for(var i=0;i<state.installments.length;i++)await dbPut('installments',state.installments[i]);for(var i=0;i<state.customCats.length;i++)await dbPut('customCats',state.customCats[i]);await saveSettings();toast('بازیابی شد');renderPage(state.currentPage)}catch(err){toast('خطا','error')}};reader.readAsText(file);e.target.value=''}
 function exportCSV(){var csv='تاریخ,نوع,مبلغ,دسته‌بندی,توضیحات\n';state.transactions.forEach(function(t){var d=new Date(t.date),j=toJalali(d.getFullYear(),d.getMonth()+1,d.getDate());csv+=jalaliStr(j)+','+(t.type==='income'?'درآمد':'هزینه')+','+t.amount+','+(getCatInfo(t.category).n)+','+(t.desc||'')+'\n'});var blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='poolam-transactions.csv';a.click();toast('CSV خروجی')}
 async function resetApp(full){if(full){if(!confirm('همه داده‌ها حذف میشود؟'))return}else{if(!confirm('خروج از حساب؟'))return}var stores=['transactions','accounts','investments','goals','wallets','debts','installments','customCats'];if(full)stores.push('settings','meta');for(var i=0;i<stores.length;i++){var items=await dbGet(stores[i]);for(var j=0;j<items.length;j++){await dbDel(stores[i],items[j].id)}}location.reload()}
 function copyDeviceId(){var el=document.getElementById('profileDeviceId');if(!el)return;var text=el.textContent;if(navigator.clipboard){navigator.clipboard.writeText(text)}else{var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)}toast('کپی شد')}
+function getCur(){var c=state.settings.currency||'تومان';if(c==='تومان')return' تومان';if(c==='ریال')return' ریال';if(c==='دلار')return' $';return' '+c}
 /* DATE PICKER */
 function openDateModal(target){state.dateTarget=target;var cur=target==='addDate'?parseInt(document.getElementById('addDate').value):target==='instDueDate'?parseInt(document.getElementById('instDueDate').value):Date.now();var d=new Date(cur||Date.now());var j=toJalali(d.getFullYear(),d.getMonth()+1,d.getDate());var ySel=document.getElementById('dateY'),mSel=document.getElementById('dateM'),dSel=document.getElementById('dateD');ySel.innerHTML='';mSel.innerHTML='';dSel.innerHTML='';for(var y=1400;y<=1410;y++){ySel.innerHTML+='<option value="'+y+'"'+(y===j[0]?' selected':'')+'>'+toFa(y)+'</option>'}for(var m=1;m<=12;m++){mSel.innerHTML+='<option value="'+m+'"'+(m===j[1]?' selected':'')+'>'+jalaliMonthName(m)+'</option>'}for(var dd=1;dd<=31;dd++){dSel.innerHTML+='<option value="'+dd+'"'+(dd===j[2]?' selected':'')+'>'+toFa(dd)+'</option>'}openModal('dateModal')}
 function confirmDate(){var y=parseInt(document.getElementById('dateY').value),m=parseInt(document.getElementById('dateM').value),d=parseInt(document.getElementById('dateD').value);var g=jalaliToGregorian(y,m,d);var date=new Date(g[0],g[1]-1,g[2]);var ts=date.getTime();var text=jalaliStr([y,m,d]);if(state.dateTarget==='addDate'){document.getElementById('addDate').value=ts;document.getElementById('addDateText').textContent=text}else if(state.dateTarget==='instDueDate'){document.getElementById('instDueDate').value=ts;document.getElementById('instDueDateText').textContent=text}closeModal('dateModal')}
@@ -668,8 +697,34 @@ function updateCalcDisplay(){document.getElementById('calcExpr').textContent=toC
 function calcPress(ch){if(calcState.hasResult){if((ch>='0'&&ch<='9')||ch==='.'||ch==='00'||ch==='000'){calcState.expr='';calcState.cur=ch==='.'?'0.':(ch==='00'||ch==='000')?'0':ch;calcState.isNew=false;calcState.hasResult=false;updateCalcDisplay();return}if('+-*/'.indexOf(ch)!==-1){calcState.expr=calcState.cur+' '+ch+' ';calcState.isNew=true;calcState.hasResult=false;updateCalcDisplay();return}}if(ch==='('||ch===')'){if(calcState.hasResult){calcState.expr='';calcState.hasResult=false}if(ch==='('&&!calcState.isNew&&calcState.cur!=='0'){calcState.expr+=calcState.cur+' * ';calcState.isNew=true}calcState.expr+=ch;if(ch===')')calcState.isNew=false;updateCalcDisplay();return}if('+-*/'.indexOf(ch)!==-1){if(calcState.isNew){calcState.expr=calcState.expr.replace(/\s*[+\-*/]\s*$/,'')+' '+ch+' '}else{calcState.expr+=calcState.cur+' '+ch+' ';calcState.isNew=true}updateCalcDisplay();return}if(ch==='00'||ch==='000'){if(calcState.isNew){calcState.cur='0';calcState.isNew=false}else{if(calcState.cur!=='0')calcState.cur+=ch}updateCalcDisplay();return}if(calcState.isNew){calcState.cur=ch==='.'?'0.':ch;calcState.isNew=false}else{if(ch==='.'&&calcState.cur.indexOf('.')!==-1)return;calcState.cur+=ch}calcState.hasResult=false;updateCalcDisplay()}
 function calcOp(op){var v=parseFloat(calcState.cur);if(isNaN(v)){calcState.cur='خطا';updateCalcDisplay();return}var r;try{if(op==='**2'){r=v*v}else if(op==='**3'){r=v*v*v}else if(op==='**'){calcState.expr+=calcState.cur+' ** ';calcState.isNew=true;updateCalcDisplay();return}else if(op==='!'){if(v<0||v>170)throw'err';r=1;for(var i=2;i<=v;i++)r*=i}else if(op==='^(-1)'){if(v===0)throw'err';r=1/v}else if(op==='%'){r=v/100}else{return}if(r!==undefined){calcState.cur=String(Math.round(r*1e10)/1e10);calcState.cur=calcState.cur.replace(/\.?0+$/,'');calcState.isNew=true}}catch(e){calcState.cur='خطا';calcState.isNew=true}updateCalcDisplay()}
 function calcFn(fn){var v=parseFloat(calcState.cur);if(isNaN(v)){calcState.cur='خطا';updateCalcDisplay();return}var r,d=calcState.deg?Math.PI/180:1,f=calcState.deg?180/Math.PI:1;try{switch(fn){case'sin':r=Math.sin(v*d);break;case'cos':r=Math.cos(v*d);break;case'tan':r=Math.tan(v*d);break;case'asin':if(v<-1||v>1)throw'err';r=Math.asin(v)*f;break;case'acos':if(v<-1||v>1)throw'err';r=Math.acos(v)*f;break;case'atan':r=Math.atan(v)*f;break;case'sinh':r=Math.sinh(v);break;case'cosh':r=Math.cosh(v);break;case'tanh':r=Math.tanh(v);break;case'log':if(v<=0)throw'err';r=Math.log10(v);break;case'ln':if(v<=0)throw'err';r=Math.log(v);break;case'log2':if(v<=0)throw'err';r=Math.log2(v);break;case'sqrt':if(v<0)throw'err';r=Math.sqrt(v);break;case'cbrt':r=Math.cbrt(v);break;case'exp':r=Math.exp(v);break;case'pow10':r=Math.pow(10,v);break;case'pow2':r=Math.pow(2,v);break;case'abs':r=Math.abs(v);break;default:r=v}calcState.cur=String(Math.round(r*1e10)/1e10);calcState.cur=calcState.cur.replace(/\.?0+$/,'')}catch(e){calcState.cur='خطا'}calcState.isNew=true;updateCalcDisplay()}
-function calcEval(){var fullExpr=calcState.expr+calcState.cur;fullExpr=fullExpr.replace(/\s+/g,' ').trim();if(!fullExpr)return;var open=(fullExpr.match(/$$/g)||[]).length;var close=(fullExpr.match(/$$/g)||[]).length;while(close<open){fullExpr+=')';close++}try{var safe=fullExpr.replace(/[^0-9+\-*/.()eE ]/g,'');if(!safe.trim())throw'err';var result=Function('"use strict";return('+safe+')')();if(!isFinite(result))throw'err';calcState.sum+=result;calcState.cur=String(Math.round(result*1e10)/1e10);calcState.cur=calcState.cur.replace(/\.?0+$/,'');calcState.expr=fullExpr+' =';calcState.hasResult=true;calcState.isNew=true}catch(e){calcState.cur='خطا';calcState.hasResult=true}updateCalcDisplay()}
-function calcClear(){calcState.expr='';calcState.cur='0';calcState.isNew=true;calcState.hasResult=false;updateCalcDisplay()}
+function calcEval(){
+  var fullExpr = calcState.expr;
+  if(!calcState.isNew || calcState.hasResult){
+    fullExpr += calcState.cur;
+  }
+  fullExpr = fullExpr.replace(/\s+/g,' ').trim();
+  if(!fullExpr) return;
+  var o = (fullExpr.match(/$$/g)||[]).length;
+  var c = (fullExpr.match(/$$/g)||[]).length;
+  while(c < o){ fullExpr += ')'; c++; }
+  try{
+    var safe = fullExpr.replace(/[^0-9+\-*/.()eE ]/g,'');
+    if(!safe.trim()) throw 'err';
+    var result = Function('"use strict";return(' + safe + ')')();
+    if(!isFinite(result)) throw 'err';
+    calcState.sum += result;
+    var rounded = Math.round(result * 1e10) / 1e10;
+    calcState.cur = String(rounded);
+    calcState.cur = calcState.cur.replace(/\.?0+$/,'');
+    calcState.expr = fullExpr + ' =';
+    calcState.hasResult = true;
+    calcState.isNew = true;
+  }catch(e){
+    calcState.cur = 'خطا';
+    calcState.hasResult = true;
+  }
+  updateCalcDisplay();
+}function calcClear(){calcState.expr='';calcState.cur='0';calcState.isNew=true;calcState.hasResult=false;updateCalcDisplay()}
 function calcBack(){if(calcState.hasResult)return;if(calcState.cur.length>1)calcState.cur=calcState.cur.slice(0,-1);else{calcState.cur='0';calcState.isNew=true}updateCalcDisplay()}
 function calcConst(c){if(calcState.hasResult){calcState.expr='';calcState.hasResult=false}calcState.cur=String(c==='Math.PI'?Math.PI:Math.E);calcState.isNew=false;updateCalcDisplay()}
 function calcToggleSign(){var v=parseFloat(calcState.cur);if(v!==0)calcState.cur=String(-v);updateCalcDisplay()}
@@ -692,7 +747,26 @@ function lpCheck(){var p='';for(var i=0;i<4;i++){p+=document.getElementById('lp'
 function startLockTimer(){state.lockTimerActive=true;document.getElementById('pinPad').classList.add('disabled');document.getElementById('lockTimer').style.display='block';var count=30;document.getElementById('lockCountdown').textContent=toFa(count);var iv=setInterval(function(){count--;document.getElementById('lockCountdown').textContent=toFa(count);if(count<=0){clearInterval(iv);state.lockTimerActive=false;document.getElementById('pinPad').classList.remove('disabled');document.getElementById('lockTimer').style.display='none'}},1000)}
 function showRecover(){var sec=document.getElementById('recoverSection');if(sec.style.display==='block'){sec.style.display='none';return}if(!state.settings.secQ){toast('سوال امنیتی تنظیم نشده','error');return}document.getElementById('recoverQ').textContent='❓ '+state.settings.secQ;document.getElementById('recoverA').value='';sec.style.display='block'}
 function doRecover(){var a=document.getElementById('recoverA').value.trim();if(!a){toast('پاسخ','error');return}if(a===state.settings.secA){document.getElementById('recoverSection').style.display='none';document.getElementById('recoverPinSection').style.display='block';toast('پاسخ صحیح')}else{toast('پاسخ اشتباه','error')}}
-function rpNext(el,next){if(el.value.length===1){var n=document.getElementById('rp'+next);if(n)n.focus()}}
+function rpNext(el, next){
+  if(el.value.length === 1){
+    var n = document.getElementById('rp' + next);
+    if(n) n.focus();
+  }
+}
+async function saveRecoveredPin(){
+  var p = '';
+  for(var i = 0; i < 4; i++){ p += document.getElementById('rp' + i).value; }
+  if(p.length !== 4){ toast('رمز ۴ رقمی', 'error'); return; }
+  state.settings.pin = p;
+  await saveSettings();
+  state.lockAttempts = 0;
+  document.getElementById('recoverPinSection').style.display = 'none';
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('bottom-nav').style.display = 'flex';
+  state.lastActivity = Date.now();
+  toast('رمز جدید ذخیره شد');
+}
 async function saveRecoveredPin(){var p='';for(var i=0;i<4;i++){p+=document.getElementById('rp'+i).value}if(p.length!==4){toast('رمز ۴ رقمی','error');return}state.settings.pin=p;await saveSettings();state.lockAttempts=0;document.getElementById('recoverPinSection').style.display='none';document.getElementById('lockScreen').classList.add('hidden');document.getElementById('app').style.display='block';document.getElementById('bottom-nav').style.display='flex';state.lastActivity=Date.now();toast('رمز جدید ذخیره شد')}
 /* CLOCK */
 setInterval(updateClock,1000);
