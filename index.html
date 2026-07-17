@@ -446,7 +446,7 @@ button{font-family:inherit;cursor:pointer}
 <div class="toast" id="toast"></div>
 
 <script>
-var DB_NAME='PoolamProDB2',DB_VERSION=1,db=null;
+var DB_NAME='PoolamProDB',DB_VERSION=1,db=null;
 var STORES=['transactions','accounts','investments','goals','wallets','debts','installments','recurring','settings','customCats','meta'];
 function openDB(){return new Promise(function(r){try{var q=indexedDB.open(DB_NAME,DB_VERSION);q.onupgradeneeded=function(e){var d=e.target.result;STORES.forEach(function(s){if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:'id'})})};q.onsuccess=function(e){db=e.target.result;r()};q.onerror=function(){r()}}catch(e){r()}})}
 function dbGet(st){return new Promise(function(r){try{var tx=db.transaction(st,'readonly'),s=tx.objectStore(st).getAll();s.onsuccess=function(){r(s.result||[])};s.onerror=function(){r([])}}catch(e){r([])}})}
